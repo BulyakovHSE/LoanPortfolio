@@ -6,7 +6,7 @@ namespace LoanPortfolio.Services.Interfaces
 {
     public interface IIncomeService
     {
-        RegularIncome AddRegularIncome(User user, string incomeSource, float sum, DateTime datePrepaidExpense,
+        RegularIncome AddRegularIncome(User user, string incomeSource, DateTime datePrepaidExpense,
             float prepaidExpanse, DateTime dateSalary, float salary);
 
         PeriodicIncome AddPeriodicIncome(User user, string incomeSource, float sum, DateTime dateIncome);

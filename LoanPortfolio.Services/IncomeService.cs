@@ -1,71 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LoanPortfolio.Db.Entities;
+using LoanPortfolio.Db.Interfaces;
 using LoanPortfolio.Services.Interfaces;
 
 namespace LoanPortfolio.Services
 {
     public class IncomeService : IIncomeService
     {
-        public RegularIncome AddRegularIncome(User user, string incomeSource, float sum, DateTime datePrepaidExpense,
+        private readonly IRepository<Income> _incomeRepository;
+
+        public IncomeService(IRepository<Income> incomeRepository)
+        {
+            _incomeRepository = incomeRepository;
+        }
+
+        public RegularIncome AddRegularIncome(User user, string incomeSource, DateTime datePrepaidExpense,
             float prepaidExpanse, DateTime dateSalary, float salary)
         {
-            throw new NotImplementedException();
+            var id = _incomeRepository.Add(new RegularIncome
+            {
+                User = user, IncomeSource = incomeSource,
+                DatePrepaidExpanse = datePrepaidExpense, DateSalary = dateSalary, PrepaidExpanse = prepaidExpanse,
+                Salary = salary
+            });
+            return (RegularIncome)_incomeRepository.All().Single(x => x.Id == id);
         }
 
         public PeriodicIncome AddPeriodicIncome(User user, string incomeSource, float sum, DateTime dateIncome)
         {
-            throw new NotImplementedException();
+            var id = _incomeRepository.Add(new PeriodicIncome
+            {
+                User = user, IncomeSource = incomeSource, Sum = sum, DateIncome = dateIncome
+            });
+            return (PeriodicIncome)_incomeRepository.All().Single(x => x.Id == id);
         }
 
         public void Remove(Income income)
         {
-            throw new NotImplementedException();
+            _incomeRepository.Remove(income);
         }
 
         public Income GetById(int id)
         {
-            throw new NotImplementedException();
+            return _incomeRepository.All().First(x => x.Id == id);
         }
 
         public IEnumerable<Income> GetAll(User user)
         {
-            throw new NotImplementedException();
+            return _incomeRepository.All();
         }
 
         public void ChangeDatePrepaidExpanse(RegularIncome income, DateTime datePrepaidExpanse)
         {
-            throw new NotImplementedException();
+            income.DatePrepaidExpanse = datePrepaidExpanse;
+            _incomeRepository.Update(income);
         }
 
         public void ChangePrepaidExpanse(RegularIncome income, float prepaidExpanse)
         {
-            throw new NotImplementedException();
+            income.PrepaidExpanse = prepaidExpanse;
+            _incomeRepository.Update(income);
         }
 
         public void ChangeDateSalary(RegularIncome income, DateTime dateSalary)
         {
-            throw new NotImplementedException();
+            income.DateSalary = dateSalary;
+            _incomeRepository.Update(income);
         }
 
         public void ChangeSalary(RegularIncome income, float salary)
         {
-            throw new NotImplementedException();
+            income.Salary = salary;
+            _incomeRepository.Update(income);
         }
 
         public void ChangeIncomeSource(Income income, string incomeSource)
         {
-            throw new NotImplementedException();
+            income.IncomeSource = incomeSource;
+            _incomeRepository.Update(income);
         }
 
         public void ChangeDateIncome(PeriodicIncome income, DateTime dateIncome)
         {
-            throw new NotImplementedException();
+            income.DateIncome = dateIncome;
+            _incomeRepository.Update(income);
         }
 
         public void ChangeSum(PeriodicIncome income, float sum)
         {
-            throw new NotImplementedException();
+            income.Sum = sum;
+            _incomeRepository.Update(income);
         }
     }
 }

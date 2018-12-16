@@ -19,12 +19,12 @@ namespace LoanPortfolio.Services
         public User Add(string email, string pass, string firstName, string lastName)
         {
             _userRepository.Add(new User{Email = email, Password = pass, FirstName = firstName, LastName = lastName});
-            return _userRepository.All().SingleOrDefault(u => u.Email == email);
+            return _userRepository.All().Single(u => u.Email == email);
         }
 
         public User GetById(int id)
         {
-            return _userRepository.All().SingleOrDefault(u => u.Id == id);
+            return _userRepository.All().First(u => u.Id == id);
         }
 
         public IEnumerable<User> GetAll()

@@ -7,6 +7,7 @@ namespace LoanPortfolio.Db.Entities
     public class User : Entity
     {
         [Required]
+        [Key]
         public string Email { get; set; }
 
         [Required]

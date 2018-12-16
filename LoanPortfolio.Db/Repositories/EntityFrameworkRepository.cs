@@ -11,24 +11,33 @@ namespace LoanPortfolio.Db.Repositories
         private readonly DbContext _context;
         private readonly DbSet<TEntity> _set;
 
+        public EntityFrameworkRepository(DbContext context)
+        {
+            _context = context;
+            _set = _context.Set<TEntity>();
+        }
+
         public void Add(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            _set.Add(entity);
+            _context.SaveChanges();
         }
 
         public void Update(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
         }
 
         public void Remove(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            _set.Remove(entity);
+            _context.SaveChanges();
         }
 
         public IQueryable<TEntity> All()
         {
-            throw new System.NotImplementedException();
+            return _set;
         }
     }
 }

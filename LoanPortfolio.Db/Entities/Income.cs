@@ -1,13 +1,18 @@
-﻿namespace LoanPortfolio.Db.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LoanPortfolio.Db.Entities
 {
     public abstract class Income : Entity
     {
         public User User { get; set; }
 
-        public int UserId => User?.Id ?? -1;
+        public int UserId { get; set; }
 
+        [Required]
         public string IncomeSource { get; set; }
 
-        public float Sum { get; set; }
+        [NotMapped]
+        public abstract float Sum { get; set; }
     }
 }

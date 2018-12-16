@@ -49,7 +49,7 @@ namespace LoanPortfolio.Services
 
         public IEnumerable<Income> GetAll(User user)
         {
-            return _incomeRepository.All();
+            return _incomeRepository.All().Where(x=>x.UserId == user.Id);
         }
 
         public void ChangeDatePrepaidExpanse(RegularIncome income, DateTime datePrepaidExpanse)

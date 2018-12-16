@@ -4,7 +4,7 @@ namespace LoanPortfolio.Db.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : IEntity
     {
-        void Add(TEntity entity);
+        int Add(TEntity entity);
 
         void Update(TEntity entity);
 

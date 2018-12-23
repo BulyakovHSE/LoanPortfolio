@@ -1,0 +1,18 @@
+﻿
+<h2>ChangePeriod</h2>
+
+<form method="post" action="~/Income/ChangePeriod">
+    <input type="hidden" value="@ViewBag.Income.Id" name="incomeId"/>
+
+    <p>
+        Название:
+        <input type="text" value="@ViewBag.Income.IncomeSource" name="Source"/>
+    </p>
+
+    <p>
+        Сумма:
+        <input type="text" value="@ViewBag.Income.Sum" name="Sum"/>
+    </p>
+    
+    <input type="submit" value="Сохранить"/>
+</form>

@@ -11,8 +11,5 @@ namespace LoanPortfolio.Db.Entities
 
         [Required]
         public string IncomeSource { get; set; }
-
-        [NotMapped]
-        public abstract float Sum { get; set; }
     }
 }

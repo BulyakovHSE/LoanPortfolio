@@ -9,6 +9,6 @@ namespace LoanPortfolio.Db.Entities
         public DateTime DateIncome { get; set; }
 
         [Required]
-        public override float Sum { get; set; }
+        public float Sum { get; set; }
     }
 }

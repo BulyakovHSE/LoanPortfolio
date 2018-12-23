@@ -21,7 +21,8 @@ namespace LoanPortfolio.Services
         {
             var id = _incomeRepository.Add(new RegularIncome
             {
-                User = user, IncomeSource = incomeSource,
+                UserId = user.Id,
+                IncomeSource = incomeSource,
                 DatePrepaidExpanse = datePrepaidExpense, DateSalary = dateSalary, PrepaidExpanse = prepaidExpanse,
                 Salary = salary
             });
@@ -32,7 +33,7 @@ namespace LoanPortfolio.Services
         {
             var id = _incomeRepository.Add(new PeriodicIncome
             {
-                User = user, IncomeSource = incomeSource, Sum = sum, DateIncome = dateIncome
+                UserId = user.Id, IncomeSource = incomeSource, Sum = sum, DateIncome = dateIncome
             });
             return (PeriodicIncome)_incomeRepository.All().Single(x => x.Id == id);
         }

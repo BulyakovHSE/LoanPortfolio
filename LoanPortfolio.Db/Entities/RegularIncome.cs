@@ -18,7 +18,7 @@ namespace LoanPortfolio.Db.Entities
         public float Salary { get; set; }
 
         [Required]
-        public override float Sum {
+        public float Sum {
             set => value = 0;
             get => PrepaidExpanse + Salary; }
         }

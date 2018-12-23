@@ -19,14 +19,14 @@ namespace LoanPortfolio.Services
         public PersonalExpense AddPersonalExpense(User user, DateTime datePayment, float sum, string expenseCategory)
         {
             var id = _expenseRepository.Add(new PersonalExpense
-            { User = user, DatePayment = datePayment, Sum = sum, ExpenseCategory = expenseCategory });
+            { UserId = user.Id, DatePayment = datePayment, Sum = sum, ExpenseCategory = expenseCategory });
             return (PersonalExpense)_expenseRepository.All().Single(x => x.Id == id);
         }
 
         public HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum)
         {
             var id = _expenseRepository.Add(new HCSExpense
-            { User = user, DatePayment = datePayment, Sum = sum });
+            { UserId = user.Id, DatePayment = datePayment, Sum = sum });
             return (HCSExpense)_expenseRepository.All().Single(x => x.Id == id);
         }
 

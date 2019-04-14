@@ -1,5 +1,11 @@
 ﻿@using LoanPortfolio.Db.Entities
 
+<br />
+
+<p>
+    <h4>Месяц: Декабрь</h4>
+</p>
+
 <h2>Финансовые задолженности</h2>
 
 <table class="table">
@@ -8,10 +14,10 @@
             Название
         </th>
         <th>
-            Дата
+            Дата платежа
         </th>
         <th>
-            Сумма
+            Сумма ежемесячного платежа
         </th>
     </tr>
 
@@ -52,6 +58,11 @@
         <th>
             Сумма
         </th>
+        <th>
+            Комментарий
+        </th>
+        <th>
+        </th>
     </tr>
 
     @{
@@ -64,6 +75,12 @@
                 <td>
                     Сумма: @{Write(expense.Sum);}
                 </td>
+                <td>
+                    @{Write(expense.Comment);}
+                </td>
+                <td>
+                    <a href="~/Expense/ChangeHCS/@expense.Id">Редактировать</a>
+                </td>
             </tr>
         }
     }
@@ -71,14 +88,17 @@
 
 
 <h2>Личные</h2>
+<a href="~/Expense/AddPersonal">Добавить</a>
 
 <table class="table">
     <tr>
         <th>
-            Название
+            Категория
         </th>
         <th>
             Сумма
+        </th>
+        <th>
         </th>
     </tr>
 
@@ -91,6 +111,10 @@
                 </td>
                 <td>
                     Сумма: @{Write(expense.Sum);}
+                </td>
+                <td>
+                    <a href="~/Expense/ChangePersonal/@expense.Id">Редактировать</a>
+                    <a href="~/Expense/Delete/@expense.Id">Удалить</a>
                 </td>
             </tr>
         }

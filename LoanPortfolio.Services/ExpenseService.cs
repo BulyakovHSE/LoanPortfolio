@@ -23,10 +23,10 @@ namespace LoanPortfolio.Services
             return (PersonalExpense)_expenseRepository.All().Single(x => x.Id == id);
         }
 
-        public HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum)
+        public HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string comment = "")
         {
             var id = _expenseRepository.Add(new HCSExpense
-            { UserId = user.Id, DatePayment = datePayment, Sum = sum });
+            { UserId = user.Id, DatePayment = datePayment, Sum = sum, Comment = comment});
             return (HCSExpense)_expenseRepository.All().Single(x => x.Id == id);
         }
 
@@ -60,6 +60,12 @@ namespace LoanPortfolio.Services
         public void ChangeExpanseCategory(PersonalExpense expense, string category)
         {
             expense.ExpenseCategory = category;
+            _expenseRepository.Update(expense);
+        }
+
+        public void ChangeComment(HCSExpense expense, string comment)
+        {
+            expense.Comment = comment;
             _expenseRepository.Update(expense);
         }
     }

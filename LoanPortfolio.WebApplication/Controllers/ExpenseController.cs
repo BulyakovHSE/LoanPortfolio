@@ -33,26 +33,6 @@ namespace LoanPortfolio.WebApplication.Controllers
 
         #region Add
 
-        public ActionResult AddHCS()
-        {
-            ViewBag.Title = "Новый расход";
-
-            return View();
-        }
-
-        [HttpPost]
-        public RedirectResult AddHCS(string Date, string Sum)
-        {
-            if (float.TryParse(Sum, out var sum) && DateTime.TryParse(Date, out var date))
-            {
-                _expenseService.AddHCSExpense(_user, date, sum);
-
-                return Redirect("~/Expense/Index");
-            }
-
-            return Redirect("~/Expense/AddHCS");
-        }
-
         public ActionResult AddPersonal()
         {
             ViewBag.Title = "Новый расход";
@@ -60,89 +40,86 @@ namespace LoanPortfolio.WebApplication.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public RedirectResult AddPeriod(string Source, string Sum)
-        //{
-        //    if (float.TryParse(Sum, out var value))
-        //    {
-        //        _incomeService.AddPeriodicIncome(_user, Source, value, DateTime.Now);
+        [HttpPost]
+        public RedirectResult AddPersonal(string Category, string Sum)
+        {
+            if (!string.IsNullOrWhiteSpace(Category) && float.TryParse(Sum, out var value))
+            {
+                _expenseService.AddPersonalExpense(_user, DateTime.Now, value, Category);
 
-        //        return Redirect("~/Income/Index");
-        //    }
+                return Redirect("~/Expense/Index");
+            }
 
-        //    return Redirect("~/Income/AddPeriod");
-        //}
+            return Redirect("~/Expense/AddPersonal");
+        }
 
         #endregion
 
         #region Change
 
-        //[HttpGet]
-        //public ActionResult ChangeHCS(int id)
-        //{
-        //    var income = _incomeService.GetById(id);
-        //    ViewBag.Title = income.IncomeSource;
+        [HttpGet]
+        public ActionResult ChangeHCS(int id)
+        {
+            var expense = _expenseService.GetById(id);
+            ViewBag.Title = "ЖКХ";
 
-        //    ViewBag.Income = income;
+            ViewBag.Expense = expense;
 
-        //    return View();
-        //}
+            return View();
+        }
 
-        //[HttpPost]
-        //public RedirectResult ChangeRegular(int incomeid, string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
-        //{
-        //    if (float.TryParse(PrepaidExpanse, out var prepaidExpanse) && DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse)
-        //                                                               && float.TryParse(Salary, out var salary) && DateTime.TryParse(DateSalary, out var dateSalary))
-        //    {
-        //        var income = (RegularIncome)_incomeService.GetById(incomeid);
+        [HttpPost]
+        public RedirectResult ChangeHCS(int expenseid, string Date, string Sum, string Comment)
+        {
+            if (float.TryParse(Sum, out var sum) && DateTime.TryParse(Date, out var date))
+            {
+                var expense = (HCSExpense)_expenseService.GetById(expenseid);
 
-        //        _incomeService.ChangeIncomeSource(income, Source);
-        //        _incomeService.ChangePrepaidExpanse(income, prepaidExpanse);
-        //        _incomeService.ChangeDatePrepaidExpanse(income, datePrepaidExpanse);
-        //        _incomeService.ChangeSalary(income, salary);
-        //        _incomeService.ChangeDateSalary(income, dateSalary);
+                _expenseService.ChangeDatePayment(expense,date);
+                _expenseService.ChangeSum(expense, sum);
+                _expenseService.ChangeComment(expense,Comment);
+                
+                return Redirect("~/Expense/Index");
+            }
 
-        //        return Redirect("~/Income/Index");
-        //    }
+            return Redirect("~/Expense/ChangeHCS/" + expenseid);
+        }
 
-        //    return Redirect("~/Income/ChangeRegular/" + incomeid);
-        //}
+        [HttpGet]
+        public ActionResult ChangePersonal(int id)
+        {
+            var expense = (PersonalExpense)_expenseService.GetById(id);
+            ViewBag.Title = expense.ExpenseCategory;
 
-        //[HttpGet]
-        //public ActionResult ChangePeriod(int id)
-        //{
-        //    var income = _incomeService.GetById(id);
-        //    ViewBag.Title = income.IncomeSource;
+            ViewBag.Expense = expense;
 
-        //    ViewBag.Income = income;
+            return View();
+        }
 
-        //    return View();
-        //}
+        [HttpPost]
+        public RedirectResult ChangePersonal(int expenseid, string Category, string Sum)
+        {
+            if (!string.IsNullOrWhiteSpace(Category) && float.TryParse(Sum, out var value))
+            {
+                var expense = (PersonalExpense)_expenseService.GetById(expenseid);
 
-        //[HttpPost]
-        //public RedirectResult ChangePeriod(int incomeid, string Source, string Sum)
-        //{
-        //    if (float.TryParse(Sum, out var value))
-        //    {
-        //        var income = (PeriodicIncome)_incomeService.GetById(incomeid);
+                _expenseService.ChangeExpanseCategory(expense, Category);
+                _expenseService.ChangeSum(expense, value);
 
-        //        _incomeService.ChangeIncomeSource(income, Source);
-        //        _incomeService.ChangeSum(income, value);
+                return Redirect("~/Expense/Index");
+            }
 
-        //        return Redirect("~/Income/Index");
-        //    }
-
-        //    return Redirect("~/Income/ChangePeriod/" + incomeid);
-        //}
+            return Redirect("~/Expense/ChangePersonal/" + expenseid);
+        }
 
         #endregion
 
-        //[HttpGet]
-        //public RedirectResult Delete(int id)
-        //{
-        //    _incomeService.Remove(_incomeService.GetById(id));
+        [HttpGet]
+        public RedirectResult Delete(int id)
+        {
+            _expenseService.Remove(_expenseService.GetById(id));
 
-        //    return Redirect("~/Income/Index");
-        //}
+            return Redirect("~/Expense/Index");
+        }
     }
 }

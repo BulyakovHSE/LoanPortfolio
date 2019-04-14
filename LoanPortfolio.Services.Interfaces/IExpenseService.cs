@@ -8,7 +8,7 @@ namespace LoanPortfolio.Services.Interfaces
     {
         PersonalExpense AddPersonalExpense(User user, DateTime datePayment, float sum, string expenseCategory);
 
-        HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum);
+        HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string comment = "");
 
         void Remove(Expense expense);
 
@@ -21,5 +21,7 @@ namespace LoanPortfolio.Services.Interfaces
         void ChangeSum(Expense expense, float sum);
 
         void ChangeExpanseCategory(PersonalExpense expense, string category);
+
+        void ChangeComment(HCSExpense expense, string comment);
     }
 }

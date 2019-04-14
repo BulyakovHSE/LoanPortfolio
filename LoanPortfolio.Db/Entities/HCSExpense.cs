@@ -3,6 +3,6 @@
     // ReSharper disable once InconsistentNaming
     public class HCSExpense : Expense
     {
-        
+        public string Comment { get; set; }
     }
 }

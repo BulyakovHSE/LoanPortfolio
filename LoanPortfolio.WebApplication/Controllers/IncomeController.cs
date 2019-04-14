@@ -43,7 +43,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public RedirectResult AddRegular(string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
         {
-            if (float.TryParse(PrepaidExpanse, out var prepaidExpanse) && DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse)
+            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(PrepaidExpanse, out var prepaidExpanse) && DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse)
                                                                        && float.TryParse(Salary, out var salary) && DateTime.TryParse(DateSalary, out var dateSalary))
             {
                 _incomeService.AddRegularIncome(_user, Source, datePrepaidExpanse, prepaidExpanse, dateSalary, salary);
@@ -64,7 +64,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public RedirectResult AddPeriod(string Source, string Sum)
         {
-            if (float.TryParse(Sum, out var value))
+            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(Sum, out var value))
             {
                 _incomeService.AddPeriodicIncome(_user, Source, value, DateTime.Now);
 
@@ -92,7 +92,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public RedirectResult ChangeRegular(int incomeid, string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
         {
-            if (float.TryParse(PrepaidExpanse, out var prepaidExpanse) && DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse)
+            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(PrepaidExpanse, out var prepaidExpanse) && DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse)
                                                                        && float.TryParse(Salary, out var salary) && DateTime.TryParse(DateSalary, out var dateSalary))
             {
                 var income = (RegularIncome)_incomeService.GetById(incomeid);
@@ -123,7 +123,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public RedirectResult ChangePeriod(int incomeid, string Source, string Sum)
         {
-            if (float.TryParse(Sum, out var value))
+            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(Sum, out var value))
             {
                 var income = (PeriodicIncome)_incomeService.GetById(incomeid);
 

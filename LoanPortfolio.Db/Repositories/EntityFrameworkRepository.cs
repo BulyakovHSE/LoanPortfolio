@@ -17,11 +17,11 @@ namespace LoanPortfolio.Db.Repositories
             _set = _context.Set<TEntity>();
         }
 
-        public int Add(TEntity entity)
+        public TEntity Add(TEntity entity)
         {
             _set.Add(entity);
             _context.SaveChanges();
-            return entity.Id;
+            return entity;
         }
 
         public void Update(TEntity entity)

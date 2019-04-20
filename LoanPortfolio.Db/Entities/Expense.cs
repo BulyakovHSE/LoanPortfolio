@@ -26,18 +26,6 @@ namespace LoanPortfolio.Db.Entities
         public DateTime DatePayment { get; set; }
 
         /// <summary>
-        /// Наименование кредитной организации ТР-14, 29
-        /// </summary>
-        [Required]
-        public string CreditInstitutionName { get; set; }
-
-        /// <summary>
-        /// Сумма рахода ТР-15
-        /// </summary>
-        [Required]
-        public float Sum { get; set; }
-
-        /// <summary>
         /// Адрес банка или банкомата для внесения платежа ТР-16
         /// </summary>
         [Required]

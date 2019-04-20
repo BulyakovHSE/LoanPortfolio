@@ -1,4 +1,7 @@
 ﻿// ReSharper disable CommentTypo
+
+using System.ComponentModel.DataAnnotations;
+
 namespace LoanPortfolio.Db.Entities
 {
     // ReSharper disable once InconsistentNaming
@@ -12,5 +15,11 @@ namespace LoanPortfolio.Db.Entities
         /// Комментарий к расходу ТР-21
         /// </summary>
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Сумма рахода ТР-15
+        /// </summary>
+        [Required]
+        public float Sum { get; set; }
     }
 }

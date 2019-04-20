@@ -16,18 +16,30 @@ namespace LoanPortfolio.Services
             _expenseRepository = expenseRepository;
         }
 
-        public PersonalExpense AddPersonalExpense(User user, DateTime datePayment, float sum, string expenseCategory)
+        public PersonalExpense AddPersonalExpense(User user, DateTime datePayment, float sum, ExpenseCategory expenseCategory)
         {
-            var id = _expenseRepository.Add(new PersonalExpense
-            { UserId = user.Id, DatePayment = datePayment, Sum = sum, ExpenseCategory = expenseCategory });
-            return (PersonalExpense)_expenseRepository.All().Single(x => x.Id == id);
+            var expense = _expenseRepository.Add(new PersonalExpense
+            { UserId = user.Id, DatePayment = datePayment, Sum = sum, ExpenseCategory = expenseCategory});
+            return (PersonalExpense)expense;
         }
 
-        public HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string comment = "")
+        public HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string bankAddress = "", string comment = "")
         {
-            var id = _expenseRepository.Add(new HCSExpense
-            { UserId = user.Id, DatePayment = datePayment, Sum = sum, Comment = comment});
-            return (HCSExpense)_expenseRepository.All().Single(x => x.Id == id);
+            var expense = _expenseRepository.Add(new HCSExpense
+            { UserId = user.Id, DatePayment = datePayment, Sum = sum, Comment = comment });
+            return (HCSExpense)expense;
+        }
+
+        public Loan AddLoan(User user, DateTime datePayment, float loanSum, float amountDie, int repaymentPeriod,
+            string creditInstitutionName, string bankAddress = "")
+        {
+            var expense = _expenseRepository.Add(new Loan
+            {
+                UserId = user.Id, DatePayment = datePayment, LoanSum = loanSum, AmountDie = amountDie,
+                RepaymentPeriod = repaymentPeriod, BankAddress = bankAddress,
+                CreditInstitutionName = creditInstitutionName
+            });
+            return (Loan)expense;
         }
 
         public void Remove(Expense expense)
@@ -37,7 +49,7 @@ namespace LoanPortfolio.Services
 
         public Expense GetById(int id)
         {
-            return _expenseRepository.All().Single(x => x.Id == id);
+            return _expenseRepository.All().SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<Expense> GetAll(User user)
@@ -45,27 +57,8 @@ namespace LoanPortfolio.Services
             return _expenseRepository.All().Where(x => x.UserId == user.Id);
         }
 
-        public void ChangeDatePayment(Expense expense, DateTime newDate)
+        public void UpdateExpense(Expense expense)
         {
-            expense.DatePayment = newDate;
-            _expenseRepository.Update(expense);
-        }
-
-        public void ChangeSum(Expense expense, float sum)
-        {
-            expense.Sum = sum;
-            _expenseRepository.Update(expense);
-        }
-
-        public void ChangeExpanseCategory(PersonalExpense expense, string category)
-        {
-            expense.ExpenseCategory = category;
-            _expenseRepository.Update(expense);
-        }
-
-        public void ChangeComment(HCSExpense expense, string comment)
-        {
-            expense.Comment = comment;
             _expenseRepository.Update(expense);
         }
     }

@@ -19,23 +19,23 @@ namespace LoanPortfolio.Services
         public RegularIncome AddRegularIncome(User user, string incomeSource, DateTime datePrepaidExpense,
             float prepaidExpanse, DateTime dateSalary, float salary)
         {
-            var id = _incomeRepository.Add(new RegularIncome
+            var income = _incomeRepository.Add(new RegularIncome
             {
                 UserId = user.Id,
                 IncomeSource = incomeSource,
                 DatePrepaidExpanse = datePrepaidExpense, DateSalary = dateSalary, PrepaidExpanse = prepaidExpanse,
                 Salary = salary
             });
-            return (RegularIncome)_incomeRepository.All().Single(x => x.Id == id);
+            return (RegularIncome)income;
         }
 
         public PeriodicIncome AddPeriodicIncome(User user, string incomeSource, float sum, DateTime dateIncome)
         {
-            var id = _incomeRepository.Add(new PeriodicIncome
+            var income = _incomeRepository.Add(new PeriodicIncome
             {
                 UserId = user.Id, IncomeSource = incomeSource, Sum = sum, DateIncome = dateIncome
             });
-            return (PeriodicIncome)_incomeRepository.All().Single(x => x.Id == id);
+            return (PeriodicIncome)income;
         }
 
         public void Remove(Income income)
@@ -45,7 +45,7 @@ namespace LoanPortfolio.Services
 
         public Income GetById(int id)
         {
-            return _incomeRepository.All().First(x => x.Id == id);
+            return _incomeRepository.All().SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<Income> GetAll(User user)
@@ -53,45 +53,8 @@ namespace LoanPortfolio.Services
             return _incomeRepository.All().Where(x=>x.UserId == user.Id);
         }
 
-        public void ChangeDatePrepaidExpanse(RegularIncome income, DateTime datePrepaidExpanse)
+        public void UpdateIncome(Income income)
         {
-            income.DatePrepaidExpanse = datePrepaidExpanse;
-            _incomeRepository.Update(income);
-        }
-
-        public void ChangePrepaidExpanse(RegularIncome income, float prepaidExpanse)
-        {
-            income.PrepaidExpanse = prepaidExpanse;
-            _incomeRepository.Update(income);
-        }
-
-        public void ChangeDateSalary(RegularIncome income, DateTime dateSalary)
-        {
-            income.DateSalary = dateSalary;
-            _incomeRepository.Update(income);
-        }
-
-        public void ChangeSalary(RegularIncome income, float salary)
-        {
-            income.Salary = salary;
-            _incomeRepository.Update(income);
-        }
-
-        public void ChangeIncomeSource(Income income, string incomeSource)
-        {
-            income.IncomeSource = incomeSource;
-            _incomeRepository.Update(income);
-        }
-
-        public void ChangeDateIncome(PeriodicIncome income, DateTime dateIncome)
-        {
-            income.DateIncome = dateIncome;
-            _incomeRepository.Update(income);
-        }
-
-        public void ChangeSum(PeriodicIncome income, float sum)
-        {
-            income.Sum = sum;
             _incomeRepository.Update(income);
         }
     }

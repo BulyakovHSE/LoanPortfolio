@@ -14,5 +14,11 @@ namespace LoanPortfolio.Db.Entities
         /// </summary>
         [Required]
         public ExpenseCategory ExpenseCategory { get; set; }
+
+        /// <summary>
+        /// Сумма рахода ТР-15
+        /// </summary>
+        [Required]
+        public float Sum { get; set; }
     }
 }

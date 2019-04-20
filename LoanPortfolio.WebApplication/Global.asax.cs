@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -12,6 +13,7 @@ using LoanPortfolio.Db.Repositories;
 using LoanPortfolio.Services;
 using LoanPortfolio.Services.Interfaces;
 using SimpleInjector;
+using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
 
 namespace LoanPortfolio.WebApplication
@@ -26,6 +28,8 @@ namespace LoanPortfolio.WebApplication
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             Container container = new Container();
+
+            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
             container.Register(typeof(IRepository<>), typeof(EntityFrameworkRepository<>));
             container.RegisterInstance(typeof(DbContext), new LoanContext());
@@ -46,6 +50,8 @@ namespace LoanPortfolio.WebApplication
             {
                 expenseService.AddHCSExpense(user, DateTime.Now, 9999, "Комментарий");
             }
+
+            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
         }

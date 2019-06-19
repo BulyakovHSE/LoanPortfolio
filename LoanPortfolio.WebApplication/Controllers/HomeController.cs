@@ -15,13 +15,15 @@ namespace LoanPortfolio.WebApplication.Controllers
         private IExpenseService _expenseService;
         private IIncomeService _incomeService;
 
-        public HomeController()
+        public HomeController(IUserService userService, IExpenseService expenseService, IIncomeService incomeService)
         {
-            var userService = MvcApplication._container.GetInstance<IUserService>();
-            var users = userService.GetAll().ToList();
-            _user = users[0];
-            _expenseService = MvcApplication._container.GetInstance<IExpenseService>();
-            _incomeService = MvcApplication._container.GetInstance<IIncomeService>();
+            if (userService.GetAll().Any())
+            {
+                _user = userService.GetAll().ToList()[0];
+            }
+            
+            _expenseService = expenseService;
+            _incomeService = incomeService;
         }
 
         public ActionResult Index()

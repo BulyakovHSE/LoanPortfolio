@@ -24,11 +24,5 @@ namespace LoanPortfolio.Db.Entities
         /// </summary>
         [Required]
         public DateTime DatePayment { get; set; }
-
-        /// <summary>
-        /// Адрес банка или банкомата для внесения платежа ТР-16
-        /// </summary>
-        [Required]
-        public string BankAddress { get; set; }
     }
 }

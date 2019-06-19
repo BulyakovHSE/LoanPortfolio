@@ -44,5 +44,12 @@ namespace LoanPortfolio.Db.Entities
         /// Погашен ли кредит ТР-35
         /// </summary>
         public bool IsRepaid { get; set; }
+
+
+        /// <summary>
+        /// Адрес банка или банкомата для внесения платежа ТР-16
+        /// </summary>
+        [Required]
+        public string BankAddress { get; set; }
     }
 }

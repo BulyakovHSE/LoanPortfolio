@@ -23,10 +23,9 @@ namespace LoanPortfolio.Services.Interfaces
         /// <param name="user">Пользователь к которому относится расход</param>
         /// <param name="datePayment">Дата расхода</param>
         /// <param name="sum">Сумма расхода</param>
-        /// <param name="bankAddress">Адрес банка или банкомата в котором можно внести платеж</param>
         /// <param name="comment">Комментарий к расходу</param>
         /// <returns></returns>
-        HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string bankAddress = "", string comment = "");
+        HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string comment = "");
 
         /// <summary>
         /// Создает новый кредит

@@ -23,7 +23,7 @@ namespace LoanPortfolio.Services
             return (PersonalExpense)expense;
         }
 
-        public HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string bankAddress = "", string comment = "")
+        public HCSExpense AddHCSExpense(User user, DateTime datePayment, float sum, string comment = "")
         {
             var expense = _expenseRepository.Add(new HCSExpense
             { UserId = user.Id, DatePayment = datePayment, Sum = sum, Comment = comment });

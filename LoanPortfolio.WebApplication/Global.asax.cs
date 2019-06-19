@@ -37,6 +37,8 @@ namespace LoanPortfolio.WebApplication
             container.Register<IIncomeService, IncomeService>();
             container.Register<IExpenseService, ExpenseService>();
 
+            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
+
             container.Verify();
 
             var userService = container.GetInstance<IUserService>();
@@ -44,14 +46,13 @@ namespace LoanPortfolio.WebApplication
             {
                 userService.Add("user@mail.ru", "password", "Ivan", "Ivanov");
             }
+
             var expenseService = container.GetInstance<IExpenseService>();
             var user = userService.GetAll().ToList()[0];
-            if (!expenseService.GetAll(user).Any(x => x.GetType() == typeof(HCSExpense)))
+            if (expenseService.GetAll(user).All(x => x.GetType() != typeof(HCSExpense)))
             {
                 expenseService.AddHCSExpense(user, DateTime.Now, 9999, "Комментарий");
             }
-
-            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
         }

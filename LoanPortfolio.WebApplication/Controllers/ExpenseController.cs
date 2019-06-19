@@ -13,12 +13,14 @@ namespace LoanPortfolio.WebApplication.Controllers
         private User _user;
         private IExpenseService _expenseService;
 
-        public ExpenseController()
+        public ExpenseController(IUserService userService, IExpenseService expenseService)
         {
-            var userService = MvcApplication._container.GetInstance<IUserService>();
-            var users = userService.GetAll().ToList();
-            _user = users[0];
-            _expenseService = MvcApplication._container.GetInstance<IExpenseService>();
+            if (userService.GetAll().Any())
+            {
+                _user = userService.GetAll().ToList()[0];
+            }
+
+            _expenseService = expenseService;
         }
         public ActionResult Index()
         {
@@ -43,13 +45,13 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public RedirectResult AddPersonal(string Category, string Sum)
         {
-            if (!string.IsNullOrWhiteSpace(Category) && float.TryParse(Sum, out var value))
+            ExpenseCategory category;
+            if (!Enum.TryParse(Category, out category) && float.TryParse(Sum, out var value))
             {
-                _expenseService.AddPersonalExpense(_user, DateTime.Now, value, Category);
+                _expenseService.AddPersonalExpense(_user, DateTime.Now, value, category);
 
                 return Redirect("~/Expense/Index");
             }
-
             return Redirect("~/Expense/AddPersonal");
         }
 
@@ -75,10 +77,12 @@ namespace LoanPortfolio.WebApplication.Controllers
             {
                 var expense = (HCSExpense)_expenseService.GetById(expenseid);
 
-                _expenseService.ChangeDatePayment(expense,date);
-                _expenseService.ChangeSum(expense, sum);
-                _expenseService.ChangeComment(expense,Comment);
-                
+                expense.Sum = sum;
+                expense.DatePayment = date;
+                expense.Comment = Comment;
+
+                _expenseService.UpdateExpense(expense);
+
                 return Redirect("~/Expense/Index");
             }
 
@@ -99,12 +103,13 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public RedirectResult ChangePersonal(int expenseid, string Category, string Sum)
         {
-            if (!string.IsNullOrWhiteSpace(Category) && float.TryParse(Sum, out var value))
+            ExpenseCategory category;
+            if (!Enum.TryParse(Category, out category) && float.TryParse(Sum, out var value))
             {
                 var expense = (PersonalExpense)_expenseService.GetById(expenseid);
-
-                _expenseService.ChangeExpanseCategory(expense, Category);
-                _expenseService.ChangeSum(expense, value);
+                expense.ExpenseCategory = category;
+                expense.Sum = value;
+                _expenseService.UpdateExpense(expense);
 
                 return Redirect("~/Expense/Index");
             }

@@ -13,12 +13,14 @@ namespace LoanPortfolio.WebApplication.Controllers
         private User _user;
         private IIncomeService _incomeService;
 
-        public IncomeController()
+        public IncomeController(IUserService userService, IIncomeService incomeService)
         {
-            var userService = MvcApplication._container.GetInstance<IUserService>();
-            var users = userService.GetAll().ToList();
-            _user = users[0];
-            _incomeService = MvcApplication._container.GetInstance<IIncomeService>();
+            if (userService.GetAll().Any())
+            {
+                _user = userService.GetAll().ToList()[0];
+            }
+
+            _incomeService = incomeService;
         }
 
         public ActionResult Index()
@@ -36,7 +38,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult AddRegular()
         {
             ViewBag.Title = "Новый доход";
-
+            ViewBag.Problem = "ДОХОД";
             return View();
         }
 
@@ -96,12 +98,13 @@ namespace LoanPortfolio.WebApplication.Controllers
                                                                        && float.TryParse(Salary, out var salary) && DateTime.TryParse(DateSalary, out var dateSalary))
             {
                 var income = (RegularIncome)_incomeService.GetById(incomeid);
+                income.IncomeSource = Source;
+                income.PrepaidExpanse = prepaidExpanse;
+                income.DatePrepaidExpanse = datePrepaidExpanse;
+                income.Salary = salary;
+                income.DateSalary = dateSalary;
 
-                _incomeService.ChangeIncomeSource(income, Source);
-                _incomeService.ChangePrepaidExpanse(income, prepaidExpanse);
-                _incomeService.ChangeDatePrepaidExpanse(income, datePrepaidExpanse);
-                _incomeService.ChangeSalary(income, salary);
-                _incomeService.ChangeDateSalary(income, dateSalary);
+                _incomeService.UpdateIncome(income);
 
                 return Redirect("~/Income/Index");
             }
@@ -127,8 +130,10 @@ namespace LoanPortfolio.WebApplication.Controllers
             {
                 var income = (PeriodicIncome)_incomeService.GetById(incomeid);
 
-                _incomeService.ChangeIncomeSource(income, Source);
-                _incomeService.ChangeSum(income, value);
+                income.IncomeSource = Source;
+                income.Sum = value;
+
+                _incomeService.UpdateIncome(income);
 
                 return Redirect("~/Income/Index");
             }

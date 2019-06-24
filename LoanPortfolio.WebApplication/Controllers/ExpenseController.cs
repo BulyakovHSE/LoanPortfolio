@@ -28,6 +28,7 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
             ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
 
             return View();
         }
@@ -43,18 +44,72 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public RedirectResult AddPersonal(string Category, string Sum)
+        public ActionResult AddPersonal(string Category, string Sum)
         {
             ExpenseCategory category;
-            if (!Enum.TryParse(Category, out category) && float.TryParse(Sum, out var value))
+            if (Enum.TryParse(Category, out category))
             {
-                _expenseService.AddPersonalExpense(_user, DateTime.Now, value, category);
+                if (float.TryParse(Sum, out var value))
+                {
+                    _expenseService.AddPersonalExpense(_user, DateTime.Now, value, category);
 
-                return Redirect("~/Expense/Index");
+                    ViewBag.Title = "Расходы";
+
+                    ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+                    ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+                    ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Введите сумму";
+                }
             }
-            return Redirect("~/Expense/AddPersonal");
+            else
+            {
+                ViewBag.Error = "Выберите категорию";
+            }
+            ViewBag.Title = "Новый расход";
+            return View();
         }
 
+        public ActionResult AddHCS()
+        {
+            ViewBag.Title = "Новый расход ЖКХ";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddHCS(string Date, string Sum, string Comment)
+        {
+            if (DateTime.TryParse(Date, out var date))
+            {
+                if (float.TryParse(Sum, out var value))
+                {
+                    _expenseService.AddHCSExpense(_user,date,value,Comment);
+
+                    ViewBag.Title = "Расходы";
+
+                    ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+                    ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+                    ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Введите значение сумму";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Введите дату в формате ДД.ММ.ГГГГ";
+            }
+            ViewBag.Title = "Новый расход";
+            return View();
+        }
         #endregion
 
         #region Change
@@ -71,22 +126,43 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public RedirectResult ChangeHCS(int expenseid, string Date, string Sum, string Comment)
+        public ActionResult ChangeHCS(int expenseid, string Date, string Sum, string Comment)
         {
-            if (float.TryParse(Sum, out var sum) && DateTime.TryParse(Date, out var date))
+            if (float.TryParse(Sum, out var sum))
             {
-                var expense = (HCSExpense)_expenseService.GetById(expenseid);
+                if (DateTime.TryParse(Date, out var date))
+                {
+                    var expense = (HCSExpense) _expenseService.GetById(expenseid);
 
-                expense.Sum = sum;
-                expense.DatePayment = date;
-                expense.Comment = Comment;
+                    expense.Sum = sum;
+                    expense.DatePayment = date;
+                    expense.Comment = Comment;
 
-                _expenseService.UpdateExpense(expense);
+                    _expenseService.UpdateExpense(expense);
 
-                return Redirect("~/Expense/Index");
+                    ViewBag.Title = "Расходы";
+
+                    ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+                    ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+                    ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Введите дату в формате ДД.ММ.ГГГГ";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Необходимо значение суммы";
             }
 
-            return Redirect("~/Expense/ChangeHCS/" + expenseid);
+            var expense1 = _expenseService.GetById(expenseid);
+            ViewBag.Title = "ЖКХ";
+
+            ViewBag.Expense = expense1;
+            return View("ChangeHCS");
         }
 
         [HttpGet]
@@ -101,30 +177,57 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public RedirectResult ChangePersonal(int expenseid, string Category, string Sum)
+        public ActionResult ChangePersonal(int expenseid, string Category, string Sum)
         {
             ExpenseCategory category;
-            if (!Enum.TryParse(Category, out category) && float.TryParse(Sum, out var value))
+            if (Enum.TryParse(Category, out category))
             {
-                var expense = (PersonalExpense)_expenseService.GetById(expenseid);
-                expense.ExpenseCategory = category;
-                expense.Sum = value;
-                _expenseService.UpdateExpense(expense);
+                if (float.TryParse(Sum, out var value))
+                {
+                    var expense = (PersonalExpense)_expenseService.GetById(expenseid);
+                    expense.ExpenseCategory = category;
+                    expense.Sum = value;
+                    _expenseService.UpdateExpense(expense);
 
-                return Redirect("~/Expense/Index");
+                    ViewBag.Title = "Расходы";
+
+                    ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+                    ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+                    ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Введите значение сумму";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Выберите категорию";
             }
 
-            return Redirect("~/Expense/ChangePersonal/" + expenseid);
+            var expense1 = (PersonalExpense)_expenseService.GetById(expenseid);
+            ViewBag.Title = expense1.ExpenseCategory;
+            ViewBag.Expense = expense1;
+
+            return View("ChangePersonal");
         }
 
         #endregion
 
         [HttpGet]
-        public RedirectResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             _expenseService.Remove(_expenseService.GetById(id));
 
-            return Redirect("~/Expense/Index");
+            ViewBag.Title = "Расходы";
+
+            ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+            ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+
+            return View("Index");
         }
     }
 }

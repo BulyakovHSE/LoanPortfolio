@@ -59,7 +59,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 }
                 else if (expense is Loan loan)
                 {
-                    sum += loan.Sum;
+                    sum += loan.AmountDie/loan.RepaymentPeriod;
                 }
             }
 

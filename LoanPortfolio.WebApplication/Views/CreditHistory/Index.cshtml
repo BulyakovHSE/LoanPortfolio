@@ -1,0 +1,57 @@
+﻿@using LoanPortfolio.Db.Entities
+<h2>Финансовые задолженности</h2>
+<a href="~/CreditHistory/AddCredit">Добавить</a>
+<table class="table">
+    <tr>
+        <th>
+            Дата платежа
+        </th>
+        <th>
+            Сумма займа
+        </th>
+        <th>
+            Сумма к погашению
+        </th>
+        <th>
+            Срок погашения в месяцах
+        </th>
+        <th>
+            Наименование кредитной организации
+        </th>
+        <th>
+            Адрес банка или банкомата
+        </th>
+        <th></th>
+    </tr>
+        @{
+            foreach (Loan loan in ViewBag.Loan)
+            {
+                <tr>
+                    <td>
+                        @{Write(loan.DatePayment.ToShortDateString());}
+                    </td>
+                    <td>
+                        @{Write(loan.LoanSum);}
+                    </td>
+                    <td>
+                        @{Write(loan.AmountDie);}
+                    </td>
+                    <td>
+                        @{Write(loan.RepaymentPeriod);}
+                    </td>
+                    <td>
+                        @{Write(loan.CreditInstitutionName);}
+                    </td>
+                    <td>
+                        @{Write(loan.BankAddress);}
+                    </td>
+                    <td>
+                        <a href="~/CreditHistory/ChangeCredit/@loan.Id">Редактировать</a>
+                        <a>Погасить</a>
+                    </td>
+                </tr>
+            }
+        }
+        
+</table>
+

@@ -11,44 +11,49 @@
 <table class="table">
     <tr>
         <th>
-            Название
-        </th>
-        <th>
             Дата платежа
         </th>
         <th>
-            Сумма ежемесячного платежа
+            Сумма платежа
+        </th>
+        <th>
+            Наименование кредитной организации
+        </th>
+        <th>
+            Адрес банка или банкомата
+        </th>
+        <th>
+
         </th>
     </tr>
-
-    <tr>
-        <td>
-            Авто
-        </td>
-        <td>
-            09.01.2018
-        </td>
-        <td>
-            3000
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            Ипотека
-        </td>
-        <td>
-            15.01.2018
-        </td>
-        <td>
-            12000
-        </td>
-    </tr>
+    @{
+        foreach (Loan loan in ViewBag.Loan)
+        {
+            <tr>
+                <td>
+                    @{Write(loan.DatePayment.ToShortDateString());}
+                </td>
+                <td>
+                    @{Write(loan.AmountDie/loan.RepaymentPeriod);}
+                </td>
+                <td>
+                    @{Write(loan.CreditInstitutionName);}
+                </td>
+                <td>
+                    @{Write(loan.BankAddress);}
+                </td>
+                <td>
+                    <a>Оплачено</a>
+                </td>
+            </tr>
+        }
+    }
 </table>
 
 
 
 <h2>ЖКХ</h2>
+<a href="~/Expense/AddHCS">Добавить</a>
 
 <table class="table">
     <tr>
@@ -80,6 +85,7 @@
                 </td>
                 <td>
                     <a href="~/Expense/ChangeHCS/@expense.Id">Редактировать</a>
+                    <a href="~/Expense/Delete/@expense.Id">Удалить</a>
                 </td>
             </tr>
         }

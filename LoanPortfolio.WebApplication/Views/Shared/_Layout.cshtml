@@ -18,14 +18,18 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Доходы", "Index", "Income")</li>
                     <li>@Html.ActionLink("Расходы", "Index", "Expense")</li>
+                    <li>@Html.ActionLink("Кредитная история", "Index", "CreditHistory")</li>
                     <li>@Html.ActionLink("Оборотно-сальдовая ведомость", "Index", "Result")</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div>
-        @ViewBag.Problem
+<div class="alert-danger">
+    <div class="container body-content" style="font-size: 25px">
+        @ViewBag.Error
     </div>
+    
+</div>
     <div class="container body-content">
         @RenderBody()
     </div>

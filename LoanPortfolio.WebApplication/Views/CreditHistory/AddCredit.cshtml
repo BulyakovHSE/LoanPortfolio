@@ -1,0 +1,35 @@
+﻿<h2>Новый кредит</h2>
+
+<form method="post" action="~/CreditHistory/AddCredit">
+    <p>
+        Дата платежа:
+        <input type="text" name="Date" />
+    </p>
+
+    <p>
+        Сумма займа:
+        <input type="text" name="LoanSum" />
+    </p>
+    
+    <p>
+        Сумма к погашению:
+        <input type="text" name="AmountDie" />
+    </p>
+
+    <p>
+        Срок погашения в месяцах:
+        <input type="text" name="RepaymentPeriod" />
+    </p>
+    
+    <p>
+        Наименование кредитной организации:
+        <input type="text" name="CreditInstitutionName" />
+    </p>
+
+    <p>
+        Адрес банка или банкомата:
+        <input type="text" name="BankAddress" />
+    </p>
+
+    <input type="submit" value="Добавить" />
+</form>

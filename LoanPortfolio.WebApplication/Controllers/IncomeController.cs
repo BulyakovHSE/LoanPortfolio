@@ -38,22 +38,59 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult AddRegular()
         {
             ViewBag.Title = "Новый доход";
-            ViewBag.Problem = "ДОХОД";
             return View();
         }
 
         [HttpPost]
-        public RedirectResult AddRegular(string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
+        public ActionResult AddRegular(string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
         {
-            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(PrepaidExpanse, out var prepaidExpanse) && DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse)
-                                                                       && float.TryParse(Salary, out var salary) && DateTime.TryParse(DateSalary, out var dateSalary))
+            if (!string.IsNullOrWhiteSpace(Source))
             {
-                _incomeService.AddRegularIncome(_user, Source, datePrepaidExpanse, prepaidExpanse, dateSalary, salary);
+                if (float.TryParse(PrepaidExpanse, out var prepaidExpanse))
+                {
+                    if (DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse))
+                    {
+                        if (float.TryParse(Salary, out var salary))
+                        {
+                            if (DateTime.TryParse(DateSalary, out var dateSalary))
+                            {
+                                _incomeService.AddRegularIncome(_user, Source, datePrepaidExpanse, prepaidExpanse, dateSalary, salary);
 
-                return Redirect("~/Income/Index");
+                                ViewBag.Title = "Доходы";
+
+                                ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+                                ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+                                return View("Index");
+                            }
+                            else
+                            {
+                                ViewBag.Error = "Введите дату окончаловки в формате ДД.ММ.ГГГГ";
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Error = "Введите сумму окончаловки";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Введите дату аванса в формате ДД.ММ.ГГГГ";
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Введите сумму аванса";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Введите название";
             }
 
-            return Redirect("~/Income/AddRegular");
+            ViewBag.Title = "Новый доход";
+
+            return View("AddRegular");
         }
 
         public ActionResult AddPeriod()
@@ -64,16 +101,34 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public RedirectResult AddPeriod(string Source, string Sum)
+        public ActionResult AddPeriod(string Source, string Sum)
         {
-            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(Sum, out var value))
+            if (!string.IsNullOrWhiteSpace(Source))
             {
-                _incomeService.AddPeriodicIncome(_user, Source, value, DateTime.Now);
+                if (float.TryParse(Sum, out var value))
+                {
+                    _incomeService.AddPeriodicIncome(_user, Source, value, DateTime.Now);
 
-                return Redirect("~/Income/Index");
+                    ViewBag.Title = "Доходы";
+
+                    ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+                    ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Введите сумму";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Введите название";
             }
 
-            return Redirect("~/Income/AddPeriod");
+            ViewBag.Title = "Новый доход";
+
+            return View("AddPeriod");
         }
 
         #endregion
@@ -92,24 +147,65 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public RedirectResult ChangeRegular(int incomeid, string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
+        public ActionResult ChangeRegular(int incomeid, string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
         {
-            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(PrepaidExpanse, out var prepaidExpanse) && DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse)
-                                                                       && float.TryParse(Salary, out var salary) && DateTime.TryParse(DateSalary, out var dateSalary))
+            if (!string.IsNullOrWhiteSpace(Source))
             {
-                var income = (RegularIncome)_incomeService.GetById(incomeid);
-                income.IncomeSource = Source;
-                income.PrepaidExpanse = prepaidExpanse;
-                income.DatePrepaidExpanse = datePrepaidExpanse;
-                income.Salary = salary;
-                income.DateSalary = dateSalary;
+                if (float.TryParse(PrepaidExpanse, out var prepaidExpanse))
+                {
+                    if (DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse))
+                    {
+                        if (float.TryParse(Salary, out var salary))
+                        {
+                            if (DateTime.TryParse(DateSalary, out var dateSalary))
+                            {
+                                var income = (RegularIncome)_incomeService.GetById(incomeid);
+                                income.IncomeSource = Source;
+                                income.PrepaidExpanse = prepaidExpanse;
+                                income.DatePrepaidExpanse = datePrepaidExpanse;
+                                income.Salary = salary;
+                                income.DateSalary = dateSalary;
 
-                _incomeService.UpdateIncome(income);
+                                _incomeService.UpdateIncome(income);
 
-                return Redirect("~/Income/Index");
+                                ViewBag.Title = "Доходы";
+
+                                ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+                                ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+                                return View("Index");
+                            }
+                            else
+                            {
+                                ViewBag.Error = "Введите дату окончаловки в формате ДД.ММ.ГГГГ";
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Error = "Введите сумму окончаловки";
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Error = "Введите дату аванса в формате ДД.ММ.ГГГГ";
+                    }
+                }
+                else
+                {
+                    ViewBag.Error = "Введите сумму аванса";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Введите название";
             }
 
-            return Redirect("~/Income/ChangeRegular/" + incomeid);
+            var income1 = _incomeService.GetById(incomeid);
+            ViewBag.Title = income1.IncomeSource;
+
+            ViewBag.Income = income1;
+
+            return View("ChangeRegular");
         }
 
         [HttpGet]
@@ -124,21 +220,42 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public RedirectResult ChangePeriod(int incomeid, string Source, string Sum)
+        public ActionResult ChangePeriod(int incomeid, string Source, string Sum)
         {
-            if (!string.IsNullOrWhiteSpace(Source) && float.TryParse(Sum, out var value))
+            if (!string.IsNullOrWhiteSpace(Source))
             {
-                var income = (PeriodicIncome)_incomeService.GetById(incomeid);
+                if (float.TryParse(Sum, out var value))
+                {
+                    var income = (PeriodicIncome)_incomeService.GetById(incomeid);
 
-                income.IncomeSource = Source;
-                income.Sum = value;
+                    income.IncomeSource = Source;
+                    income.Sum = value;
 
-                _incomeService.UpdateIncome(income);
+                    _incomeService.UpdateIncome(income);
 
-                return Redirect("~/Income/Index");
+                    ViewBag.Title = "Доходы";
+
+                    ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+                    ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+                    return View("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Введите сумму";
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Введите название";
             }
 
-            return Redirect("~/Income/ChangePeriod/" + incomeid);
+            var income1 = _incomeService.GetById(incomeid);
+            ViewBag.Title = income1.IncomeSource;
+
+            ViewBag.Income = income1;
+
+            return View("ChangePeriod");
         }
 
         #endregion

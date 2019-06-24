@@ -1,28 +1,29 @@
 ﻿@using LoanPortfolio.Db.Entities
-<h2>Финансовые задолженности</h2>
-<a href="~/CreditHistory/AddCredit">Добавить</a>
-<table class="table">
-    <tr>
-        <th>
-            Дата платежа
-        </th>
-        <th>
-            Сумма займа
-        </th>
-        <th>
-            Сумма к погашению
-        </th>
-        <th>
-            Срок погашения в месяцах
-        </th>
-        <th>
-            Наименование кредитной организации
-        </th>
-        <th>
-            Адрес банка или банкомата
-        </th>
-        <th></th>
-    </tr>
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <h2>Финансовые задолженности</h2>
+
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Дата платежа
+            </th>
+            <th>
+                Сумма займа
+            </th>
+            <th>
+                Сумма к погашению
+            </th>
+            <th>
+                Срок погашения в месяцах
+            </th>
+            <th>
+                Наименование кредитной организации
+            </th>
+            <th>
+                Адрес банка или банкомата
+            </th>
+            <th style="width: 15%"></th>
+        </tr>
         @{
             foreach (Loan loan in ViewBag.Loan)
             {
@@ -46,12 +47,24 @@
                         @{Write(loan.BankAddress);}
                     </td>
                     <td>
-                        <a href="~/CreditHistory/ChangeCredit/@loan.Id">Редактировать</a>
-                        <a>Погасить</a>
+                        <div style="display: flex;">
+                            <form action="~/CreditHistory/ChangeCredit/">
+                                <input type="hidden" value="@loan.Id" name="id" />
+                                <button type="submit" class="btn" style="margin-right: 15px">Редактировать</button>
+                            </form>
+                            <button type="submit" class="btn">Погасить</button>
+                        </div>
                     </td>
                 </tr>
             }
         }
-        
-</table>
 
+    </table>
+
+
+    <center>
+        <form action="~/CreditHistory/AddCredit">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </center>
+</div>

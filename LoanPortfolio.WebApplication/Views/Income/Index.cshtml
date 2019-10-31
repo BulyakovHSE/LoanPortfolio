@@ -1,0 +1,113 @@
+﻿@using LoanPortfolio.Db.Entities
+@using LoanPortfolio.Services
+
+<br />
+
+<p>
+    <h4>Месяц: Июнь</h4>
+</p>
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <h2>Основные</h2>
+
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Аванс
+            </th>
+            <th>
+                Окончательный расчет
+            </th>
+            <th style="width: 15%">
+            </th>
+        </tr>
+
+        @{
+            foreach (RegularIncome income in ViewBag.IncomesRegular)
+            {
+                <tr>
+                    <td>
+                        @{Write(income.IncomeSource);}
+                    </td>
+                    <td>
+                        <p>Сумма: @{Write(income.PrepaidExpanse);}</p>
+                        <p>Дата: @{Write(income.DatePrepaidExpanse.ToShortDateString());}</p>
+                    </td>
+                    <td>
+                        <p>Сумма: @{Write(income.Salary);}</p>
+                        <p>Дата: @{Write(income.DateSalary.ToShortDateString());}</p>
+                    </td>
+                    <td>
+                        <div style="display: flex;">
+                            <form action="~/Income/ChangeRegular/">
+                                <input type="hidden" value="@income.Id" name="id" />
+                                <button type="submit" class="btn" style="margin-right: 15px">Редактировать</button>
+                            </form>
+                            <form action="~/Income/Delete/">
+                                <input type="hidden" value="@income.Id" name="id" />
+                                <button type="submit" class="btn">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    
+    <center>
+        <form action="~/Income/AddRegular">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </center>
+</div>
+
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <h2>Дополнительные</h2>
+
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Сумма
+            </th>
+            <th style="width: 15%">
+            </th>
+        </tr>
+
+        @{
+            foreach (PeriodicIncome income in ViewBag.IncomesPeriod)
+            {
+                <tr>
+                    <td>
+                        @{Write(income.IncomeSource);}
+                    </td>
+                    <td>
+                        Сумма: @{Write(income.Sum);}
+                    </td>
+                    <td>
+                        <div style="display: flex;">
+                            <form action="~/Income/ChangePeriod/">
+                                <input type="hidden" value="@income.Id" name="id" />
+                                <button type="submit" class="btn" style="margin-right: 15px">Редактировать</button>
+                            </form>
+                            <form action="~/Income/Delete/">
+                                <input type="hidden" value="@income.Id" name="id" />
+                                <button type="submit" class="btn">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    
+    <center>
+        <form action="~/Income/AddPeriod">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </center>
+</div>

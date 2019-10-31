@@ -47,6 +47,10 @@
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoanPortfolio.Db.Interfaces\LoanPortfolio.Db.Interfaces.csproj">
+      <Project>{5829FFAC-8C6B-4338-9ECA-D3558C5BECE7}</Project>
+      <Name>LoanPortfolio.Db.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoanPortfolio.Db\LoanPortfolio.Db.csproj">
       <Project>{E4C4ACE9-B177-43E3-83B0-D2E12734A95E}</Project>
       <Name>LoanPortfolio.Db</Name>

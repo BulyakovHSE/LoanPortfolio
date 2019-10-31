@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Expense.cs" />
+    <Compile Include="Entities\ExpenseCategory.cs" />
+    <Compile Include="Entities\Loan.cs" />
     <Compile Include="Entities\HCSExpense.cs" />
     <Compile Include="Entities\Income.cs" />
     <Compile Include="Entities\PeriodicIncome.cs" />

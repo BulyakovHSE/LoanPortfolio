@@ -1,0 +1,23 @@
+﻿
+<h2>Изменение личных расходов</h2>
+
+<form method="post" action="~/Expense/ChangePersonal">
+    <input type="hidden" value="@ViewBag.Expense.Id" name="expenseId" />
+
+    <p>
+        Категория:
+        <select name="Category">
+            <option value="None"></option>
+            <option value="Food">Продукты</option>
+            <option value="Health">Здоровье</option>
+            <option value="Entertainment">Развлечения</option>
+        </select>
+    </p>
+
+    <p>
+        Сумма:
+        <input type="text" value="@ViewBag.Expense.Sum" name="Sum"/>
+    </p>
+
+    <input type="submit" value="Сохранить"/>
+</form>

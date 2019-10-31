@@ -1,0 +1,155 @@
+﻿@using LoanPortfolio.Db.Entities
+
+<br />
+
+<p>
+    <h4>Месяц: Июнь</h4>
+</p>
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <h2>Финансовые задолженности</h2>
+
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Дата платежа
+            </th>
+            <th>
+                Сумма платежа
+            </th>
+            <th>
+                Наименование кредитной организации
+            </th>
+            <th>
+                Адрес банка или банкомата
+            </th>
+            <th>
+            </th>
+        </tr>
+        @{
+            foreach (Loan loan in ViewBag.Loan)
+            {
+                <tr>
+                    <td>
+                        @{Write(loan.DatePayment.ToShortDateString());}
+                    </td>
+                    <td>
+                        @{Write(loan.AmountDie / loan.RepaymentPeriod);}
+                    </td>
+                    <td>
+                        @{Write(loan.CreditInstitutionName);}
+                    </td>
+                    <td>
+                        @{Write(loan.BankAddress);}
+                    </td>
+                    <td>
+                        <button type="submit" class="btn">Оплачено</button>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <h2>ЖКХ</h2>
+
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Дата
+            </th>
+            <th>
+                Сумма
+            </th>
+            <th>
+                Комментарий
+            </th>
+            <th style="width: 15%">
+            </th>
+        </tr>
+
+        @{
+            foreach (HCSExpense expense in ViewBag.HCS)
+            {
+                <tr>
+                    <td>
+                        @{Write(expense.DatePayment.ToShortDateString());}
+                    </td>
+                    <td>
+                        Сумма: @{Write(expense.Sum);}
+                    </td>
+                    <td>
+                        @{Write(expense.Comment);}
+                    </td>
+                    <td>
+                        <div style="display: flex;">
+                            <form action="~/Expense/ChangeHCS/">
+                                <input type="hidden" value="@expense.Id" name="id" />
+                                <button type="submit" class="btn" style="margin-right: 15px">Редактировать</button>
+                            </form>
+                            <form action="~/Expense/Delete/">
+                                <input type="hidden" value="@expense.Id" name="id" />
+                                <button type="submit" class="btn">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    <center>
+        <form action="~/Expense/AddHCS">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </center>
+</div>
+
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <h2>Личные</h2>
+
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Категория
+            </th>
+            <th>
+                Сумма
+            </th>
+            <th style="width: 15%">
+            </th>
+        </tr>
+
+        @{
+            foreach (PersonalExpense expense in ViewBag.Personal)
+            {
+                <tr>
+                    <td>
+                        @{Write(expense.ExpenseCategory);}
+                    </td>
+                    <td>
+                        Сумма: @{Write(expense.Sum);}
+                    </td>
+                    <td>
+                        <div style="display: flex;">
+                            <form action="~/Expense/ChangePersonal/">
+                                <input type="hidden" value="@expense.Id" name="id" />
+                                <button type="submit" class="btn" style="margin-right: 15px">Редактировать</button>
+                            </form>
+                            <form action="~/Expense/Delete/">
+                                <input type="hidden" value="@expense.Id" name="id" />
+                                <button type="submit" class="btn">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    <center>
+        <form action="~/Expense/AddPersonal">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </center>
+</div>

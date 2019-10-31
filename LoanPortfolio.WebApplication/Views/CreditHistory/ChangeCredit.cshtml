@@ -1,0 +1,37 @@
+﻿<h2>Редактирование кредита</h2>
+
+<form method="post" action="~/CreditHistory/ChangeCredit">
+    <input type="hidden" value="@ViewBag.Loan.Id" name="expenseId" />
+
+    <p>
+        Дата платежа:
+        <input type="text" value="@ViewBag.Loan.DatePayment.ToShortDateString()" name="Date" />
+    </p>
+
+    <p>
+        Сумма займа:
+        <input type="text" value="@ViewBag.Loan.LoanSum" name="LoanSum" />
+    </p>
+
+    <p>
+        Сумма к погашению:
+        <input type="text" value="@ViewBag.Loan.AmountDie" name="AmountDie" />
+    </p>
+
+    <p>
+        Срок погашения в месяцах:
+        <input type="text" value="@ViewBag.Loan.RepaymentPeriod" name="RepaymentPeriod" />
+    </p>
+
+    <p>
+        Наименование кредитной организации:
+        <input type="text" value="@ViewBag.Loan.CreditInstitutionName" name="CreditInstitutionName" />
+    </p>
+
+    <p>
+        Адрес банка или банкомата:
+        <input type="text" value="@ViewBag.Loan.BankAddress" name="BankAddress" />
+    </p>
+
+    <input type="submit" value="Изменить" />
+</form>

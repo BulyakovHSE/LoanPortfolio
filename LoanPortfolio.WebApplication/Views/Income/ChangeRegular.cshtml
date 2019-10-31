@@ -1,0 +1,33 @@
+﻿
+<h2>Изменение основного дохода</h2>
+
+<form method="post" action="~/Income/ChangeRegular">
+    <input type="hidden" value="@ViewBag.Income.Id" name="incomeId" />
+
+    <p>
+        Название:
+        <input type="text" value="@ViewBag.Income.IncomeSource" name="Source" />
+    </p>
+
+    <p>
+        Сумма аванса:
+        <input type="text" value="@ViewBag.Income.PrepaidExpanse" name="PrepaidExpanse"/>
+    </p>
+
+    <p>
+        Дата аванса:
+        <input type="text" value="@ViewBag.Income.DatePrepaidExpanse.ToShortDateString()" name="DatePrepaidExpanse"/>
+    </p>
+
+    <p>
+        Сумма окончаловки:
+        <input type="text" value="@ViewBag.Income.Salary" name="Salary"/>
+    </p>
+
+    <p>
+        Дата окончаловки:
+        <input type="text" value="@ViewBag.Income.DateSalary.ToShortDateString()" name="DateSalary"/>
+    </p>
+
+    <input type="submit" value="Сохранить" />
+</form>

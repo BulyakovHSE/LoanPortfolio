@@ -18,7 +18,9 @@ namespace LoanPortfolio.Db.Repositories
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //todo: build model
+            modelBuilder.Entity<User>().HasMany(u => u.Incomes).WithRequired(i => i.User).HasForeignKey(i => i.UserId);
+            modelBuilder.Entity<User>().HasMany(u => u.Expenses).WithRequired(e => e.User).HasForeignKey(e => e.UserId);
+
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -1,0 +1,21 @@
+﻿
+<h2>Новый личный расход</h2>
+
+<form method="post" action="~/Expense/AddPersonal">
+    <p>
+        Категория:
+        <select name="Category">
+        <option value="None"></option>
+        <option value="Food">Продукты</option>
+        <option value="Health">Здоровье</option>
+        <option value="Entertainment">Развлечения</option>
+        </select>
+    </p>
+
+    <p>
+        Сумма:
+        <input type="text" name="Sum" />
+    </p>
+
+    <input type="submit" value="Добавить" />
+</form>

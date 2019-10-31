@@ -1,0 +1,23 @@
+﻿
+<h2>Изменение ЖКХ</h2>
+
+<form method="post" action="~/Expense/ChangeHCS">
+    <input type="hidden" value="@ViewBag.Expense.Id" name="expenseId" />
+
+    <p>
+        Дата:
+        <input type="text" value="@ViewBag.Expense.DatePayment.ToShortDateString()" name="Date"/>
+    </p>
+
+    <p>
+        Сумма:
+        <input type="text" value="@ViewBag.Expense.Sum" name="Sum"/>
+    </p>
+    
+    <p>
+        Комментарий:
+        <input type="text" value="@ViewBag.Expense.Comment" name="Comment"/>
+    </p>
+
+    <input type="submit" value="Сохранить"/>
+</form>

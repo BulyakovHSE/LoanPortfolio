@@ -6,27 +6,27 @@
 
     <p>
         Название:
-        <input type="text" value="@ViewBag.Income.IncomeSource" name="Source" />
+        <input type="text" value="@ViewBag.Income.IncomeSource" name="source" required />
     </p>
 
     <p>
         Сумма аванса:
-        <input type="text" value="@ViewBag.Income.PrepaidExpanse" name="PrepaidExpanse"/>
+        <input type="text" value="@ViewBag.Income.PrepaidExpanse" name="prepaidExpanse" required />
     </p>
 
     <p>
         Дата аванса:
-        <input type="date" value="@ViewBag.Income.DatePrepaidExpanse.ToShortDateString()" name="DatePrepaidExpanse"/>
+        <input type="date" value="@ViewBag.Income.DatePrepaidExpanse.ToString("yyyy-MM-dd")" name="datePrepaidExpanse" required />
     </p>
 
     <p>
         Сумма окончаловки:
-        <input type="text" value="@ViewBag.Income.Salary" name="Salary"/>
+        <input type="text" value="@ViewBag.Income.Salary" name="salary" required />
     </p>
 
     <p>
         Дата окончаловки:
-        <input type="date" value="@ViewBag.Income.DateSalary.ToShortDateString()" name="DateSalary"/>
+        <input type="date" value="@ViewBag.Income.DateSalary.ToString("yyyy-MM-dd")" name="dateSalary" required />
     </p>
 
     <input type="submit" value="Сохранить" />

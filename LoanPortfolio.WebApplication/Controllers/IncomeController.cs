@@ -49,30 +49,35 @@ namespace LoanPortfolio.WebApplication.Controllers
             if (string.IsNullOrWhiteSpace(source))
             {
                 ViewBag.Error = "Введите название";
+                ViewBag.Title = "Новый доход";
                 return View("AddRegular");
             }
 
             if (!float.TryParse(prepaidExpanse, out valuePrepaidExpanse))
             {
                 ViewBag.Error = "Введите сумму аванса";
+                ViewBag.Title = "Новый доход";
                 return View("AddRegular");
             }
 
             if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
             {
                 ViewBag.Error = "Введите дату аванса";
+                ViewBag.Title = "Новый доход";
                 return View("AddRegular");
             }
 
             if (!float.TryParse(salary, out valueSalary))
             {
                 ViewBag.Error = "Введите сумму окончаловки";
+                ViewBag.Title = "Новый доход";
                 return View("AddRegular");
             }
 
             if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
             {
                 ViewBag.Error = "Введите дату окончаловки";
+                ViewBag.Title = "Новый доход";
                 return View("AddRegular");
             }
 
@@ -94,34 +99,32 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddPeriod(string Source, string Sum)
+        public ActionResult AddPeriod(string source, string sum)
         {
-            if (!string.IsNullOrWhiteSpace(Source))
-            {
-                if (float.TryParse(Sum, out var value))
-                {
-                    _incomeService.AddPeriodicIncome(_user, Source, value, DateTime.Now);
+            float value;
 
-                    ViewBag.Title = "Доходы";
-
-                    ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-                    ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
-
-                    return View("Index");
-                }
-                else
-                {
-                    ViewBag.Error = "Введите сумму";
-                }
-            }
-            else
+            if (string.IsNullOrWhiteSpace(source))
             {
                 ViewBag.Error = "Введите название";
+                ViewBag.Title = "Новый доход";
+                return View("AddPeriod");
             }
 
-            ViewBag.Title = "Новый доход";
+            if (!float.TryParse(sum, out value))
+            {
+                ViewBag.Error = "Введите сумму";
+                ViewBag.Title = "Новый доход";
+                return View("AddPeriod");
+            }
 
-            return View("AddPeriod");
+            _incomeService.AddPeriodicIncome(_user, source, value, DateTime.Now);
+
+            ViewBag.Title = "Доходы";
+
+            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+            return View("Index");
         }
 
         #endregion
@@ -140,65 +143,71 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeRegular(int incomeid, string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
+        public ActionResult ChangeRegular(int incomeid, string source, string prepaidExpanse, DateTime datePrepaidExpanse, string salary, DateTime dateSalary)
         {
-            if (!string.IsNullOrWhiteSpace(Source))
-            {
-                if (float.TryParse(PrepaidExpanse, out var prepaidExpanse))
-                {
-                    if (DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse))
-                    {
-                        if (float.TryParse(Salary, out var salary))
-                        {
-                            if (DateTime.TryParse(DateSalary, out var dateSalary))
-                            {
-                                var income = (RegularIncome)_incomeService.GetById(incomeid);
-                                income.IncomeSource = Source;
-                                income.PrepaidExpanse = prepaidExpanse;
-                                income.DatePrepaidExpanse = datePrepaidExpanse;
-                                income.Salary = salary;
-                                income.DateSalary = dateSalary;
+            float valuePrepaidExpanse, valueSalary;
+            var income = (RegularIncome)_incomeService.GetById(incomeid);
 
-                                _incomeService.UpdateIncome(income);
-
-                                ViewBag.Title = "Доходы";
-
-                                ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-                                ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
-
-                                return View("Index");
-                            }
-                            else
-                            {
-                                ViewBag.Error = "Введите дату окончаловки в формате ДД.ММ.ГГГГ";
-                            }
-                        }
-                        else
-                        {
-                            ViewBag.Error = "Введите сумму окончаловки";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.Error = "Введите дату аванса в формате ДД.ММ.ГГГГ";
-                    }
-                }
-                else
-                {
-                    ViewBag.Error = "Введите сумму аванса";
-                }
-            }
-            else
+            if (string.IsNullOrWhiteSpace(source))
             {
                 ViewBag.Error = "Введите название";
+                ViewBag.Title = income.IncomeSource;
+                ViewBag.Income = income;
+
+                return View("ChangeRegular");
             }
 
-            var income1 = _incomeService.GetById(incomeid);
-            ViewBag.Title = income1.IncomeSource;
+            if (!float.TryParse(prepaidExpanse, out valuePrepaidExpanse))
+            {
+                ViewBag.Error = "Введите сумму аванса";
+                ViewBag.Title = income.IncomeSource;
+                ViewBag.Income = income;
 
-            ViewBag.Income = income1;
+                return View("ChangeRegular");
+            }
 
-            return View("ChangeRegular");
+            if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
+            {
+                ViewBag.Error = "Введите дату аванса";
+                ViewBag.Title = income.IncomeSource;
+                ViewBag.Income = income;
+
+                return View("ChangeRegular");
+            }
+
+            if (!float.TryParse(salary, out valueSalary))
+            {
+                ViewBag.Error = "Введите сумму окончаловки";
+                ViewBag.Title = income.IncomeSource;
+                ViewBag.Income = income;
+
+                return View("ChangeRegular");
+            }
+
+            if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
+            {
+                ViewBag.Error = "Введите дату окончаловки";
+                ViewBag.Title = income.IncomeSource;
+                ViewBag.Income = income;
+
+                return View("ChangeRegular");
+            }
+
+
+            income.IncomeSource = source;
+            income.PrepaidExpanse = valuePrepaidExpanse;
+            income.DatePrepaidExpanse = datePrepaidExpanse;
+            income.Salary = valueSalary;
+            income.DateSalary = dateSalary;
+
+            _incomeService.UpdateIncome(income);
+
+            ViewBag.Title = "Доходы";
+
+            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+            return View("Index");
         }
 
         [HttpGet]
@@ -213,42 +222,40 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePeriod(int incomeid, string Source, string Sum)
+        public ActionResult ChangePeriod(int incomeid, string source, string sum)
         {
-            if (!string.IsNullOrWhiteSpace(Source))
-            {
-                if (float.TryParse(Sum, out var value))
-                {
-                    var income = (PeriodicIncome)_incomeService.GetById(incomeid);
+            float value;
+            var income = (PeriodicIncome)_incomeService.GetById(incomeid);
 
-                    income.IncomeSource = Source;
-                    income.Sum = value;
-
-                    _incomeService.UpdateIncome(income);
-
-                    ViewBag.Title = "Доходы";
-
-                    ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-                    ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
-
-                    return View("Index");
-                }
-                else
-                {
-                    ViewBag.Error = "Введите сумму";
-                }
-            }
-            else
+            if (string.IsNullOrWhiteSpace(source))
             {
                 ViewBag.Error = "Введите название";
+                ViewBag.Title = income.IncomeSource;
+                ViewBag.Income = income;
+
+                return View("ChangePeriod");
             }
 
-            var income1 = _incomeService.GetById(incomeid);
-            ViewBag.Title = income1.IncomeSource;
+            if (!float.TryParse(sum, out value))
+            {
+                ViewBag.Error = "Введите сумму";
+                ViewBag.Title = income.IncomeSource;
+                ViewBag.Income = income;
 
-            ViewBag.Income = income1;
+                return View("ChangePeriod");
+            }
 
-            return View("ChangePeriod");
+            income.IncomeSource = source;
+            income.Sum = value;
+
+            _incomeService.UpdateIncome(income);
+
+            ViewBag.Title = "Доходы";
+
+            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+            return View("Index");
         }
 
         #endregion

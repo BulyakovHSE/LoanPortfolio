@@ -2,17 +2,17 @@
 <h2>Изменение дполнительного дохода</h2>
 
 <form method="post" action="~/Income/ChangePeriod">
-    <input type="hidden" value="@ViewBag.Income.Id" name="incomeId"/>
+    <input type="hidden" value="@ViewBag.Income.Id" name="incomeId" />
 
     <p>
         Название:
-        <input type="text" value="@ViewBag.Income.IncomeSource" name="Source"/>
+        <input type="text" value="@ViewBag.Income.IncomeSource" name="source" required />
     </p>
 
     <p>
         Сумма:
-        <input type="text" value="@ViewBag.Income.Sum" name="Sum"/>
+        <input type="text" value="@ViewBag.Income.Sum" name="sum" required />
     </p>
-    
-    <input type="submit" value="Сохранить"/>
+
+    <input type="submit" value="Сохранить" />
 </form>

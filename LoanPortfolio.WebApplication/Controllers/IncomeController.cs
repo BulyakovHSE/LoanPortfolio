@@ -42,55 +42,48 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddRegular(string Source, string PrepaidExpanse, string DatePrepaidExpanse, string Salary, string DateSalary)
+        public ActionResult AddRegular(string source, string prepaidExpanse, DateTime datePrepaidExpanse, string salary, DateTime dateSalary)
         {
-            if (!string.IsNullOrWhiteSpace(Source))
-            {
-                if (float.TryParse(PrepaidExpanse, out var prepaidExpanse))
-                {
-                    if (DateTime.TryParse(DatePrepaidExpanse, out var datePrepaidExpanse))
-                    {
-                        if (float.TryParse(Salary, out var salary))
-                        {
-                            if (DateTime.TryParse(DateSalary, out var dateSalary))
-                            {
-                                _incomeService.AddRegularIncome(_user, Source, datePrepaidExpanse, prepaidExpanse, dateSalary, salary);
+            float valuePrepaidExpanse, valueSalary;
 
-                                ViewBag.Title = "Доходы";
-
-                                ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-                                ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
-
-                                return View("Index");
-                            }
-                            else
-                            {
-                                ViewBag.Error = "Введите дату окончаловки в формате ДД.ММ.ГГГГ";
-                            }
-                        }
-                        else
-                        {
-                            ViewBag.Error = "Введите сумму окончаловки";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.Error = "Введите дату аванса в формате ДД.ММ.ГГГГ";
-                    }
-                }
-                else
-                {
-                    ViewBag.Error = "Введите сумму аванса";
-                }
-            }
-            else
+            if (string.IsNullOrWhiteSpace(source))
             {
                 ViewBag.Error = "Введите название";
+                return View("AddRegular");
             }
 
-            ViewBag.Title = "Новый доход";
+            if (!float.TryParse(prepaidExpanse, out valuePrepaidExpanse))
+            {
+                ViewBag.Error = "Введите сумму аванса";
+                return View("AddRegular");
+            }
 
-            return View("AddRegular");
+            if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
+            {
+                ViewBag.Error = "Введите дату аванса";
+                return View("AddRegular");
+            }
+
+            if (!float.TryParse(salary, out valueSalary))
+            {
+                ViewBag.Error = "Введите сумму окончаловки";
+                return View("AddRegular");
+            }
+
+            if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
+            {
+                ViewBag.Error = "Введите дату окончаловки";
+                return View("AddRegular");
+            }
+
+            _incomeService.AddRegularIncome(_user, source, datePrepaidExpanse, valuePrepaidExpanse, dateSalary, valueSalary);
+
+            ViewBag.Title = "Доходы";
+
+            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+
+            return View("Index");
         }
 
         public ActionResult AddPeriod()

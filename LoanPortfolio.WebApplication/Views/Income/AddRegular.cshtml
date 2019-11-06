@@ -4,27 +4,27 @@
 <form method="post" action="~/Income/AddRegular">
     <p>
         Название:
-        <input type="text" name="Source" />
+        <input type="text" name="source" required />
     </p>
 
     <p>
         Сумма аванса:
-        <input type="text" name="PrepaidExpanse" />
+        <input type="text" name="prepaidExpanse" required />
     </p>
 
     <p>
         Дата аванса:
-        <input type="text" name="DatePrepaidExpanse" />
+        <input type="date" name="datePrepaidExpanse" required />
     </p>
 
     <p>
         Сумма окончаловки:
-        <input type="text" name="Salary" />
+        <input type="text" name="salary" required />
     </p>
 
     <p>
         Дата окончаловки:
-        <input type="text" name="DateSalary" />
+        <input type="date" name="dateSalary" required />
     </p>
 
     <input type="submit" value="Добавить" />

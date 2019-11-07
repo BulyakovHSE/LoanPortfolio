@@ -3,32 +3,32 @@
 <form method="post" action="~/CreditHistory/AddCredit">
     <p>
         Дата платежа:
-        <input type="text" name="Date" />
+        <input type="date" name="date" required />
     </p>
 
     <p>
         Сумма займа:
-        <input type="text" name="LoanSum" />
+        <input type="text" name="loanSum" required />
     </p>
     
     <p>
         Сумма к погашению:
-        <input type="text" name="AmountDie" />
+        <input type="text" name="amountDie" required />
     </p>
 
     <p>
         Срок погашения в месяцах:
-        <input type="text" name="RepaymentPeriod" />
+        <input type="text" name="repaymentPeriod" required />
     </p>
     
     <p>
         Наименование кредитной организации:
-        <input type="text" name="CreditInstitutionName" />
+        <input type="text" name="creditInstitutionName" required />
     </p>
 
     <p>
         Адрес банка или банкомата:
-        <input type="text" name="BankAddress" />
+        <input type="text" name="bankAddress" required />
     </p>
 
     <input type="submit" value="Добавить" />

@@ -44,7 +44,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult AddRegular(string source, string prepaidExpanse, DateTime datePrepaidExpanse, string salary, DateTime dateSalary)
         {
-            float valuePrepaidExpanse, valueSalary;
+            float prepaidExpanseValue, salaryValue;
 
             if (string.IsNullOrWhiteSpace(source))
             {
@@ -53,7 +53,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            if (!float.TryParse(prepaidExpanse, out valuePrepaidExpanse))
+            if (!float.TryParse(prepaidExpanse, out prepaidExpanseValue))
             {
                 ViewBag.Error = "Введите сумму аванса";
                 ViewBag.Title = "Новый доход";
@@ -67,7 +67,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            if (!float.TryParse(salary, out valueSalary))
+            if (!float.TryParse(salary, out salaryValue))
             {
                 ViewBag.Error = "Введите сумму окончаловки";
                 ViewBag.Title = "Новый доход";
@@ -81,7 +81,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            _incomeService.AddRegularIncome(_user, source, datePrepaidExpanse, valuePrepaidExpanse, dateSalary, valueSalary);
+            _incomeService.AddRegularIncome(_user, source, datePrepaidExpanse, prepaidExpanseValue, dateSalary, salaryValue);
 
             ViewBag.Title = "Доходы";
 
@@ -145,7 +145,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult ChangeRegular(int incomeid, string source, string prepaidExpanse, DateTime datePrepaidExpanse, string salary, DateTime dateSalary)
         {
-            float valuePrepaidExpanse, valueSalary;
+            float prepaidExpanseValue, salaryValue;
             var income = (RegularIncome)_incomeService.GetById(incomeid);
 
             if (string.IsNullOrWhiteSpace(source))
@@ -157,7 +157,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            if (!float.TryParse(prepaidExpanse, out valuePrepaidExpanse))
+            if (!float.TryParse(prepaidExpanse, out prepaidExpanseValue))
             {
                 ViewBag.Error = "Введите сумму аванса";
                 ViewBag.Title = income.IncomeSource;
@@ -175,7 +175,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            if (!float.TryParse(salary, out valueSalary))
+            if (!float.TryParse(salary, out salaryValue))
             {
                 ViewBag.Error = "Введите сумму окончаловки";
                 ViewBag.Title = income.IncomeSource;
@@ -195,9 +195,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
 
             income.IncomeSource = source;
-            income.PrepaidExpanse = valuePrepaidExpanse;
+            income.PrepaidExpanse = prepaidExpanseValue;
             income.DatePrepaidExpanse = datePrepaidExpanse;
-            income.Salary = valueSalary;
+            income.Salary = salaryValue;
             income.DateSalary = dateSalary;
 
             _incomeService.UpdateIncome(income);

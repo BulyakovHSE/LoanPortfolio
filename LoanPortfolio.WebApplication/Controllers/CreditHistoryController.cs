@@ -40,46 +40,41 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCredit(string Date, string LoanSum, string AmountDie, string RepaymentPeriod, string CreditInstitutionName, string BankAddress)
+        public ActionResult AddCredit(DateTime date, string loanSum, string amountDie, string repaymentPeriod, string creditInstitutionName, string bankAddress)
         {
-            if (float.TryParse(LoanSum, out var loanSum))
-            {
-                if (float.TryParse(AmountDie, out var amountDie))
-                {
-                    if (int.TryParse(RepaymentPeriod, out var repaymentPeriod))
-                    {
-                        if (DateTime.TryParse(Date, out var date))
-                        {
-                            _expenseService.AddLoan(_user, date, loanSum, amountDie, repaymentPeriod, CreditInstitutionName, BankAddress);
+            float loanSumValue, amountDieValue;
+            int repaymentPeriodValue;
 
-                            ViewBag.Title = "Кредитная история";
-                            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
-
-                            return View("Index");
-                        }
-                        else
-                        {
-                            ViewBag.Error = "Введите даты в формате ДД.ММ.ГГГГ";
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.Error = "Введите челое значение месяцев";
-                    }
-                }
-                else
-                {
-                    ViewBag.Error = "Введите сумму погашения";
-                }
-            }
-            else
+            if (float.TryParse(loanSum, out loanSumValue))
             {
                 ViewBag.Error = "Введите сумму кредита";
+                ViewBag.Title = "Новый кредит";
+                return View();
             }
+            if (float.TryParse(amountDie, out amountDieValue))
+            {
+                ViewBag.Error = "Введите сумму погашения";
+                ViewBag.Title = "Новый кредит";
+                return View();
+            }
+            if (int.TryParse(repaymentPeriod, out repaymentPeriodValue))
+            {
+                ViewBag.Error = "Введите челое значение месяцев";
+                ViewBag.Title = "Новый кредит";
+                return View();
+            }
+            if (date < DateTime.MinValue || date > DateTime.MaxValue)
+            {
+                ViewBag.Error = "Введите дату";
+                ViewBag.Title = "Новый кредит";
+                return View();
+            }
+            _expenseService.AddLoan(_user, date, loanSumValue, amountDieValue, repaymentPeriodValue, creditInstitutionName, bankAddress);
 
-            ViewBag.Title = "Новый кредит";
+            ViewBag.Title = "Кредитная история";
+            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
 
-            return View();
+            return View("Index");
         }
         #endregion
 

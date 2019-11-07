@@ -6,7 +6,7 @@
 
     <p>
         Категория:
-        <select name="Category">
+        <select name="category" required>
             <option value="None"></option>
             <option value="Food">Продукты</option>
             <option value="Health">Здоровье</option>
@@ -16,8 +16,8 @@
 
     <p>
         Сумма:
-        <input type="text" value="@ViewBag.Expense.Sum" name="Sum"/>
+        <input type="text" value="@ViewBag.Expense.Sum" name="sum" required />
     </p>
 
-    <input type="submit" value="Сохранить"/>
+    <input type="submit" value="Сохранить" />
 </form>

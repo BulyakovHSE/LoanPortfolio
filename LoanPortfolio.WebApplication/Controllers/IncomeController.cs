@@ -50,35 +50,35 @@ namespace LoanPortfolio.WebApplication.Controllers
             {
                 ViewBag.Error = "Введите название";
                 ViewBag.Title = "Новый доход";
-                return View("AddRegular");
+                return View();
             }
 
             if (!float.TryParse(prepaidExpanse, out valuePrepaidExpanse))
             {
                 ViewBag.Error = "Введите сумму аванса";
                 ViewBag.Title = "Новый доход";
-                return View("AddRegular");
+                return View();
             }
 
             if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
             {
                 ViewBag.Error = "Введите дату аванса";
                 ViewBag.Title = "Новый доход";
-                return View("AddRegular");
+                return View();
             }
 
             if (!float.TryParse(salary, out valueSalary))
             {
                 ViewBag.Error = "Введите сумму окончаловки";
                 ViewBag.Title = "Новый доход";
-                return View("AddRegular");
+                return View();
             }
 
             if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
             {
                 ViewBag.Error = "Введите дату окончаловки";
                 ViewBag.Title = "Новый доход";
-                return View("AddRegular");
+                return View();
             }
 
             _incomeService.AddRegularIncome(_user, source, datePrepaidExpanse, valuePrepaidExpanse, dateSalary, valueSalary);
@@ -107,14 +107,14 @@ namespace LoanPortfolio.WebApplication.Controllers
             {
                 ViewBag.Error = "Введите название";
                 ViewBag.Title = "Новый доход";
-                return View("AddPeriod");
+                return View();
             }
 
             if (!float.TryParse(sum, out value))
             {
                 ViewBag.Error = "Введите сумму";
                 ViewBag.Title = "Новый доход";
-                return View("AddPeriod");
+                return View();
             }
 
             _incomeService.AddPeriodicIncome(_user, source, value, DateTime.Now);
@@ -154,7 +154,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = income.IncomeSource;
                 ViewBag.Income = income;
 
-                return View("ChangeRegular");
+                return View();
             }
 
             if (!float.TryParse(prepaidExpanse, out valuePrepaidExpanse))
@@ -163,7 +163,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = income.IncomeSource;
                 ViewBag.Income = income;
 
-                return View("ChangeRegular");
+                return View();
             }
 
             if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
@@ -172,7 +172,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = income.IncomeSource;
                 ViewBag.Income = income;
 
-                return View("ChangeRegular");
+                return View();
             }
 
             if (!float.TryParse(salary, out valueSalary))
@@ -181,7 +181,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = income.IncomeSource;
                 ViewBag.Income = income;
 
-                return View("ChangeRegular");
+                return View();
             }
 
             if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
@@ -190,7 +190,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = income.IncomeSource;
                 ViewBag.Income = income;
 
-                return View("ChangeRegular");
+                return View();
             }
 
 
@@ -233,7 +233,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = income.IncomeSource;
                 ViewBag.Income = income;
 
-                return View("ChangePeriod");
+                return View();
             }
 
             if (!float.TryParse(sum, out value))
@@ -242,7 +242,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = income.IncomeSource;
                 ViewBag.Income = income;
 
-                return View("ChangePeriod");
+                return View();
             }
 
             income.IncomeSource = source;

@@ -5,32 +5,32 @@
 
     <p>
         Дата платежа:
-        <input type="text" value="@ViewBag.Loan.DatePayment.ToShortDateString()" name="Date" />
+        <input type="date" value="@ViewBag.Loan.DatePayment.ToString("yyyy-MM-dd")" name="date" />
     </p>
 
     <p>
         Сумма займа:
-        <input type="text" value="@ViewBag.Loan.LoanSum" name="LoanSum" />
+        <input type="text" value="@ViewBag.Loan.LoanSum" name="loanSum" />
     </p>
 
     <p>
         Сумма к погашению:
-        <input type="text" value="@ViewBag.Loan.AmountDie" name="AmountDie" />
+        <input type="text" value="@ViewBag.Loan.AmountDie" name="amountDie" />
     </p>
 
     <p>
         Срок погашения в месяцах:
-        <input type="text" value="@ViewBag.Loan.RepaymentPeriod" name="RepaymentPeriod" />
+        <input type="text" value="@ViewBag.Loan.RepaymentPeriod" name="repaymentPeriod" />
     </p>
 
     <p>
         Наименование кредитной организации:
-        <input type="text" value="@ViewBag.Loan.CreditInstitutionName" name="CreditInstitutionName" />
+        <input type="text" value="@ViewBag.Loan.CreditInstitutionName" name="creditInstitutionName" />
     </p>
 
     <p>
         Адрес банка или банкомата:
-        <input type="text" value="@ViewBag.Loan.BankAddress" name="BankAddress" />
+        <input type="text" value="@ViewBag.Loan.BankAddress" name="bankAddress" />
     </p>
 
     <input type="submit" value="Изменить" />

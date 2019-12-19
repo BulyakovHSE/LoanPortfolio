@@ -49,14 +49,14 @@ namespace LoanPortfolio.WebApplication.Controllers
             ExpenseCategory categoryEnum;
             float value;
 
-            if (Enum.TryParse(category, out categoryEnum))
+            if (!Enum.TryParse(category, out categoryEnum))
             {
                 ViewBag.Error = "Выберите категорию";
                 ViewBag.Title = "Новый расход";
                 return View();
             }
 
-            if (float.TryParse(sum, out value))
+            if (!float.TryParse(sum, out value))
             {
                 ViewBag.Error = "Введите сумму";
                 ViewBag.Title = "Новый расход";
@@ -92,7 +92,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            if (float.TryParse(sum, out value))
+            if (!float.TryParse(sum, out value))
             {
                 ViewBag.Error = "Введите значение сумму";
                 ViewBag.Title = "ЖКХ";
@@ -138,7 +138,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            if (float.TryParse(sum, out value))
+            if (!float.TryParse(sum, out value))
             {
                 ViewBag.Error = "Введите значение сумму";
                 ViewBag.Title = "ЖКХ";
@@ -181,7 +181,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             ExpenseCategory categoryEnum;
             float value;
 
-            if (Enum.TryParse(category, out categoryEnum))
+            if (!Enum.TryParse(category, out categoryEnum))
             {
                 ViewBag.Error = "Выберите категорию";
                 ViewBag.Title = expense.ExpenseCategory;
@@ -189,7 +189,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-            if (float.TryParse(sum, out value))
+            if (!float.TryParse(sum, out value))
             {
                 ViewBag.Error = "Введите сумму";
                 ViewBag.Title = expense.ExpenseCategory;

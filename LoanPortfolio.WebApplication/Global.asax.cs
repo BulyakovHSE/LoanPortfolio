@@ -12,9 +12,11 @@ using LoanPortfolio.Db.Interfaces;
 using LoanPortfolio.Db.Repositories;
 using LoanPortfolio.Services;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Services;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
+using SimpleInjector.Lifestyles;
 
 namespace LoanPortfolio.WebApplication
 {
@@ -40,6 +42,8 @@ namespace LoanPortfolio.WebApplication
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
             container.Verify();
+
+            var transferService = new TransferService();
 
             var userService = container.GetInstance<IUserService>();
             if (!userService.GetAll().Any())

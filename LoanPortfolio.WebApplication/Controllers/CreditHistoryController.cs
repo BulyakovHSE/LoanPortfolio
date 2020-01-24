@@ -26,7 +26,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Кредитная история";
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
             return View();
         }
 
@@ -72,7 +72,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             _expenseService.AddLoan(_user, date, loanSumValue, amountDieValue, repaymentPeriodValue, creditInstitutionName, bankAddress);
 
             ViewBag.Title = "Кредитная история";
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
 
             return View("Index");
         }
@@ -93,7 +93,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult ChangeCredit(int expenseid, DateTime date, string loanSum, string amountDie, string repaymentPeriod, string creditInstitutionName, string bankAddress)
         {
-            var credit = (Loan)_expenseService.GetById(expenseid);
+            var credit = (LoanPayment)_expenseService.GetById(expenseid);
             float loanSumValue, amountDieValue;
             int repaymentPeriodValue;
 
@@ -137,7 +137,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             _expenseService.UpdateExpense(credit);
 
             ViewBag.Title = "Кредитная история";
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(Loan));
+            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
 
             return View("Index");
         }

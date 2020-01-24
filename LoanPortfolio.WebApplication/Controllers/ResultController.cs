@@ -57,7 +57,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 {
                     sum += personalExpense.Sum;
                 }
-                else if (expense is Loan loan)
+                else if (expense is LoanPayment loan)
                 {
                     sum += loan.AmountDie/loan.RepaymentPeriod;
                 }

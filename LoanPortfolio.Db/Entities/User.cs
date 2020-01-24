@@ -46,5 +46,10 @@ namespace LoanPortfolio.Db.Entities
         /// Список расходов пользователя
         /// </summary>
         public IList<Expense> Expenses { get; set; }
+
+        /// <summary>
+        /// Список кредитов пользователя
+        /// </summary>
+        public IList<Loan> Loans { get; set; }
     }
 }

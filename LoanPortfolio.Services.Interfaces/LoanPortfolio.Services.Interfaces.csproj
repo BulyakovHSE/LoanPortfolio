@@ -44,6 +44,7 @@
     <Compile Include="IAuthService.cs" />
     <Compile Include="IExpenseService.cs" />
     <Compile Include="IIncomeService.cs" />
+    <Compile Include="ILoanService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

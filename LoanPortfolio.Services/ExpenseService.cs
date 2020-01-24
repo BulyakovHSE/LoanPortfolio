@@ -16,7 +16,7 @@ namespace LoanPortfolio.Services
             _expenseRepository = expenseRepository;
         }
 
-        public PersonalExpense AddPersonalExpense(User user, DateTime datePayment, float sum, ExpenseCategory expenseCategory)
+        public PersonalExpense AddPersonalExpense(User user, DateTime datePayment, float sum, Category expenseCategory)
         {
             var expense = _expenseRepository.Add(new PersonalExpense
             { UserId = user.Id, DatePayment = datePayment, Sum = sum, ExpenseCategory = expenseCategory});
@@ -28,18 +28,6 @@ namespace LoanPortfolio.Services
             var expense = _expenseRepository.Add(new HCSExpense
             { UserId = user.Id, DatePayment = datePayment, Sum = sum, Comment = comment });
             return (HCSExpense)expense;
-        }
-
-        public Loan AddLoan(User user, DateTime datePayment, float loanSum, float amountDie, int repaymentPeriod,
-            string creditInstitutionName, string bankAddress = "")
-        {
-            var expense = _expenseRepository.Add(new Loan
-            {
-                UserId = user.Id, DatePayment = datePayment, LoanSum = loanSum, AmountDie = amountDie,
-                RepaymentPeriod = repaymentPeriod, BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName
-            });
-            return (Loan)expense;
         }
 
         public void Remove(Expense expense)

@@ -82,7 +82,7 @@ namespace LoanPortfolio.WebApplication.Services
                     var hcsNew = new HCSExpense { Comment = hcs.Comment, DatePayment = hcs.DatePayment.AddMonths(1), Sum = 0f, User = user, UserId = user.Id };
                     _expenseRepository.Add(hcsNew);
                 }
-                else if (expense is Loan load)
+                else if (expense is LoanPayment load)
                 {
                     //todo: add Loan dates transfer after adding Loan payment schedule
                 }

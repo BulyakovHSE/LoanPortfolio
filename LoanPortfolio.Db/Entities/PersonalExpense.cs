@@ -13,7 +13,7 @@ namespace LoanPortfolio.Db.Entities
         /// Категория расхода ТР-25
         /// </summary>
         [Required]
-        public ExpenseCategory ExpenseCategory { get; set; }
+        public Category ExpenseCategory { get; set; }
 
         /// <summary>
         /// Сумма рахода ТР-15

@@ -1,5 +1,5 @@
-﻿// ReSharper disable CommentTypo
-
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LoanPortfolio.Db.Entities
@@ -7,8 +7,23 @@ namespace LoanPortfolio.Db.Entities
     /// <summary>
     /// Кредит ТР-28
     /// </summary>
-    public class Loan : Expense
+    public class Loan : Entity
     {
+        /// <summary>
+        /// Пользователь к которому относится кредит
+        /// </summary>
+        public User User { get; set; }
+
+        /// <summary>
+        /// Идентификатор пользователя к которому относится кредит
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// Дата, когда кредит был оформлен
+        /// </summary>
+        public DateTime ClearanceDate { get; set; }
+
         /// <summary>
         /// Сумма займа ТР-30
         /// </summary>
@@ -25,31 +40,32 @@ namespace LoanPortfolio.Db.Entities
         public int RepaymentPeriod { get; set; }
 
         /// <summary>
-        /// Наименование кредитной организации ТР-14, 29
+        /// Наименование кредитной организации ТР-29
         /// </summary>
         [Required]
         public string CreditInstitutionName { get; set; }
 
         /// <summary>
-        /// Платеж по кредиту
+        /// Адрес банка или банкомата для внесения платежа ТР-16
+        /// Используется только для автозаполнения данного поля в платеже
         /// </summary>
         [Required]
-        public float Sum
-        {
-            set => value = 0;
-            get => AmountDie / RepaymentPeriod;
-        }
+        public string BankAddress { get; set; }
 
         /// <summary>
         /// Погашен ли кредит ТР-35
         /// </summary>
         public bool IsRepaid { get; set; }
 
-
         /// <summary>
-        /// Адрес банка или банкомата для внесения платежа ТР-16
+        /// График платежей
         /// </summary>
         [Required]
-        public string BankAddress { get; set; }
+        public Dictionary<DateTime, float> PaymentsSchedule { get; set; }
+
+        /// <summary>
+        /// Список платежей по кредиту
+        /// </summary>
+        public IList<LoanPayment> Payments { get; set; }
     }
 }

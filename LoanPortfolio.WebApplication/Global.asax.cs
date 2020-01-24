@@ -38,6 +38,7 @@ namespace LoanPortfolio.WebApplication
             container.Register<IUserService, UserService>();
             container.Register<IIncomeService, IncomeService>();
             container.Register<IExpenseService, ExpenseService>();
+            container.Register<ILoanService, LoanService>();
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 

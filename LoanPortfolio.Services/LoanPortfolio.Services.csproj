@@ -45,6 +45,7 @@
     <Compile Include="AuthService.cs" />
     <Compile Include="ExpenseService.cs" />
     <Compile Include="IncomeService.cs" />
+    <Compile Include="LoanService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>

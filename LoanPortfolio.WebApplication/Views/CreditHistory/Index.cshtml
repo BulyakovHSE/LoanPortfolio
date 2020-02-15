@@ -25,11 +25,11 @@
             <th style="width: 15%"></th>
         </tr>
         @{
-            foreach (LoanPayment loan in ViewBag.Loan)
+            foreach (Loan loan in ViewBag.Loan)
             {
                 <tr>
                     <td>
-                        @{Write(loan.DatePayment.ToShortDateString());}
+                        @{Write(loan.ClearanceDate.ToShortDateString());}
                     </td>
                     <td>
                         @{Write(loan.LoanSum);}

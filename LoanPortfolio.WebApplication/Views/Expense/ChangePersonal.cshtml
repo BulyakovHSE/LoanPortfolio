@@ -1,4 +1,4 @@
-﻿
+﻿@using LoanPortfolio.Db.Entities
 <h2>Изменение личных расходов</h2>
 
 <form method="post" action="~/Expense/ChangePersonal">
@@ -6,11 +6,13 @@
 
     <p>
         Категория:
-        <select name="category" required>
-            <option value="None"></option>
-            <option value="Food">Продукты</option>
-            <option value="Health">Здоровье</option>
-            <option value="Entertainment">Развлечения</option>
+        <select name="categoryId" required>
+            @{
+                foreach (Category category in ViewBag.Category)
+                {
+                    <option value="@category.Id">@{Write(category.Name);}</option>
+                }
+            }
         </select>
     </p>
 
@@ -19,5 +21,11 @@
         <input type="text" value="@ViewBag.Expense.Sum" name="sum" required />
     </p>
 
-    <input type="submit" value="Сохранить" />
+    <button type="submit" class="btn">Сохранить</button>
+</form>
+
+<br />
+
+<form method="post" action="~/Categories/Index">
+    <button type="submit" class="btn">Добавить категорию</button>
 </form>

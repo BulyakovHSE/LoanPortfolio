@@ -11,22 +11,22 @@ namespace LoanPortfolio.WebApplication.Controllers
     public class CreditHistoryController : Controller
     {
         private User _user;
-        private IExpenseService _expenseService;
+        private ILoanService _loanService;
 
-        public CreditHistoryController(IUserService userService, IExpenseService expenseService)
+        public CreditHistoryController(IUserService userService, ILoanService loanService)
         {
             if (userService.GetAll().Any())
             {
                 _user = userService.GetAll().ToList()[0];
             }
 
-            _expenseService = expenseService;
+            _loanService = loanService;
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "Кредитная история";
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+            ViewBag.Loan = _loanService.GetAll(_user);
             return View();
         }
 
@@ -69,10 +69,10 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = "Новый кредит";
                 return View();
             }
-            _expenseService.AddLoan(_user, date, loanSumValue, amountDieValue, repaymentPeriodValue, creditInstitutionName, bankAddress);
+            _loanService.AddLoan(_user, loanSumValue, date, amountDieValue, repaymentPeriodValue, creditInstitutionName, bankAddress);
 
             ViewBag.Title = "Кредитная история";
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+            ViewBag.Loan = _loanService.GetAll(_user);
 
             return View("Index");
         }
@@ -82,7 +82,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpGet]
         public ActionResult ChangeCredit(int id)
         {
-            var loan = _expenseService.GetById(id);
+            var loan = _loanService.GetById(id);
             ViewBag.Title = "Кредит";
 
             ViewBag.Loan = loan;
@@ -93,7 +93,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult ChangeCredit(int expenseid, DateTime date, string loanSum, string amountDie, string repaymentPeriod, string creditInstitutionName, string bankAddress)
         {
-            var credit = (LoanPayment)_expenseService.GetById(expenseid);
+            var credit = _loanService.GetById(expenseid);
             float loanSumValue, amountDieValue;
             int repaymentPeriodValue;
 
@@ -126,18 +126,17 @@ namespace LoanPortfolio.WebApplication.Controllers
                 return View();
             }
 
-
-            credit.DatePayment = date;
+            credit.ClearanceDate = date;
             credit.LoanSum = loanSumValue;
             credit.AmountDie = amountDieValue;
             credit.RepaymentPeriod = repaymentPeriodValue;
             credit.CreditInstitutionName = creditInstitutionName;
             credit.BankAddress = bankAddress;
 
-            _expenseService.UpdateExpense(credit);
+            _loanService.UpdateLoan(credit);
 
             ViewBag.Title = "Кредитная история";
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+            ViewBag.Loan = _loanService.GetAll(_user);
 
             return View("Index");
         }

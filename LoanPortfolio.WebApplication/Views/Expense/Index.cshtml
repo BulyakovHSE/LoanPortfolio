@@ -3,7 +3,7 @@
 <br />
 
 <p>
-    <h4>Месяц: Июнь</h4>
+    <input type="month" value="@Convert.ToDateTime(DateTime.Today.ToString()).ToString("yyyy-MM")" />
 </p>
 <div style="margin-bottom: 30px; margin-top: 30px;">
     <h2>Финансовые задолженности</h2>
@@ -33,7 +33,7 @@
                         @{Write(loan.DatePayment.ToShortDateString());}
                     </td>
                     <td>
-                        @{Write(loan.AmountDie / loan.RepaymentPeriod);}
+                        @{Write(loan.Loan.AmountDie / loan.Loan.RepaymentPeriod);}
                     </td>
                     <td>
                         @{Write(loan.CreditInstitutionName);}

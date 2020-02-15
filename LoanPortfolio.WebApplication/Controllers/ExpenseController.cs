@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using LoanPortfolio.Db.Entities;
+using LoanPortfolio.Db.Interfaces;
 using LoanPortfolio.Services.Interfaces;
 
 namespace LoanPortfolio.WebApplication.Controllers
@@ -12,8 +13,9 @@ namespace LoanPortfolio.WebApplication.Controllers
     {
         private User _user;
         private IExpenseService _expenseService;
+        private IRepository<Category> _category;
 
-        public ExpenseController(IUserService userService, IExpenseService expenseService)
+        public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category)
         {
             if (userService.GetAll().Any())
             {
@@ -21,6 +23,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             }
 
             _expenseService = expenseService;
+            _category = category;
         }
         public ActionResult Index()
         {
@@ -32,27 +35,27 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             return View();
         }
-
-
         #region Add
 
         public ActionResult AddPersonal()
         {
             ViewBag.Title = "Новый расход";
+            ViewBag.Category = _category.All().ToList();
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddPersonal(string category, string sum)
+        public ActionResult AddPersonal(string categoryId, string sum)
         {
-            ExpenseCategory categoryEnum;
             float value;
+            int valueInt;
 
-            if (!Enum.TryParse(category, out categoryEnum))
+            if (!Int32.TryParse(categoryId, out valueInt))
             {
                 ViewBag.Error = "Выберите категорию";
                 ViewBag.Title = "Новый расход";
+                ViewBag.Category = _category.All().ToList();
                 return View();
             }
 
@@ -60,9 +63,22 @@ namespace LoanPortfolio.WebApplication.Controllers
             {
                 ViewBag.Error = "Введите сумму";
                 ViewBag.Title = "Новый расход";
+                ViewBag.Category = _category.All().ToList();
                 return View();
             }
-            _expenseService.AddPersonalExpense(_user, DateTime.Now, value, categoryEnum);
+            else
+            {
+                if (value <= 0)
+                {
+                    ViewBag.Error = "Сумма должна быть больше 0";
+                    ViewBag.Title = "Новый расход";
+                    ViewBag.Category = _category.All().ToList();
+                    return View();
+                }
+            }
+
+            Category category = _category.All().Where(x => x.Id == valueInt).ToList()[0];
+            _expenseService.AddPersonalExpense(_user, DateTime.Now, value, category);
 
             ViewBag.Title = "Расходы";
 
@@ -97,6 +113,15 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Error = "Введите значение сумму";
                 ViewBag.Title = "ЖКХ";
                 return View();
+            }
+            else
+            {
+                if (value <= 0)
+                {
+                    ViewBag.Error = "Сумма должна быть больше 0";
+                    ViewBag.Title = "ЖКХ";
+                    return View();
+                }
             }
 
             _expenseService.AddHCSExpense(_user, date, value, comment);
@@ -145,6 +170,16 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Expense = expense;
                 return View();
             }
+            else
+            {
+                if (value <= 0)
+                {
+                    ViewBag.Error = "Сумма должна быть больше 0";
+                    ViewBag.Title = "ЖКХ";
+                    ViewBag.Expense = expense;
+                    return View();
+                }
+            }
 
 
 
@@ -168,6 +203,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         {
             var expense = (PersonalExpense)_expenseService.GetById(id);
             ViewBag.Title = expense.ExpenseCategory;
+            ViewBag.Category = _category.All().ToList();
 
             ViewBag.Expense = expense;
 
@@ -175,17 +211,18 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePersonal(int expenseid, string category, string sum)
+        public ActionResult ChangePersonal(int expenseid, string categoryId, string sum)
         {
             var expense = (PersonalExpense)_expenseService.GetById(expenseid);
-            ExpenseCategory categoryEnum;
             float value;
+            int valueInt;
 
-            if (!Enum.TryParse(category, out categoryEnum))
+            if (!Int32.TryParse(categoryId, out valueInt))
             {
                 ViewBag.Error = "Выберите категорию";
                 ViewBag.Title = expense.ExpenseCategory;
                 ViewBag.Expense = expense;
+                ViewBag.Category = _category.All().ToList();
                 return View();
             }
 
@@ -194,10 +231,23 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Error = "Введите сумму";
                 ViewBag.Title = expense.ExpenseCategory;
                 ViewBag.Expense = expense;
+                ViewBag.Category = _category.All().ToList();
                 return View();
             }
+            else
+            {
+                if (value <= 0)
+                {
+                    ViewBag.Error = "Сумма должна быть больше 0";
+                    ViewBag.Title = expense.ExpenseCategory;
+                    ViewBag.Expense = expense;
+                    ViewBag.Category = _category.All().ToList();
+                    return View();
+                }
+            }
 
-            expense.ExpenseCategory = categoryEnum;
+            Category category = _category.All().Where(x => x.Id == valueInt).ToList()[0];
+            expense.ExpenseCategory = category;
             expense.Sum = value;
             _expenseService.UpdateExpense(expense);
 

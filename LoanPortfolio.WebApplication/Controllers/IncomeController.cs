@@ -59,6 +59,15 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = "Новый доход";
                 return View();
             }
+            else
+            {
+                if (prepaidExpanseValue <= 0)
+                {
+                    ViewBag.Error = "Сумма аванса должна быть больше 0";
+                    ViewBag.Title = "Новый доход";
+                    return View();
+                }
+            }
 
             if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
             {
@@ -73,12 +82,30 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = "Новый доход";
                 return View();
             }
+            else
+            {
+                if (salaryValue <= 0)
+                {
+                    ViewBag.Error = "Сумма окончаловки должна быть больше 0";
+                    ViewBag.Title = "Новый доход";
+                    return View();
+                }
+            }
 
             if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
             {
                 ViewBag.Error = "Введите дату окончаловки";
                 ViewBag.Title = "Новый доход";
                 return View();
+            }
+            else
+            {
+                if (dateSalary <= datePrepaidExpanse)
+                {
+                    ViewBag.Error = "Дата окончаловки должна быть больше даты аванса";
+                    ViewBag.Title = "Новый доход";
+                    return View();
+                }
             }
 
             _incomeService.AddRegularIncome(_user, source, datePrepaidExpanse, prepaidExpanseValue, dateSalary, salaryValue);
@@ -115,6 +142,15 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Error = "Введите сумму";
                 ViewBag.Title = "Новый доход";
                 return View();
+            }
+            else
+            {
+                if (value <= 0)
+                {
+                    ViewBag.Error = "Сумма должна быть больше 0";
+                    ViewBag.Title = "Новый доход";
+                    return View();
+                }
             }
 
             _incomeService.AddPeriodicIncome(_user, source, value, DateTime.Now);
@@ -165,6 +201,16 @@ namespace LoanPortfolio.WebApplication.Controllers
 
                 return View();
             }
+            else
+            {
+                if (prepaidExpanseValue <= 0)
+                {
+                    ViewBag.Error = "Сумма аванса должна быть больше 0";
+                    ViewBag.Title = income.IncomeSource;
+                    ViewBag.Income = income;
+                    return View();
+                }
+            }
 
             if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
             {
@@ -183,6 +229,16 @@ namespace LoanPortfolio.WebApplication.Controllers
 
                 return View();
             }
+            else
+            {
+                if (salaryValue <= 0)
+                {
+                    ViewBag.Error = "Сумма окончаловки должна быть больше 0";
+                    ViewBag.Title = income.IncomeSource;
+                    ViewBag.Income = income;
+                    return View();
+                }
+            }
 
             if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
             {
@@ -192,7 +248,16 @@ namespace LoanPortfolio.WebApplication.Controllers
 
                 return View();
             }
-
+            else
+            {
+                if (dateSalary <= datePrepaidExpanse)
+                {
+                    ViewBag.Error = "Дата окончаловки должна быть больше даты аванса";
+                    ViewBag.Title = income.IncomeSource;
+                    ViewBag.Income = income;
+                    return View();
+                }
+            }
 
             income.IncomeSource = source;
             income.PrepaidExpanse = prepaidExpanseValue;
@@ -243,6 +308,16 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Income = income;
 
                 return View();
+            }
+            else
+            {
+                if (value <= 0)
+                {
+                    ViewBag.Error = "Сумма должна быть больше 0";
+                    ViewBag.Title = income.IncomeSource;
+                    ViewBag.Income = income;
+                    return View();
+                }
             }
 
             income.IncomeSource = source;

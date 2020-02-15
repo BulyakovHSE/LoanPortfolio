@@ -4,7 +4,7 @@
 <br />
 
 <p>
-    <h4>Месяц: Июнь</h4>
+    <input type="month" value="@Convert.ToDateTime(DateTime.Today.ToString()).ToString("yyyy-MM")" />
 </p>
 <div style="margin-bottom: 30px; margin-top: 30px;">
     <h2>Основные</h2>
@@ -55,7 +55,7 @@
             }
         }
     </table>
-    
+
     <center>
         <form action="~/Income/AddRegular">
             <button type="submit" class="btn">Добавить</button>
@@ -104,7 +104,7 @@
             }
         }
     </table>
-    
+
     <center>
         <form action="~/Income/AddPeriod">
             <button type="submit" class="btn">Добавить</button>

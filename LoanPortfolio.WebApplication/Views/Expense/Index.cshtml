@@ -30,7 +30,7 @@
             {
                 <tr>
                     <td>
-                        @{Write(loan.DatePayment.ToShortDateString());}
+                        @{Write(loan.DatePayment.ToString("dd.MM.yyyy"));}
                     </td>
                     <td>
                         @{Write(loan.Loan.AmountDie / loan.Loan.RepaymentPeriod);}
@@ -73,7 +73,7 @@
             {
                 <tr>
                     <td>
-                        @{Write(expense.DatePayment.ToShortDateString());}
+                        @{Write(expense.DatePayment.ToString("dd.MM.yyyy"));}
                     </td>
                     <td>
                         Сумма: @{Write(expense.Sum);}

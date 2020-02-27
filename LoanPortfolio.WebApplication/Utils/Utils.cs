@@ -8,9 +8,10 @@ namespace LoanPortfolio.WebApplication
 {
     public class Utils
     {
-        public string getExpenseCategory(ExpenseCategory expenseCategory)
+        //Проверка количества месяцев
+        public bool checkMounthNumber(int value)
         {
-            return "";
+            return value > 0;
         }
     }
 }

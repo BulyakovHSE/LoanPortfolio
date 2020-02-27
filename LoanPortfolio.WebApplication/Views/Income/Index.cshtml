@@ -33,11 +33,11 @@
                     </td>
                     <td>
                         <p>Сумма: @{Write(income.PrepaidExpanse);}</p>
-                        <p>Дата: @{Write(income.DatePrepaidExpanse.ToShortDateString());}</p>
+                        <p>Дата: @{Write(income.DatePrepaidExpanse.ToString("dd.MM.yyyy"));}</p>
                     </td>
                     <td>
                         <p>Сумма: @{Write(income.Salary);}</p>
-                        <p>Дата: @{Write(income.DateSalary.ToShortDateString());}</p>
+                        <p>Дата: @{Write(income.DateSalary.ToString("dd.MM.yyyy"));}</p>
                     </td>
                     <td>
                         <div style="display: flex;">

@@ -1,1 +1,25 @@
 ﻿<h1>Кредитный портфель</h1>
+
+@{ if (ViewBag.User != null)
+    {
+        Write("Добро пожаловать, " + ViewBag.User.FirstName + " " + ViewBag.User.LastName);
+
+        <form action="~/Home/Close">
+            <button type="submit" class="btn">Выйти</button>
+        </form>
+    }
+    else
+    {
+        Write("Войдите или зарегистрируйтесь");
+
+        <form action="~/Home/Auth">
+            <button type="submit" class="btn">Авторизация</button>
+        </form>
+
+        <form action="~/Home/Register">
+            <button type="submit" class="btn">Регистрация</button>
+        </form>
+    }
+}
+
+

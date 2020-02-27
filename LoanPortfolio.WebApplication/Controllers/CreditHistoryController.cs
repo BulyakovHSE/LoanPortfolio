@@ -51,24 +51,55 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Title = "Новый кредит";
                 return View();
             }
+            else
+            {
+                if (loanSumValue <= 0)
+                {
+                    ViewBag.Error = "Cумма кредита должна быть больше 0";
+                    ViewBag.Title = "Новый кредит";
+                    return View();
+                }
+            }
+
             if (!float.TryParse(amountDie, out amountDieValue))
             {
                 ViewBag.Error = "Введите сумму погашения";
                 ViewBag.Title = "Новый кредит";
                 return View();
             }
+            else
+            {
+                if (amountDieValue <= 0)
+                {
+                    ViewBag.Error = "Cумма погашения должна быть больше 0";
+                    ViewBag.Title = "Новый кредит";
+                    return View();
+                }
+            }
+
             if (!int.TryParse(repaymentPeriod, out repaymentPeriodValue))
             {
                 ViewBag.Error = "Введите целое значение месяцев";
                 ViewBag.Title = "Новый кредит";
                 return View();
             }
+            else
+            {
+                if (repaymentPeriodValue <= 0)
+                {
+                    ViewBag.Error = "Количество месяцев должно быть больше 0";
+                    ViewBag.Title = "Новый кредит";
+                    return View();
+                }
+            }
+
             if (date < DateTime.MinValue || date > DateTime.MaxValue)
             {
                 ViewBag.Error = "Введите дату";
                 ViewBag.Title = "Новый кредит";
                 return View();
             }
+
             _loanService.AddLoan(_user, loanSumValue, date, amountDieValue, repaymentPeriodValue, creditInstitutionName, bankAddress);
 
             ViewBag.Title = "Кредитная история";
@@ -104,6 +135,17 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Loan = credit;
                 return View();
             }
+            else
+            {
+                if (loanSumValue <= 0)
+                {
+                    ViewBag.Error = "Cумма кредита должна быть больше 0";
+                    ViewBag.Title = "Кредит";
+                    ViewBag.Loan = credit;
+                    return View();
+                }
+            }
+
             if (!float.TryParse(amountDie, out amountDieValue))
             {
                 ViewBag.Error = "Введите сумму погашения";
@@ -111,6 +153,17 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Loan = credit;
                 return View();
             }
+            else
+            {
+                if (amountDieValue <= 0)
+                {
+                    ViewBag.Error = "Cумма погашения должна быть больше 0";
+                    ViewBag.Title = "Кредит";
+                    ViewBag.Loan = credit;
+                    return View();
+                }
+            }
+
             if (!int.TryParse(repaymentPeriod, out repaymentPeriodValue))
             {
                 ViewBag.Error = "Введите целое значение месяцев";
@@ -118,6 +171,17 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.Loan = credit;
                 return View();
             }
+            else
+            {
+                if (repaymentPeriodValue <= 0)
+                {
+                    ViewBag.Error = "Количество месяцев должно быть больше 0";
+                    ViewBag.Title = "Кредит";
+                    ViewBag.Loan = credit;
+                    return View();
+                }
+            }
+
             if (date < DateTime.MinValue || date > DateTime.MaxValue)
             {
                 ViewBag.Error = "Введите дату";

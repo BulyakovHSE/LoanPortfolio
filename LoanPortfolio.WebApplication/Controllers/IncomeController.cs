@@ -23,14 +23,60 @@ namespace LoanPortfolio.WebApplication.Controllers
             _incomeService = incomeService;
         }
 
+        private List<RegularIncome> GetRegularIncomes(DateTime time)
+        {
+            int mm = time.Month;
+            int yy = time.Year;
+
+            var regular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
+            List<RegularIncome> regularIncomes = new List<RegularIncome>();
+            foreach (RegularIncome regularIncome in regular)
+            {
+                if ((regularIncome.DatePrepaidExpanse.Month == mm && regularIncome.DatePrepaidExpanse.Year == yy) ||
+                    (regularIncome.DateSalary.Month == mm && regularIncome.DateSalary.Year == yy))
+                {
+                    regularIncomes.Add(regularIncome);
+                }
+            }
+            return regularIncomes;
+        }
+
+        private List<PeriodicIncome> GetPeriodicIncomes(DateTime time)
+        {
+            int mm = time.Month;
+            int yy = time.Year;
+
+            var periodics = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+            List<PeriodicIncome> periodicIncomes = new List<PeriodicIncome>();
+            foreach (PeriodicIncome periodicIncome in periodics)
+            {
+                if (periodicIncome.DateIncome.Month == mm && periodicIncome.DateIncome.Year == yy)
+                {
+                    periodicIncomes.Add(periodicIncome);
+                }
+            }
+
+            return periodicIncomes;
+        }
+
         public ActionResult Index()
         {
             ViewBag.Title = "Доходы";
-
-            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+            ViewBag.Time = DateTime.Now;
 
             return View();
+        }
+
+        public ActionResult ChangeTime(DateTime time)
+        {
+            ViewBag.Title = "Доходы";
+            ViewBag.IncomesRegular = GetRegularIncomes(time);
+            ViewBag.IncomesPeriod = GetPeriodicIncomes(time);
+            ViewBag.Time = time;
+
+            return View("Index");
         }
 
         #region Add
@@ -112,8 +158,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             ViewBag.Title = "Доходы";
 
-            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+            ViewBag.Time = DateTime.Now;
 
             return View("Index");
         }
@@ -157,8 +204,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             ViewBag.Title = "Доходы";
 
-            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+            ViewBag.Time = DateTime.Now;
 
             return View("Index");
         }
@@ -269,8 +317,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             ViewBag.Title = "Доходы";
 
-            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+            ViewBag.Time = DateTime.Now;
 
             return View("Index");
         }
@@ -327,8 +376,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             ViewBag.Title = "Доходы";
 
-            ViewBag.IncomesRegular = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(RegularIncome));
-            ViewBag.IncomesPeriod = _incomeService.GetAll(_user).Where(x => x.GetType() == typeof(PeriodicIncome));
+            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+            ViewBag.Time = DateTime.Now;
 
             return View("Index");
         }

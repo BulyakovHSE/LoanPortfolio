@@ -1,8 +1,6 @@
-﻿<h1>Кредитный портфель</h1>
-
-@{ if (ViewBag.User != null)
+﻿@{ if (ViewBag.User != null)
     {
-        Write("Добро пожаловать, " + ViewBag.User.FirstName + " " + ViewBag.User.LastName);
+        <h1>@{Write("Добро пожаловать, " + ViewBag.User.FirstName + " " + ViewBag.User.LastName);}</h1>
 
         <form action="~/Home/Close">
             <button type="submit" class="btn">Выйти</button>
@@ -10,7 +8,7 @@
     }
     else
     {
-        Write("Войдите или зарегистрируйтесь");
+        <h1>@{Write("Войдите или зарегистрируйтесь");}</h1>
 
         <form action="~/Home/Auth">
             <button type="submit" class="btn">Авторизация</button>
@@ -21,5 +19,3 @@
         </form>
     }
 }
-
-

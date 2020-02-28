@@ -2,10 +2,14 @@
 @using LoanPortfolio.Services
 
 <br />
+<form method="post" action="~/Income/ChangeTime">
+    <p>
+        <input type="month" name="time" value="@Convert.ToDateTime(ViewBag.Time.ToString()).ToString("yyyy-MM")" />
+    </p>
 
-<p>
-    <input type="month" value="@Convert.ToDateTime(DateTime.Today.ToString()).ToString("yyyy-MM")" />
-</p>
+    <input type="submit" value="Поменять" />
+</form>
+
 <div style="margin-bottom: 30px; margin-top: 30px;">
     <h2>Основные</h2>
 

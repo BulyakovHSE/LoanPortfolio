@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using LoanPortfolio.Db.Entities;
@@ -53,7 +54,7 @@ namespace LoanPortfolio.WebApplication.Services
             var expenses = _expenseRepository.All().Where(x => x.UserId == user.Id).ToList();
             foreach (var income in incomes)
             {
-                if (income is RegularIncome regular)
+                if (income is RegularIncome regular && regular.DateSalary.Year == DateTime.Now.Year && regular.DateSalary.Month == DateTime.Now.Month)
                 {
                     var regularNew = new RegularIncome
                     {
@@ -67,7 +68,7 @@ namespace LoanPortfolio.WebApplication.Services
                     };
                     _incomeRepository.Add(regularNew);
                 }
-                else if (income is PeriodicIncome periodic)
+                else if (income is PeriodicIncome periodic && periodic.DateIncome.Year == DateTime.Now.Year && periodic.DateIncome.Month == DateTime.Now.Month)
                 {
                     var periodicNew = new PeriodicIncome
                     { DateIncome = periodic.DateIncome.AddMonths(1), IncomeSource = periodic.IncomeSource, Sum = 0f, User = user, UserId = user.Id };
@@ -77,14 +78,21 @@ namespace LoanPortfolio.WebApplication.Services
 
             foreach (var expense in expenses)
             {
-                if (expense is HCSExpense hcs)
+                if (expense is HCSExpense hcs && hcs.DatePayment.Year == DateTime.Now.Year && hcs.DatePayment.Month == DateTime.Now.Month)
                 {
                     var hcsNew = new HCSExpense { Comment = hcs.Comment, DatePayment = hcs.DatePayment.AddMonths(1), Sum = 0f, User = user, UserId = user.Id };
                     _expenseRepository.Add(hcsNew);
                 }
-                else if (expense is LoanPayment load)
+                else if (expense is LoanPayment loan && loan.Loan != null && loan.DatePayment.Year == DateTime.Now.Year && loan.DatePayment.Month == DateTime.Now.Month)
                 {
-                    //todo: add Loan dates transfer after adding Loan payment schedule
+                    var payment = loan.Loan.PaymentsSchedule.FirstOrDefault(x =>
+                        x.Key.Year == DateTime.Now.Year && x.Key.Month == DateTime.Now.Month);
+                    if (!payment.Equals(default(KeyValuePair<DateTime, float>)))
+                    {
+                        var loanPayment = new LoanPayment() { BankAddress = loan.BankAddress, CreditInstitutionName = loan.CreditInstitutionName,
+                            User = loan.User, Loan = loan.Loan, LoanId = loan.LoanId, Sum = payment.Value, UserId = loan.UserId, DatePayment = payment.Key };
+                        _expenseRepository.Add(loanPayment);
+                    }
                 }
             }
         }

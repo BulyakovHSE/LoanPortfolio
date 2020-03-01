@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Security;
 
 namespace LoanPortfolio.WebApplication.Controllers
 {

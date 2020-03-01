@@ -12,11 +12,11 @@ using LoanPortfolio.Db.Interfaces;
 using LoanPortfolio.Db.Repositories;
 using LoanPortfolio.Services;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Security;
 using LoanPortfolio.WebApplication.Services;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
-using SimpleInjector.Lifestyles;
 
 namespace LoanPortfolio.WebApplication
 {

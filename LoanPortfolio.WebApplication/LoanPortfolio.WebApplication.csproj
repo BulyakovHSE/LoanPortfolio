@@ -151,6 +151,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\AuthHttpModule.cs" />
+    <Compile Include="Security\AuthService.cs" />
+    <Compile Include="Security\IAuthService.cs" />
+    <Compile Include="Security\IUserProvider.cs" />
+    <Compile Include="Security\UserIdentity.cs" />
+    <Compile Include="Security\UserProvider.cs" />
     <Compile Include="Services\TransferService.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>

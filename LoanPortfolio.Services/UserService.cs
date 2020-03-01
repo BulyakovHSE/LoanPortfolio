@@ -56,6 +56,23 @@ namespace LoanPortfolio.Services
             _userRepository.Update(user);
         }
 
+        public string SetTemporaryPassword(User user)
+        {
+            string pass = "";
+            var r = new Random();
+            while (pass.Length < 8)
+            {
+                Char c = (char)r.Next(33, 125);
+                if (Char.IsLetterOrDigit(c))
+                    pass += c;
+            }
+
+            user.Password = pass;
+            _userRepository.Update(user);
+
+            return pass;
+        }
+
         public void ChangeEmail(User user, string email)
         {
             if (_userRepository.All().Any(x => x.Email == email))

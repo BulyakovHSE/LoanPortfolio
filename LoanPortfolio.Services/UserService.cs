@@ -18,9 +18,14 @@ namespace LoanPortfolio.Services
 
         public User Add(string email, string pass, string firstName, string lastName)
         {
-            _userRepository.Add(new User{Email = email, Password = pass, FirstName = firstName, LastName = lastName});
-            var user = _userRepository.All().Single(u => u.Email == email);
-            return user;
+            var user = new User {Email = email, Password = pass, FirstName = firstName, LastName = lastName};
+            var categories = new List<Category>();
+            var cats = new[] {"Еда", "Здоровье", "Развлечения"};
+            foreach (var cat in cats)
+                categories.Add(new Category{Name = cat, User = user});
+            user.Categories = categories;
+            _userRepository.Add(user);
+            return _userRepository.All().Single(u => u.Email == email);
         }
 
         public User GetById(int id)

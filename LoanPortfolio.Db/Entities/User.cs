@@ -51,5 +51,10 @@ namespace LoanPortfolio.Db.Entities
         /// Список кредитов пользователя
         /// </summary>
         public IList<Loan> Loans { get; set; }
+
+        /// <summary>
+        /// Список категорий пользователя
+        /// </summary>
+        public IList<Category> Categories { get; set; }
     }
 }

@@ -53,6 +53,11 @@ namespace LoanPortfolio.Db.Entities
         public string BankAddress { get; set; }
 
         /// <summary>
+        /// Ежемесячный платеж, указанный банком
+        /// </summary>
+        public float BankSpecifiedPayment { get; set; }
+
+        /// <summary>
         /// Погашен ли кредит ТР-35
         /// </summary>
         public bool IsRepaid { get; set; }

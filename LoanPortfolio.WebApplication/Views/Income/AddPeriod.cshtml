@@ -4,12 +4,12 @@
 <form method="post" action="~/Income/AddPeriod">
     <p>
         Название:
-        <input type="text" name="source" required />
+        <input type="text" value="@ViewBag.Income.IncomeSource" name="source" required />
     </p>
 
     <p>
         Сумма:
-        <input type="text" name="sum" required />
+        <input type="text" value="@ViewBag.Income.Sum" name="sum" required />
     </p>
 
     <input type="submit" value="Добавить" />

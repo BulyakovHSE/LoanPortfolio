@@ -31,7 +31,14 @@
     </div>
     <div class="alert-danger">
         <div class="container body-content" style="font-size: 25px">
-            @ViewBag.Error
+            @{if (ViewBag.Errors != null)
+                {
+                    foreach (string error in ViewBag.Errors)
+                    {
+                        <p>@{Write(error);}</p>
+                    }
+                }
+            }
         </div>
     </div>
     <div class="container body-content">

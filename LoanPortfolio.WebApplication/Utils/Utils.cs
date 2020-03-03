@@ -8,10 +8,34 @@ namespace LoanPortfolio.WebApplication
 {
     public class Utils
     {
-        //Проверка количества месяцев
-        public bool checkMounthNumber(int value)
+        //Введена ли строка
+        public static (bool ok, string result) CheckTextIsNotNull(string text)
         {
-            return value > 0;
+            string result = text.Trim();
+            return (!string.IsNullOrWhiteSpace(result), result);
+        }
+
+        //Проверка на число
+        public static (bool ok, float result) CheckNumberIsNotNull(string text)
+        {
+            float result;
+            if (float.TryParse(text, out result))
+            {
+                return (true, result);
+            }
+
+            return (false, 0);
+        }
+
+        //Проверка на положительное число
+        public static (bool ok, float result) CheckNumberIsPositive(float value)
+        {
+            if (value > 0)
+            {
+                return (true, value);
+            }
+
+            return (false, 0);
         }
     }
 }

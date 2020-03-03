@@ -168,47 +168,32 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult AddPeriod()
         {
             ViewBag.Title = "Новый доход";
-
+            ViewBag.Income = new PeriodicIncome();
             return View();
         }
 
         [HttpPost]
         public ActionResult AddPeriod(string source, string sum)
         {
-            float value;
+            (List<string> errors, PeriodicIncome periodicIncome) = Incomes.CheckPeriodIncome(source, sum);
 
-            if (string.IsNullOrWhiteSpace(source))
+            if (errors.Count == 0)
             {
-                ViewBag.Error = "Введите название";
-                ViewBag.Title = "Новый доход";
-                return View();
+                _incomeService.AddPeriodicIncome(_user, periodicIncome.IncomeSource, periodicIncome.Sum, DateTime.Now);
+
+                ViewBag.Title = "Доходы";
+
+                ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+                ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+                ViewBag.Time = DateTime.Now;
+
+                return View("Index");
             }
 
-            if (!float.TryParse(sum, out value))
-            {
-                ViewBag.Error = "Введите сумму";
-                ViewBag.Title = "Новый доход";
-                return View();
-            }
-            else
-            {
-                if (value <= 0)
-                {
-                    ViewBag.Error = "Сумма должна быть больше 0";
-                    ViewBag.Title = "Новый доход";
-                    return View();
-                }
-            }
-
-            _incomeService.AddPeriodicIncome(_user, source, value, DateTime.Now);
-
-            ViewBag.Title = "Доходы";
-
-            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
-            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
-            ViewBag.Time = DateTime.Now;
-
-            return View("Index");
+            ViewBag.Errors = errors;
+            ViewBag.Income = periodicIncome;
+            ViewBag.Title = "Новый доход";
+            return View();
         }
 
         #endregion
@@ -329,58 +314,33 @@ namespace LoanPortfolio.WebApplication.Controllers
         {
             var income = _incomeService.GetById(id);
             ViewBag.Title = income.IncomeSource;
-
             ViewBag.Income = income;
-
             return View();
         }
 
         [HttpPost]
         public ActionResult ChangePeriod(int incomeid, string source, string sum)
         {
-            float value;
+            (List<string> errors, PeriodicIncome periodicIncome) = Incomes.CheckPeriodIncome(source, sum);
+
+            if (errors.Count == 0)
+            {
+                _incomeService.UpdateIncome(periodicIncome);
+
+                ViewBag.Title = "Доходы";
+
+                ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+                ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+                ViewBag.Time = DateTime.Now;
+
+                return View("Index");
+            }
+
             var income = (PeriodicIncome)_incomeService.GetById(incomeid);
-
-            if (string.IsNullOrWhiteSpace(source))
-            {
-                ViewBag.Error = "Введите название";
-                ViewBag.Title = income.IncomeSource;
-                ViewBag.Income = income;
-
-                return View();
-            }
-
-            if (!float.TryParse(sum, out value))
-            {
-                ViewBag.Error = "Введите сумму";
-                ViewBag.Title = income.IncomeSource;
-                ViewBag.Income = income;
-
-                return View();
-            }
-            else
-            {
-                if (value <= 0)
-                {
-                    ViewBag.Error = "Сумма должна быть больше 0";
-                    ViewBag.Title = income.IncomeSource;
-                    ViewBag.Income = income;
-                    return View();
-                }
-            }
-
-            income.IncomeSource = source;
-            income.Sum = value;
-
-            _incomeService.UpdateIncome(income);
-
-            ViewBag.Title = "Доходы";
-
-            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
-            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
-            ViewBag.Time = DateTime.Now;
-
-            return View("Index");
+            ViewBag.Error = errors;
+            ViewBag.Title = income.IncomeSource;
+            ViewBag.Income = income;
+            return View();
         }
 
         #endregion

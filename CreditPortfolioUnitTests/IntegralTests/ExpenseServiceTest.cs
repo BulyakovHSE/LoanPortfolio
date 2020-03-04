@@ -19,9 +19,9 @@ namespace CreditPortfolioUnitTests.IntegralTests
     [TestClass]
     public class ExpenseServiceTest
     {
-        private string _dbPath;
         private LoanContext _dbContext;
         private ExpenseService expenseService;
+        private UserService userService;
 
         private User _user;
         private DateTime _datePayment;
@@ -34,29 +34,23 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _user = new User
-            {
-                Id = 0,
-                Email = "222@mail.ru",
-                Password = "12345",
-                FirstName = "Test",
-                LastName = "Yestovish",
-                Incomes = new List<Income>(),
-                Expenses = new List<Expense>(),
-                Loans = new List<Loan>()
-            };
+            _dbContext = new LoanContext();
+            _dbContext.Database.CreateIfNotExists();
+            EntityFrameworkRepository<Expense> expenseRepository = new EntityFrameworkRepository<Expense>(_dbContext);
+            EntityFrameworkRepository<User> userRepository = new EntityFrameworkRepository<User>(_dbContext);
+            expenseService = new ExpenseService(expenseRepository);
+            userService = new UserService(userRepository);
+
+            _user = userService.Add("222@mail.ru", "12345", "Test", "Testovich");
+            //_user = userService.GetById(1);
+
             _datePayment = new DateTime(2020, 04, 03);
             _datePayment2 = new DateTime(2020, 04, 10);
             _sum = 600;
             _sum2 = 500;
-            _category = new Category() { Name = "dsg" };
+            _category = new Category() { Name = "Развлечение", User = _user };
             _comment = "324";
 
-            _dbPath = "";
-            _dbContext = new LoanContext();
-            _dbContext.Database.CreateIfNotExists();
-            EntityFrameworkRepository<Expense> expenseRepository = new EntityFrameworkRepository<Expense>(_dbContext);
-            expenseService = new ExpenseService(expenseRepository);
         }
 
         [TestCleanup]
@@ -77,7 +71,10 @@ namespace CreditPortfolioUnitTests.IntegralTests
             };
 
             PersonalExpense actual = expenseService.AddPersonalExpense(_user, _datePayment, _sum, _category);
-            Assert.AreEqual(expected, actual);
+            //Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.DatePayment, actual.DatePayment);
+            Assert.AreEqual(expected.Sum, actual.Sum);
+            Assert.AreEqual(expected.ExpenseCategory, actual.ExpenseCategory);
         }
 
         [TestMethod]
@@ -92,25 +89,22 @@ namespace CreditPortfolioUnitTests.IntegralTests
             };
 
             HCSExpense actual = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
-            Assert.AreEqual(expected, actual);
+            //Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.DatePayment, actual.DatePayment);
+            Assert.AreEqual(expected.Sum, actual.Sum);
+            Assert.AreEqual(expected.Comment, actual.Comment);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
-            PersonalExpense expected = new PersonalExpense
-            {
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                ExpenseCategory = _category
-            };
-
             PersonalExpense personalExpense = expenseService.AddPersonalExpense(_user, _datePayment, _sum, _category);
             HCSExpense hcsExpense = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
 
-            PersonalExpense actual = (PersonalExpense)expenseService.GetById(0);
-            Assert.AreEqual(personalExpense, actual);
+            PersonalExpense actual = (PersonalExpense)expenseService.GetById(1);
+            Assert.AreEqual(_datePayment, actual.DatePayment);
+            Assert.AreEqual(_sum, actual.Sum);
+            Assert.AreEqual(_category, actual.ExpenseCategory);
         }
 
         [TestMethod]
@@ -123,7 +117,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
             personalExpense.Sum = 9000;
             expenseService.UpdateExpense(personalExpense);
 
-            PersonalExpense actual = (PersonalExpense)expenseService.GetById(0);
+            var actual = (PersonalExpense)expenseService.GetById(1);
             Assert.AreEqual(personalExpense, actual);
         }
 
@@ -138,7 +132,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
             hcsExpense.Comment = "134";
             expenseService.UpdateExpense(hcsExpense);
 
-            HCSExpense actual = (HCSExpense)expenseService.GetById(0);
+            HCSExpense actual = (HCSExpense)expenseService.GetById(1);
             Assert.AreEqual(hcsExpense, actual);
         }
 
@@ -147,6 +141,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
         {
             PersonalExpense personalExpense = expenseService.AddPersonalExpense(_user, _datePayment, _sum, _category);
             HCSExpense hcsExpense = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
+
             List<Expense> expected = new List<Expense> { personalExpense, hcsExpense };
 
             IEnumerable<Expense> actual = expenseService.GetAll(_user);
@@ -158,6 +153,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
         {
             PersonalExpense personalExpense = expenseService.AddPersonalExpense(_user, _datePayment, _sum, _category);
             HCSExpense hcsExpense = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
+
             expenseService.Remove(personalExpense);
 
             IEnumerable<Expense> expenseList = expenseService.GetAll(_user);

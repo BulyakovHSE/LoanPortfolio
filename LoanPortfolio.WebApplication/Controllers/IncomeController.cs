@@ -216,7 +216,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             }
 
             var income = (PeriodicIncome)_incomeService.GetById(incomeid);
-            ViewBag.Error = errors;
+            ViewBag.Errors = errors;
             ViewBag.Title = income.IncomeSource;
             ViewBag.Income = income;
             return View();

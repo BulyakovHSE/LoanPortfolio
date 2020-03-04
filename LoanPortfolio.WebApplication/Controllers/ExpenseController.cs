@@ -91,6 +91,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
         public ActionResult AddHCS()
         {
+            HCSExpense hcsExpense = new HCSExpense();
+            hcsExpense.DatePayment = DateTime.Now;
+            ViewBag.Expense = hcsExpense;
             ViewBag.Title = "Новый расход ЖКХ";
 
             return View();
@@ -99,40 +102,25 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult AddHCS(DateTime date, string sum, string comment)
         {
-            float value;
+            (List<string> errors, HCSExpense hcsExpense) = Expenses.CheckHCSExpense(date, sum);
 
-            if (date < DateTime.MinValue || date > DateTime.MaxValue)
+            if (errors.Count == 0)
             {
-                ViewBag.Error = "Введите дату";
-                ViewBag.Title = "ЖКХ";
-                return View();
+                _expenseService.AddHCSExpense(_user, hcsExpense.DatePayment, hcsExpense.Sum, comment);
+
+                ViewBag.Title = "Расходы";
+
+                ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+                ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+                ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+
+                return View("Index");
             }
 
-            if (!float.TryParse(sum, out value))
-            {
-                ViewBag.Error = "Введите значение сумму";
-                ViewBag.Title = "ЖКХ";
-                return View();
-            }
-            else
-            {
-                if (value <= 0)
-                {
-                    ViewBag.Error = "Сумма должна быть больше 0";
-                    ViewBag.Title = "ЖКХ";
-                    return View();
-                }
-            }
-
-            _expenseService.AddHCSExpense(_user, date, value, comment);
-
-            ViewBag.Title = "Расходы";
-
-            ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
-            ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
-            return View("Index");
+            ViewBag.Errors = errors;
+            ViewBag.Expense = hcsExpense;
+            ViewBag.Title = "Новый расход ЖКХ";
+            return View();
         }
         #endregion
 

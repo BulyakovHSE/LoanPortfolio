@@ -4,17 +4,17 @@
 <form method="post" action="~/Expense/AddHCS">
     <p>
         Дата:
-        <input type="date" name="date" required />
+        <input type="date" value="@ViewBag.Expense.DatePayment.ToString("yyyy-MM-dd")" name="date" required />
     </p>
 
     <p>
         Сумма:
-        <input type="text" name="sum" required />
+        <input type="text" value="@ViewBag.Expense.Sum" name="sum" required />
     </p>
 
     <p>
         Комментарий:
-        <input type="text" name="comment" />
+        <input type="text" value="@ViewBag.Expense.Comment" name="comment" />
     </p>
 
     <input type="submit" value="Добавить" />

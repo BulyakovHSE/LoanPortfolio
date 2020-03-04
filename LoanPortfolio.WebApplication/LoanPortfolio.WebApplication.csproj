@@ -163,6 +163,7 @@
     <Compile Include="Security\UserProvider.cs" />
     <Compile Include="Services\TransferService.cs" />
     <Compile Include="Utils\Incomes.cs" />
+    <Compile Include="Utils\Expenses.cs" />
     <Compile Include="Utils\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -222,7 +223,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

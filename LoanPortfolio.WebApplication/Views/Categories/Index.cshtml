@@ -1,10 +1,44 @@
-﻿<h2>Новая категория</h2>
+﻿@using LoanPortfolio.Db.Entities
 
-<form method="post" action="~/Categories/Index">
-    <p>
-        Название:
-        <input type="text" name="name" required />
-    </p>
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <h2>Категории</h2>
 
-    <input type="submit" value="Добавить" />
-</form>
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Название
+            </th>
+            <th style="width: 15%">
+            </th>
+        </tr>
+
+        @{
+            foreach (Category category in ViewBag.Categories)
+            {
+                <tr>
+                    <td>
+                        @{Write(category.Name);}
+                    </td>
+                    <td>
+                        <div style="display: flex;">
+                            <form action="~/Categories/ChangeCategories/">
+                                <input type="hidden" value="@category.Id" name="id" />
+                                <button type="submit" class="btn">Редактировать</button>
+                            </form>
+                            <form action="~/Categories/Delete/">
+                                <input type="hidden" value="@category.Id" name="id" />
+                                <button type="submit" class="btn" style="margin-right: 15px">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    <center>
+        <form action="~/Categories/AddCategories">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+    </center>
+</div>

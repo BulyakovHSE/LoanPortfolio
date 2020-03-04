@@ -1,0 +1,10 @@
+﻿<h2>Новая категория</h2>
+
+<form method="post" action="~/Categories/AddCategories">
+    <p>
+        Название:
+        <input type="text" value="@ViewBag.Category.Name" name="name" required />
+    </p>
+
+    <input type="submit" value="Добавить" />
+</form>

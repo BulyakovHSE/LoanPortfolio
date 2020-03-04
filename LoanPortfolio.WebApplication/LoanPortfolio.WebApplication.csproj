@@ -162,6 +162,7 @@
     <Compile Include="Security\UserIdentity.cs" />
     <Compile Include="Security\UserProvider.cs" />
     <Compile Include="Services\TransferService.cs" />
+    <Compile Include="Utils\Categories.cs" />
     <Compile Include="Utils\Incomes.cs" />
     <Compile Include="Utils\Expenses.cs" />
     <Compile Include="Utils\Utils.cs" />
@@ -219,6 +220,8 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Home\Auth.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Categories\AddCategories.cshtml" />
+    <Content Include="Views\Categories\ChangeCategories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

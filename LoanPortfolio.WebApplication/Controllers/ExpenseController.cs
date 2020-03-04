@@ -40,53 +40,34 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult AddPersonal()
         {
             ViewBag.Title = "Новый расход";
-            ViewBag.Category = _category.All().ToList();
-
+            ViewBag.Categories = _user.Categories;
+            ViewBag.Expense = new PersonalExpense();
             return View();
         }
 
         [HttpPost]
         public ActionResult AddPersonal(string categoryId, string sum)
         {
-            float value;
-            int valueInt;
+            (List<string> errors, PersonalExpense personalExpense, int id) = Expenses.CheckPersonalExpense(categoryId, sum);
 
-            if (!Int32.TryParse(categoryId, out valueInt))
+            if (errors.Count == 0)
             {
-                ViewBag.Error = "Выберите категорию";
-                ViewBag.Title = "Новый расход";
-                ViewBag.Category = _category.All().ToList();
-                return View();
+                Category category = _user.Categories.Where(x => x.Id == id).First();
+                _expenseService.AddPersonalExpense(_user, DateTime.Now, personalExpense.Sum, category);
+
+                ViewBag.Title = "Расходы";
+
+                ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+                ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+                ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+
+                return View("Index");
             }
 
-            if (!float.TryParse(sum, out value))
-            {
-                ViewBag.Error = "Введите сумму";
-                ViewBag.Title = "Новый расход";
-                ViewBag.Category = _category.All().ToList();
-                return View();
-            }
-            else
-            {
-                if (value <= 0)
-                {
-                    ViewBag.Error = "Сумма должна быть больше 0";
-                    ViewBag.Title = "Новый расход";
-                    ViewBag.Category = _category.All().ToList();
-                    return View();
-                }
-            }
-
-            Category category = _category.All().Where(x => x.Id == valueInt).ToList()[0];
-            _expenseService.AddPersonalExpense(_user, DateTime.Now, value, category);
-
-            ViewBag.Title = "Расходы";
-
-            ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
-            ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
-            return View("Index");
+            ViewBag.Errors = errors;
+            ViewBag.Title = "Новый расход";
+            ViewBag.Categories = _user.Categories;
+            return View();
         }
 
         public ActionResult AddHCS()
@@ -169,8 +150,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         {
             var expense = (PersonalExpense)_expenseService.GetById(id);
             ViewBag.Title = expense.ExpenseCategory;
-            ViewBag.Category = _category.All().ToList();
-
+            ViewBag.Categories = _user.Categories;
             ViewBag.Expense = expense;
 
             return View();
@@ -179,51 +159,29 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult ChangePersonal(int expenseid, string categoryId, string sum)
         {
-            var expense = (PersonalExpense)_expenseService.GetById(expenseid);
-            float value;
-            int valueInt;
+            (List<string> errors, PersonalExpense personalExpense, int id) = Expenses.CheckPersonalExpense(categoryId, sum);
 
-            if (!Int32.TryParse(categoryId, out valueInt))
+            if (errors.Count == 0)
             {
-                ViewBag.Error = "Выберите категорию";
-                ViewBag.Title = expense.ExpenseCategory;
-                ViewBag.Expense = expense;
-                ViewBag.Category = _category.All().ToList();
-                return View();
+                Category category = _user.Categories.Where(x => x.Id == id).First();
+                personalExpense.ExpenseCategory = category;
+                _expenseService.UpdateExpense(personalExpense);
+
+                ViewBag.Title = "Расходы";
+
+                ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+                ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+                ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+
+                return View("Index");
             }
 
-            if (!float.TryParse(sum, out value))
-            {
-                ViewBag.Error = "Введите сумму";
-                ViewBag.Title = expense.ExpenseCategory;
-                ViewBag.Expense = expense;
-                ViewBag.Category = _category.All().ToList();
-                return View();
-            }
-            else
-            {
-                if (value <= 0)
-                {
-                    ViewBag.Error = "Сумма должна быть больше 0";
-                    ViewBag.Title = expense.ExpenseCategory;
-                    ViewBag.Expense = expense;
-                    ViewBag.Category = _category.All().ToList();
-                    return View();
-                }
-            }
-
-            Category category = _category.All().Where(x => x.Id == valueInt).ToList()[0];
-            expense.ExpenseCategory = category;
-            expense.Sum = value;
-            _expenseService.UpdateExpense(expense);
-
-            ViewBag.Title = "Расходы";
-
-            ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
-            ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
-            return View("Index");
+            PersonalExpense expense = (PersonalExpense)_expenseService.GetById(expenseid);
+            ViewBag.Errors = errors;
+            ViewBag.Title = expense.ExpenseCategory;
+            ViewBag.Expense = expense;
+            ViewBag.Categories = _user.Categories;
+            return View();
         }
 
         #endregion

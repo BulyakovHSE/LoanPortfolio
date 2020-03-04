@@ -8,7 +8,7 @@
         Категория:
         <select name="categoryId" required>
             @{
-                foreach (Category category in ViewBag.Category)
+                foreach (Category category in ViewBag.Categories)
                 {
                     <option value="@category.Id">@{Write(category.Name);}</option>
                 }

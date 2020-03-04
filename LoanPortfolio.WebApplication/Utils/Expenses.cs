@@ -11,12 +11,30 @@ namespace LoanPortfolio.WebApplication
         static private bool ok;
 
         //Добавление и изменение персональных расходов
-        public static (List<string> errors, PersonalExpense personalExpense) CheckPersonalExpense()
+        public static (List<string> errors, PersonalExpense personalExpense, int id) CheckPersonalExpense(string categoryId, string sum)
         {
             PersonalExpense personalExpense = new PersonalExpense();
             List<string> errors = new List<string>();
+            int id;
 
-            return (errors, personalExpense);
+            if (!Int32.TryParse(categoryId, out id))
+            {
+                errors.Add("Выберите категорию");
+            }
+
+            float value;
+            (ok, value) = Utils.CheckNumberIsNotNull(sum);
+            if (!ok)
+            {
+                errors.Add("Введите сумму");
+            }
+            else
+            {
+                (ok, personalExpense.Sum) = Utils.CheckNumberIsPositive(value);
+                if (!ok) errors.Add("Сумма должна быть больше 0");
+            }
+
+            return (errors, personalExpense, id);
         }
 
         //Добавление и изменение коммунальных услуг

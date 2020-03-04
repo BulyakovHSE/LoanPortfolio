@@ -6,7 +6,7 @@
         Категория:
         <select name="categoryId" required>
             @{
-                foreach (Category category in ViewBag.Category)
+                foreach (Category category in ViewBag.Categories)
                 {
                     <option value="@category.Id">@{Write(category.Name);}</option>
                 }
@@ -16,7 +16,7 @@
 
     <p>
         Сумма:
-        <input type="text" name="sum" required />
+        <input type="text" value="@ViewBag.Expense.Sum" name="sum" required />
     </p>
 
     <button type="submit" class="btn">Добавить</button>

@@ -4,27 +4,27 @@
 <form method="post" action="~/Income/AddRegular">
     <p>
         Название:
-        <input type="text" name="source" required />
+        <input type="text" value="@ViewBag.Income.IncomeSource" name="source" required />
     </p>
 
     <p>
         Сумма аванса:
-        <input type="text" name="prepaidExpanse" required />
+        <input type="text" value="@ViewBag.Income.PrepaidExpanse" name="prepaidExpanse" required />
     </p>
 
     <p>
         Дата аванса:
-        <input type="date" name="datePrepaidExpanse" required />
+        <input type="date" value="@ViewBag.Income.DatePrepaidExpanse.ToString("yyyy-MM-dd")" name="datePrepaidExpanse" required />
     </p>
 
     <p>
         Сумма доплаты:
-        <input type="text" name="salary" required />
+        <input type="text" value="@ViewBag.Income.Salary" name="salary" required />
     </p>
 
     <p>
         Дата доплаты:
-        <input type="date" name="dateSalary" required />
+        <input type="date" value="@ViewBag.Income.DateSalary.ToString("yyyy-MM-dd")" name="dateSalary" required />
     </p>
 
     <input type="submit" value="Добавить" />

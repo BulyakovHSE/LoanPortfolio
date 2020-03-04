@@ -10,26 +10,16 @@ using LoanPortfolio.WebApplication.Security;
 
 namespace LoanPortfolio.WebApplication.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private User _user;
-
-        public HomeController(IUserService userService, IAuthService authService)
+        public HomeController(IUserService userService, IAuthService authService) : base(authService)
         {
-            //if (authService.IsLoggedIn())
-            //{
-            //    _user = userService.GetAll().ToList()[0];
-            //}
-            if (userService.GetAll().Any())
-            {
-                _user = userService.GetAll().ToList()[0];
-            }
         }
 
         public ActionResult Index()
         {
             ViewBag.Title = "Кредитный портфель";
-            ViewBag.User = _user;
+            ViewBag.User = CurrentUser;
 
             return View();
         }
@@ -37,7 +27,8 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult Close()
         {
             ViewBag.Title = "Кредитный портфель";
-            ViewBag.User = _user;
+            _authService.Logout();
+            ViewBag.User = CurrentUser;
 
             return View("Index");
         }
@@ -45,33 +36,33 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult Auth()
         {
             ViewBag.Title = "Авторизация";
-            ViewBag.User = _user;
+            ViewBag.User = CurrentUser;
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult Auth(string firstName, string lastName, string login, string password)
+        public ActionResult Auth(string login, string password)
         {
             ViewBag.Title = "Кредитный портфель";
-            ViewBag.User = _user;
-
+            _authService.Login(login, password, true);
+            ViewBag.User = CurrentUser;
             return View("Index");
         }
 
         public ActionResult Register()
         {
             ViewBag.Title = "Регистрация";
-            ViewBag.User = _user;
+            ViewBag.User = CurrentUser;
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult Register(string login, string password)
+        public ActionResult Register(string firstName, string lastName, string login, string password)
         {
             ViewBag.Title = "Кредитный портфель";
-            ViewBag.User = _user;
+            ViewBag.User = CurrentUser;
 
             return View("Index");
         }

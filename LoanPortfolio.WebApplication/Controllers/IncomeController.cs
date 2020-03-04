@@ -84,85 +84,37 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult AddRegular()
         {
             ViewBag.Title = "Новый доход";
+
+            RegularIncome regularIncome = new RegularIncome();
+            regularIncome.DatePrepaidExpanse = DateTime.Now;
+            regularIncome.DateSalary = DateTime.Now;
+            ViewBag.Income = regularIncome;
             return View();
         }
 
         [HttpPost]
         public ActionResult AddRegular(string source, string prepaidExpanse, DateTime datePrepaidExpanse, string salary, DateTime dateSalary)
         {
-            float prepaidExpanseValue, salaryValue;
+            (List<string> errors, RegularIncome regularIncome) = Incomes.CheckRegularIncome(source, prepaidExpanse, datePrepaidExpanse, salary, dateSalary);
 
-            if (string.IsNullOrWhiteSpace(source))
+            if (errors.Count == 0)
             {
-                ViewBag.Error = "Введите название";
-                ViewBag.Title = "Новый доход";
-                return View();
+                _incomeService.AddRegularIncome(_user, regularIncome.IncomeSource, regularIncome.DatePrepaidExpanse,
+                    regularIncome.PrepaidExpanse, regularIncome.DateSalary, regularIncome.Salary);
+
+                ViewBag.Title = "Доходы";
+
+                ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+                ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+                ViewBag.Time = DateTime.Now;
+
+                return View("Index");
             }
 
-            if (!float.TryParse(prepaidExpanse, out prepaidExpanseValue))
-            {
-                ViewBag.Error = "Введите сумму аванса";
-                ViewBag.Title = "Новый доход";
-                return View();
-            }
-            else
-            {
-                if (prepaidExpanseValue <= 0)
-                {
-                    ViewBag.Error = "Сумма аванса должна быть больше 0";
-                    ViewBag.Title = "Новый доход";
-                    return View();
-                }
-            }
-
-            if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
-            {
-                ViewBag.Error = "Введите дату аванса";
-                ViewBag.Title = "Новый доход";
-                return View();
-            }
-
-            if (!float.TryParse(salary, out salaryValue))
-            {
-                ViewBag.Error = "Введите сумму окончаловки";
-                ViewBag.Title = "Новый доход";
-                return View();
-            }
-            else
-            {
-                if (salaryValue <= 0)
-                {
-                    ViewBag.Error = "Сумма окончаловки должна быть больше 0";
-                    ViewBag.Title = "Новый доход";
-                    return View();
-                }
-            }
-
-            if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
-            {
-                ViewBag.Error = "Введите дату окончаловки";
-                ViewBag.Title = "Новый доход";
-                return View();
-            }
-            else
-            {
-                if (dateSalary <= datePrepaidExpanse)
-                {
-                    ViewBag.Error = "Дата окончаловки должна быть больше даты аванса";
-                    ViewBag.Title = "Новый доход";
-                    return View();
-                }
-            }
-
-            _incomeService.AddRegularIncome(_user, source, datePrepaidExpanse, prepaidExpanseValue, dateSalary, salaryValue);
-
-            ViewBag.Title = "Доходы";
-
-            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
-            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
-            ViewBag.Time = DateTime.Now;
-
-            return View("Index");
+            ViewBag.Errors = errors;
+            ViewBag.Income = regularIncome;
+            ViewBag.Title = "Новый доход";
+            return View();
         }
 
         public ActionResult AddPeriod()
@@ -214,99 +166,26 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult ChangeRegular(int incomeid, string source, string prepaidExpanse, DateTime datePrepaidExpanse, string salary, DateTime dateSalary)
         {
-            float prepaidExpanseValue, salaryValue;
+            (List<string> errors, RegularIncome regularIncome) = Incomes.CheckRegularIncome(source, prepaidExpanse, datePrepaidExpanse, salary, dateSalary);
+
+            if (errors.Count == 0)
+            {
+                _incomeService.UpdateIncome(regularIncome);
+
+                ViewBag.Title = "Доходы";
+
+                ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
+                ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
+                ViewBag.Time = DateTime.Now;
+
+                return View("Index");
+            }
+
             var income = (RegularIncome)_incomeService.GetById(incomeid);
-
-            if (string.IsNullOrWhiteSpace(source))
-            {
-                ViewBag.Error = "Введите название";
-                ViewBag.Title = income.IncomeSource;
-                ViewBag.Income = income;
-
-                return View();
-            }
-
-            if (!float.TryParse(prepaidExpanse, out prepaidExpanseValue))
-            {
-                ViewBag.Error = "Введите сумму аванса";
-                ViewBag.Title = income.IncomeSource;
-                ViewBag.Income = income;
-
-                return View();
-            }
-            else
-            {
-                if (prepaidExpanseValue <= 0)
-                {
-                    ViewBag.Error = "Сумма аванса должна быть больше 0";
-                    ViewBag.Title = income.IncomeSource;
-                    ViewBag.Income = income;
-                    return View();
-                }
-            }
-
-            if (datePrepaidExpanse < DateTime.MinValue || datePrepaidExpanse > DateTime.MaxValue)
-            {
-                ViewBag.Error = "Введите дату аванса";
-                ViewBag.Title = income.IncomeSource;
-                ViewBag.Income = income;
-
-                return View();
-            }
-
-            if (!float.TryParse(salary, out salaryValue))
-            {
-                ViewBag.Error = "Введите сумму окончаловки";
-                ViewBag.Title = income.IncomeSource;
-                ViewBag.Income = income;
-
-                return View();
-            }
-            else
-            {
-                if (salaryValue <= 0)
-                {
-                    ViewBag.Error = "Сумма окончаловки должна быть больше 0";
-                    ViewBag.Title = income.IncomeSource;
-                    ViewBag.Income = income;
-                    return View();
-                }
-            }
-
-            if (dateSalary < DateTime.MinValue || dateSalary > DateTime.MaxValue)
-            {
-                ViewBag.Error = "Введите дату окончаловки";
-                ViewBag.Title = income.IncomeSource;
-                ViewBag.Income = income;
-
-                return View();
-            }
-            else
-            {
-                if (dateSalary <= datePrepaidExpanse)
-                {
-                    ViewBag.Error = "Дата окончаловки должна быть больше даты аванса";
-                    ViewBag.Title = income.IncomeSource;
-                    ViewBag.Income = income;
-                    return View();
-                }
-            }
-
-            income.IncomeSource = source;
-            income.PrepaidExpanse = prepaidExpanseValue;
-            income.DatePrepaidExpanse = datePrepaidExpanse;
-            income.Salary = salaryValue;
-            income.DateSalary = dateSalary;
-
-            _incomeService.UpdateIncome(income);
-
-            ViewBag.Title = "Доходы";
-
-            ViewBag.IncomesRegular = GetRegularIncomes(DateTime.Now);
-            ViewBag.IncomesPeriod = GetPeriodicIncomes(DateTime.Now);
-            ViewBag.Time = DateTime.Now;
-
-            return View("Index");
+            ViewBag.Errors = errors;
+            ViewBag.Income = income;
+            ViewBag.Title = income.IncomeSource;
+            return View();
         }
 
         [HttpGet]

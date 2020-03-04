@@ -37,5 +37,15 @@ namespace LoanPortfolio.WebApplication
 
             return (false, 0);
         }
+
+        //Проверка на минимальную дату
+        public static (bool ok, DateTime result) CheckDate(DateTime date)
+        {
+            if (date >= new DateTime(2000, 1, 1))
+            {
+                return (true, date);
+            }
+            return (false, DateTime.Now);
+        }
     }
 }

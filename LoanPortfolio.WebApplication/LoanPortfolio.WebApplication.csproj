@@ -162,6 +162,7 @@
     <Compile Include="Security\UserIdentity.cs" />
     <Compile Include="Security\UserProvider.cs" />
     <Compile Include="Services\TransferService.cs" />
+    <Compile Include="Utils\Loans.cs" />
     <Compile Include="Utils\Categories.cs" />
     <Compile Include="Utils\Incomes.cs" />
     <Compile Include="Utils\Expenses.cs" />

@@ -69,7 +69,8 @@ namespace LoanPortfolio.WebApplication.Controllers
             return View();
         }
 
-        public ActionResult ChangeTime(DateTime time)
+        [HttpPost]
+        public ActionResult Index(DateTime time)
         {
             ViewBag.Title = "Доходы";
             ViewBag.IncomesRegular = GetRegularIncomes(time);

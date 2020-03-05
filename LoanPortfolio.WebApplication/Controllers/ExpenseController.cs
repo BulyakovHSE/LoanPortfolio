@@ -25,16 +25,66 @@ namespace LoanPortfolio.WebApplication.Controllers
             _expenseService = expenseService;
             _category = category;
         }
+
+        private List<PersonalExpense> GetPersonalExpense(DateTime time)
+        {
+            int mm = time.Month;
+            int yy = time.Year;
+
+            var personals = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+            List<PersonalExpense> personalExpenses = new List<PersonalExpense>();
+            foreach (PersonalExpense personalExpense in personals)
+            {
+                if (personalExpense.DatePayment.Month == mm && personalExpense.DatePayment.Year == yy)
+                {
+                    personalExpenses.Add(personalExpense);
+                }
+            }
+            return personalExpenses;
+        }
+
+        private List<HCSExpense> GetHCSExpense(DateTime time)
+        {
+            int mm = time.Month;
+            int yy = time.Year;
+
+            var hcs = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
+            List<HCSExpense> hcsExpenses = new List<HCSExpense>();
+            foreach (HCSExpense hcsExpense in hcs)
+            {
+                if (hcsExpense.DatePayment.Month == mm && hcsExpense.DatePayment.Year == yy)
+                {
+                    hcsExpenses.Add(hcsExpense);
+                }
+            }
+
+            return hcsExpenses;
+        }
+
         public ActionResult Index()
         {
             ViewBag.Title = "Расходы";
 
-            ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
-            ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
+            ViewBag.HCS = GetHCSExpense(DateTime.Now);
+            ViewBag.Personal = GetPersonalExpense(DateTime.Now);
             ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+            ViewBag.Time = DateTime.Now;
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Index(DateTime time)
+        {
+            ViewBag.Title = "Расходы";
+            ViewBag.HCS = GetHCSExpense(time);
+            ViewBag.Personal = GetPersonalExpense(time);
+            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+            ViewBag.Time = time;
+
+            return View("Index");
+        }
+
         #region Add
 
         public ActionResult AddPersonal()
@@ -60,7 +110,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
                 ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
                 ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
+                ViewBag.Time = DateTime.Now;
                 return View("Index");
             }
 
@@ -94,7 +144,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
                 ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
                 ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
+                ViewBag.Time = DateTime.Now;
                 return View("Index");
             }
 
@@ -134,7 +184,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
                 ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
                 ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
+                ViewBag.Time = DateTime.Now;
                 return View("Index");
             }
 
@@ -172,7 +222,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
                 ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
                 ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
+                ViewBag.Time = DateTime.Now;
                 return View("Index");
             }
 
@@ -196,7 +246,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             ViewBag.HCS = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
             ViewBag.Personal = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(PersonalExpense));
             ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
-
+            ViewBag.Time = DateTime.Now;
             return View("Index");
         }
     }

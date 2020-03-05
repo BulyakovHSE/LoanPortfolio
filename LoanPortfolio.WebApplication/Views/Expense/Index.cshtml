@@ -1,10 +1,13 @@
 ﻿@using LoanPortfolio.Db.Entities
 
 <br />
+<form method="post" action="~/Expense/Index">
+    <p>
+        <input type="month" name="time" value="@Convert.ToDateTime(ViewBag.Time.ToString()).ToString("yyyy-MM")" />
+    </p>
+    <input type="submit" value="Поменять" />
+</form>
 
-<p>
-    <input type="month" value="@Convert.ToDateTime(DateTime.Today.ToString()).ToString("yyyy-MM")" />
-</p>
 <div style="margin-bottom: 30px; margin-top: 30px;">
     <h2>Финансовые задолженности</h2>
 

@@ -14,8 +14,9 @@ namespace LoanPortfolio.WebApplication.Controllers
         private User _user;
         private IExpenseService _expenseService;
         private IRepository<Category> _category;
+        private ILoanService _loanService;
 
-        public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category)
+        public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category, ILoanService loanService)
         {
             if (userService.GetAll().Any())
             {
@@ -24,6 +25,7 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             _expenseService = expenseService;
             _category = category;
+            _loanService = loanService;
         }
 
         private List<PersonalExpense> GetPersonalExpense(DateTime time)
@@ -67,7 +69,7 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             ViewBag.HCS = GetHCSExpense(DateTime.Now);
             ViewBag.Personal = GetPersonalExpense(DateTime.Now);
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+            ViewBag.Loan = _loanService.GetAll(_user);
             ViewBag.Time = DateTime.Now;
 
             return View();
@@ -79,7 +81,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             ViewBag.Title = "Расходы";
             ViewBag.HCS = GetHCSExpense(time);
             ViewBag.Personal = GetPersonalExpense(time);
-            ViewBag.Loan = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment));
+            ViewBag.Loan = _loanService.GetAll(_user);
             ViewBag.Time = time;
 
             return View("Index");

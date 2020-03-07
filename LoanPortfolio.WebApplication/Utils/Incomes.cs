@@ -62,20 +62,20 @@ namespace LoanPortfolio.WebApplication
             (ok, salaryValue) = Utils.CheckNumberIsNotNull(salary);
             if (!ok)
             {
-                errors.Add("Введите сумму окончаловки");
+                errors.Add("Введите сумму доплаты");
             }
             else
             {
                 (ok, regularIncome.Salary) = Utils.CheckNumberIsPositive(salaryValue);
-                if (!ok) errors.Add("Сумма окончаловки должна быть больше 0");
+                if (!ok) errors.Add("Сумма доплаты должна быть больше 0");
             }
 
             (ok, regularIncome.DateSalary) = Utils.CheckDate(dateSalary);
-            if (!ok) errors.Add("Слишком маленькая дата окончаловки");
+            if (!ok) errors.Add("Слишком маленькая дата доплаты");
 
             if (dateSalary <= datePrepaidExpanse)
             {
-                errors.Add("Дата окончаловки должна быть больше даты аванса");
+                errors.Add("Дата доплаты должна быть больше даты аванса");
             }
 
             regularIncome.DatePrepaidExpanse = datePrepaidExpanse;

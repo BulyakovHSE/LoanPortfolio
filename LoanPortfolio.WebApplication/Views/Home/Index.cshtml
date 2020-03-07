@@ -9,13 +9,14 @@
     else
     {
         <h1>@{Write("Войдите или зарегистрируйтесь");}</h1>
+        <div style="display: flex;">
+            <form action="~/Home/Auth" style="padding:20px">
+                <button type="submit" class="btn">Авторизация</button>
+            </form>
 
-        <form action="~/Home/Auth">
-            <button type="submit" class="btn">Авторизация</button>
-        </form>
-
-        <form action="~/Home/Register">
-            <button type="submit" class="btn">Регистрация</button>
-        </form>
+            <form action="~/Home/Register" style="padding:20px">
+                <button type="submit" class="btn">Регистрация</button>
+            </form>
+        </div>
     }
 }

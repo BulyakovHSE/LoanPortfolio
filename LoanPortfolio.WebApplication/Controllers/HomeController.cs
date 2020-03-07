@@ -84,7 +84,38 @@ namespace LoanPortfolio.WebApplication.Controllers
             }
 
             ViewBag.Title = "Регистрация";
+            ViewBag.Errors = errors;
             ViewBag.User = user;
+            return View();
+        }
+
+        public ActionResult PC()
+        {
+            ViewBag.Title = "Личный кабинет";
+            ViewBag.User = CurrentUser;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PC(int userId, string firstName, string lastName, string login, string password)
+        {
+            (List<string> errors, User user) = Users.CheckUser(userId, firstName, lastName, login, password, _userService.GetAll());
+            User oldUser = _userService.GetById(userId);
+            ViewBag.Title = "Личный кабинет";
+            if (errors.Count == 0)
+            {
+                if (oldUser.Email != user.Email) _userService.ChangeEmail(oldUser, user.Email);
+                if (oldUser.FirstName != user.FirstName) _userService.ChangeFirstName(oldUser, user.FirstName);
+                if (oldUser.LastName != user.LastName) _userService.ChangeLastName(oldUser, user.LastName);
+                if (oldUser.Password != user.Password) _userService.ChangePassword(oldUser, user.Password);
+                _authService.Login(user.Email, user.Password, true);
+                ViewBag.User = CurrentUser;
+                return View();
+            }
+
+            ViewBag.Errors = errors;
+            ViewBag.User = oldUser;
             return View();
         }
     }

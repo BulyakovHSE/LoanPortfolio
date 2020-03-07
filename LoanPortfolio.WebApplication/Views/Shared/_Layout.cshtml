@@ -26,6 +26,15 @@
                     <li>@Html.ActionLink("Кредитная история", "Index", "CreditHistory")</li>
                     <li>@Html.ActionLink("Оборотно-сальдовая ведомость", "Index", "Result")</li>
                 </ul>
+                <ul class="nav navbar-nav" style="float: right;">
+                    @{
+                        if (ViewBag.User != null)
+                        {
+                            string str = ViewBag.User.FirstName + " " + ViewBag.User.LastName;
+                            <li>@Html.ActionLink(str, "PC", "Home")</li>
+                        }
+                    }
+                </ul>
             </div>
         </div>
     </div>

@@ -64,5 +64,33 @@ namespace LoanPortfolio.WebApplication
 
             return (errors, user);
         }
+
+
+        //Проверка при изменении данных
+        public static (List<string> errors, User user) CheckUser(int userId, string firstName, string lastName, string login, string password, IEnumerable<User> users)
+        {
+            User user = new User();
+            List<string> errors = new List<string>();
+
+            (ok, user.FirstName) = Utils.CheckTextIsNotNull(firstName);
+            if (!ok) errors.Add("Введите Имя");
+
+            (ok, user.LastName) = Utils.CheckTextIsNotNull(lastName);
+            if (!ok) errors.Add("Введите Фамилию");
+
+            (ok, user.Email) = Utils.CheckTextIsNotNull(login);
+            if (!ok) errors.Add("Введите Email");
+
+            (ok, user.Password) = Utils.CheckTextIsNotNull(password);
+            if (!ok) errors.Add("Введите пароль");
+
+            User user1 = users.SingleOrDefault(x => x.Email == user.Email && x.Id != userId);
+            if (user1 != null)
+            {
+                errors.Add("Пользователь с таким Email уже существует");
+            }
+
+            return (errors, user);
+        }
     }
 }

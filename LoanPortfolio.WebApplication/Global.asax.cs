@@ -39,7 +39,7 @@ namespace LoanPortfolio.WebApplication
             container.Register<IIncomeService, IncomeService>();
             container.Register<IExpenseService, ExpenseService>();
             container.Register<ILoanService, LoanService>();
-            container.Register<IAuthService, AuthService>();
+            container.RegisterSingleton<IAuthService, AuthService>();
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 

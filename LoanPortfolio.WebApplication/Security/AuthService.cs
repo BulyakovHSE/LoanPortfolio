@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
+using System.Web.Mvc;
 using System.Web.Security;
 using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Services.Interfaces;
@@ -11,40 +12,31 @@ namespace LoanPortfolio.WebApplication.Security
     public class AuthService : IAuthService
     {
         private const string _cookieName = "__AUTH_COOKIE";
-
         public HttpContext HttpContext { get; set; }
 
-        private IUserService _userService;
+        public IUserService _userService { get; set; }
         private IPrincipal _currentUser;
-
-        public AuthService(IUserService userService)
-        {
-            _userService = userService;
-        }
 
         public IPrincipal CurrentUser
         {
             get
             {
-                if (_currentUser == null)
+                try
                 {
-                    try
+                    HttpCookie authCookie = HttpContext.Request.Cookies.Get(_cookieName);
+                    if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
                     {
-                        HttpCookie authCookie = HttpContext.Request.Cookies.Get(_cookieName);
-                        if (authCookie != null && !string.IsNullOrEmpty(authCookie.Value))
-                        {
-                            var ticket = FormsAuthentication.Decrypt(authCookie.Value);
-                            _currentUser = ticket == null ? new UserProvider(null, null) : new UserProvider(ticket.Name, _userService);
-                        }
-                        else
-                        {
-                            _currentUser = new UserProvider(null, null);
-                        }
+                        var ticket = FormsAuthentication.Decrypt(authCookie.Value);
+                        _currentUser = ticket == null ? new UserProvider(null, null) : new UserProvider(ticket.Name, _userService);
                     }
-                    catch (Exception ex)
+                    else
                     {
                         _currentUser = new UserProvider(null, null);
                     }
+                }
+                catch (Exception ex)
+                {
+                    _currentUser = new UserProvider(null, null);
                 }
 
                 return _currentUser;

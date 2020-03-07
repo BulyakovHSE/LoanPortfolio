@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Web.Mvc;
+using LoanPortfolio.Services.Interfaces;
 
 namespace LoanPortfolio.WebApplication.Security
 {
@@ -17,6 +18,7 @@ namespace LoanPortfolio.WebApplication.Security
             HttpContext context = app.Context;
 
             var auth = DependencyResolver.Current.GetService<IAuthService>();
+            auth._userService = DependencyResolver.Current.GetService<IUserService>();
             auth.HttpContext = context;
             context.User = auth.CurrentUser;
         }

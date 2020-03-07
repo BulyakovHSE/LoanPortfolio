@@ -12,8 +12,11 @@ namespace LoanPortfolio.WebApplication.Controllers
 {
     public class HomeController : BaseController
     {
+        public IUserService _userService;
+
         public HomeController(IUserService userService, IAuthService authService) : base(authService)
         {
+            _userService = userService;
         }
 
         public ActionResult Index()
@@ -36,7 +39,6 @@ namespace LoanPortfolio.WebApplication.Controllers
         public ActionResult Auth()
         {
             ViewBag.Title = "Авторизация";
-            ViewBag.User = CurrentUser;
 
             return View();
         }
@@ -44,16 +46,26 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult Auth(string login, string password)
         {
-            ViewBag.Title = "Кредитный портфель";
-            _authService.Login(login, password, true);
+            (List<string> errors, User user) = Users.CheckAuth(login, password, _userService.GetAll());
+            if (errors.Count == 0)
+            {
+                ViewBag.Title = "Кредитный портфель";
+                _authService.Login(user.Email, user.Password, true);
+                ViewBag.User = CurrentUser;
+                return View("Index");
+            }
+
+            ViewBag.Errors = errors;
+            ViewBag.Title = "Авторизация";
             ViewBag.User = CurrentUser;
-            return View("Index");
+
+            return View();
         }
 
         public ActionResult Register()
         {
             ViewBag.Title = "Регистрация";
-            ViewBag.User = CurrentUser;
+            ViewBag.User = new User();
 
             return View();
         }
@@ -61,10 +73,19 @@ namespace LoanPortfolio.WebApplication.Controllers
         [HttpPost]
         public ActionResult Register(string firstName, string lastName, string login, string password)
         {
-            ViewBag.Title = "Кредитный портфель";
-            ViewBag.User = CurrentUser;
+            (List<string> errors, User user) = Users.CheckRegister(firstName, lastName, login, password, _userService.GetAll());
+            if (errors.Count == 0)
+            {
+                _userService.Add(user.Email, user.Password, user.FirstName, user.LastName);
+                _authService.Login(user.Email, user.Password, true);
+                ViewBag.Title = "Кредитный портфель";
+                ViewBag.User = CurrentUser;
+                return View("Index");
+            }
 
-            return View("Index");
+            ViewBag.Title = "Регистрация";
+            ViewBag.User = user;
+            return View();
         }
     }
 }

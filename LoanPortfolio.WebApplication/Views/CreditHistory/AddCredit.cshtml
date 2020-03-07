@@ -3,32 +3,32 @@
 <form method="post" action="~/CreditHistory/AddCredit">
     <p>
         Дата платежа:
-        <input type="date" name="date" required />
+        <input type="date" value="@ViewBag.Loan.ClearanceDate.ToString("yyyy-MM-dd")" name="date" required />
     </p>
 
     <p>
         Сумма займа:
-        <input type="text" name="loanSum" required />
+        <input type="text" value="@ViewBag.Loan.LoanSum" name="loanSum" required />
     </p>
     
     <p>
         Сумма к погашению:
-        <input type="text" name="amountDie" required />
+        <input type="text" value="@ViewBag.Loan.AmountDie" name="amountDie" required />
     </p>
 
     <p>
         Срок погашения в месяцах:
-        <input type="text" name="repaymentPeriod" required />
+        <input type="text" value="@ViewBag.Loan.RepaymentPeriod" name="repaymentPeriod" required />
     </p>
     
     <p>
         Наименование кредитной организации:
-        <input type="text" name="creditInstitutionName" required />
+        <input type="text" value="@ViewBag.Loan.CreditInstitutionName" name="creditInstitutionName" required />
     </p>
 
     <p>
         Адрес банка или банкомата:
-        <input type="text" name="bankAddress" required />
+        <input type="text" value="@ViewBag.Loan.BankAddress" name="bankAddress" required />
     </p>
 
     <input type="submit" value="Добавить" />

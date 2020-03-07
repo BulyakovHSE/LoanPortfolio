@@ -21,10 +21,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Доходы", "Index", "Income")</li>
-                    <li>@Html.ActionLink("Расходы", "Index", "Expense")</li>
-                    <li>@Html.ActionLink("Кредитная история", "Index", "CreditHistory")</li>
-                    <li>@Html.ActionLink("Оборотно-сальдовая ведомость", "Index", "Result")</li>
+                    @{
+                        if (ViewBag.User != null)
+                        {
+                            <li>@Html.ActionLink("Доходы", "Index", "Income")</li>
+                            <li>@Html.ActionLink("Расходы", "Index", "Expense")</li>
+                            <li>@Html.ActionLink("Кредитная история", "Index", "CreditHistory")</li>
+                            <li>@Html.ActionLink("Оборотно-сальдовая ведомость", "Index", "Result")</li>
+                        }
+                    }
                 </ul>
                 <ul class="nav navbar-nav" style="float: right;">
                     @{

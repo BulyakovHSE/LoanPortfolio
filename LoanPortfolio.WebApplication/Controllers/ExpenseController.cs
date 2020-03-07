@@ -6,23 +6,20 @@ using System.Web.Mvc;
 using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Db.Interfaces;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Security;
 
 namespace LoanPortfolio.WebApplication.Controllers
 {
-    public class ExpenseController : Controller
+    public class ExpenseController : BaseController
     {
         private User _user;
         private IExpenseService _expenseService;
         private IRepository<Category> _category;
         private ILoanService _loanService;
 
-        public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category, ILoanService loanService)
+        public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category, ILoanService loanService, IAuthService authService) : base(authService)
         {
-            if (userService.GetAll().Any())
-            {
-                _user = userService.GetAll().ToList()[0];
-            }
-
+            _user = CurrentUser;
             _expenseService = expenseService;
             _category = category;
             _loanService = loanService;

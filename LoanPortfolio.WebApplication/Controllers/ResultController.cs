@@ -5,22 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Security;
 
 namespace LoanPortfolio.WebApplication.Controllers
 {
-    public class ResultController : Controller
+    public class ResultController : BaseController
     {
         private User _user;
         private IExpenseService _expenseService;
         private IIncomeService _incomeService;
 
-        public ResultController(IUserService userService, IExpenseService expenseService, IIncomeService incomeService)
+        public ResultController(IUserService userService, IExpenseService expenseService, IIncomeService incomeService, IAuthService authService) : base(authService)
         {
-            if (userService.GetAll().Any())
-            {
-                _user = userService.GetAll().ToList()[0];
-            }
-
+            _user = CurrentUser;
             _expenseService = expenseService;
             _incomeService = incomeService;
         }
@@ -37,7 +34,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 {
                     sum += r.Sum;
                 }
-                else if(income is PeriodicIncome p)
+                else if (income is PeriodicIncome p)
                 {
                     sum += p.Sum;
                 }
@@ -59,7 +56,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 }
                 else if (expense is LoanPayment loanPayment)
                 {
-                    sum += loanPayment.Loan.AmountDie/ loanPayment.Loan.RepaymentPeriod;
+                    sum += loanPayment.Loan.AmountDie / loanPayment.Loan.RepaymentPeriod;
                 }
             }
 

@@ -1,6 +1,7 @@
 ﻿using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Db.Interfaces;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,14 @@ using System.Web.Mvc;
 
 namespace LoanPortfolio.WebApplication.Controllers
 {
-    public class CategoriesController : Controller
+    public class CategoriesController : BaseController
     {
         private User _user;
         private IRepository<Category> _category;
 
-        public CategoriesController(IUserService userService, IRepository<Category> category)
+        public CategoriesController(IUserService userService, IRepository<Category> category, IAuthService authService) : base(authService)
         {
-            if (userService.GetAll().Any())
-            {
-                _user = userService.GetAll().ToList()[0];
-            }
-
+            _user = CurrentUser;
             _category = category;
         }
 

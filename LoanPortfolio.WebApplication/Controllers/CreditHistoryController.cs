@@ -5,21 +5,18 @@ using System.Web;
 using System.Web.Mvc;
 using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Security;
 
 namespace LoanPortfolio.WebApplication.Controllers
 {
-    public class CreditHistoryController : Controller
+    public class CreditHistoryController : BaseController
     {
         private User _user;
         private ILoanService _loanService;
 
-        public CreditHistoryController(IUserService userService, ILoanService loanService)
+        public CreditHistoryController(IUserService userService, ILoanService loanService, IAuthService authService) : base(authService)
         {
-            if (userService.GetAll().Any())
-            {
-                _user = userService.GetAll().ToList()[0];
-            }
-
+            _user = CurrentUser;
             _loanService = loanService;
         }
 

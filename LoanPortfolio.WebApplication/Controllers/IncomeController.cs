@@ -5,21 +5,18 @@ using System.Web;
 using System.Web.Mvc;
 using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Services.Interfaces;
+using LoanPortfolio.WebApplication.Security;
 
 namespace LoanPortfolio.WebApplication.Controllers
 {
-    public class IncomeController : Controller
+    public class IncomeController : BaseController
     {
         private User _user;
         private IIncomeService _incomeService;
 
-        public IncomeController(IUserService userService, IIncomeService incomeService)
+        public IncomeController(IUserService userService, IIncomeService incomeService, IAuthService authService) : base(authService)
         {
-            if (userService.GetAll().Any())
-            {
-                _user = userService.GetAll().ToList()[0];
-            }
-
+            _user = CurrentUser;
             _incomeService = incomeService;
         }
 

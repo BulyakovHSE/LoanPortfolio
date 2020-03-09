@@ -16,6 +16,7 @@ namespace LoanPortfolio.WebApplication.Controllers
 
         public CreditHistoryController(IUserService userService, ILoanService loanService, IAuthService authService) : base(authService)
         {
+            ViewBag.User = CurrentUser;
             _user = CurrentUser;
             _loanService = loanService;
         }

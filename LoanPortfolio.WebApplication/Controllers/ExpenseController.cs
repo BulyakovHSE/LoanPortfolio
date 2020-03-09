@@ -19,6 +19,7 @@ namespace LoanPortfolio.WebApplication.Controllers
 
         public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category, ILoanService loanService, IAuthService authService) : base(authService)
         {
+            ViewBag.User = CurrentUser;
             _user = CurrentUser;
             _expenseService = expenseService;
             _category = category;
@@ -90,19 +91,21 @@ namespace LoanPortfolio.WebApplication.Controllers
         {
             ViewBag.Title = "Новый расход";
             ViewBag.Categories = _user.Categories;
-            ViewBag.Expense = new PersonalExpense();
+            PersonalExpense personalExpense = new PersonalExpense();
+            personalExpense.DatePayment = DateTime.Now;
+            ViewBag.Expense = personalExpense;
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddPersonal(string categoryId, string sum)
+        public ActionResult AddPersonal(string categoryId, string sum, DateTime date)
         {
-            (List<string> errors, PersonalExpense personalExpense, int id) = Expenses.CheckPersonalExpense(categoryId, sum);
+            (List<string> errors, PersonalExpense personalExpense, int id) = Expenses.CheckPersonalExpense(categoryId, sum, date);
 
             if (errors.Count == 0)
             {
                 Category category = _user.Categories.Where(x => x.Id == id).First();
-                _expenseService.AddPersonalExpense(_user, DateTime.Now, personalExpense.Sum, category);
+                _expenseService.AddPersonalExpense(_user, personalExpense.DatePayment, personalExpense.Sum, category);
 
                 ViewBag.Title = "Расходы";
 
@@ -206,9 +209,9 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangePersonal(int expenseid, string categoryId, string sum)
+        public ActionResult ChangePersonal(int expenseid, string categoryId, string sum, DateTime date)
         {
-            (List<string> errors, PersonalExpense personalExpense, int id) = Expenses.CheckPersonalExpense(categoryId, sum);
+            (List<string> errors, PersonalExpense personalExpense, int id) = Expenses.CheckPersonalExpense(categoryId, sum, date);
 
             if (errors.Count == 0)
             {

@@ -11,7 +11,7 @@ namespace LoanPortfolio.WebApplication
         static private bool ok;
 
         //Добавление и изменение дополнительного дохода
-        public static (List<string> errors, PeriodicIncome periodicIncome) CheckPeriodIncome(string source, string sum)
+        public static (List<string> errors, PeriodicIncome periodicIncome) CheckPeriodIncome(string source, string sum, DateTime date)
         {
             PeriodicIncome periodicIncome = new PeriodicIncome();
             List<string> errors = new List<string>();
@@ -30,6 +30,9 @@ namespace LoanPortfolio.WebApplication
                 (ok, periodicIncome.Sum) = Utils.CheckNumberIsPositive(value);
                 if (!ok) errors.Add("Сумма дохода должна быть больше 0");
             }
+
+            (ok, periodicIncome.DateIncome) = Utils.CheckDate(date);
+            if (!ok) errors.Add("Слишком маленькая дата");
 
             return (errors, periodicIncome);
         }

@@ -11,7 +11,7 @@ namespace LoanPortfolio.WebApplication
         static private bool ok;
 
         //Добавление и изменение персональных расходов
-        public static (List<string> errors, PersonalExpense personalExpense, int id) CheckPersonalExpense(string categoryId, string sum)
+        public static (List<string> errors, PersonalExpense personalExpense, int id) CheckPersonalExpense(string categoryId, string sum, DateTime date)
         {
             PersonalExpense personalExpense = new PersonalExpense();
             List<string> errors = new List<string>();
@@ -33,6 +33,9 @@ namespace LoanPortfolio.WebApplication
                 (ok, personalExpense.Sum) = Utils.CheckNumberIsPositive(value);
                 if (!ok) errors.Add("Сумма должна быть больше 0");
             }
+
+            (ok, personalExpense.DatePayment) = Utils.CheckDate(date);
+            if (!ok) errors.Add("Слишком маленькая дата");
 
             return (errors, personalExpense, id);
         }

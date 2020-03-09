@@ -14,5 +14,10 @@
         <input type="text" value="@ViewBag.Income.Sum" name="sum" required />
     </p>
 
+    <p>
+        Дата:
+        <input type="month" name="date" value="@Convert.ToDateTime(ViewBag.Income.DateIncome.ToString()).ToString("yyyy-MM")" required />
+    </p>
+
     <input type="submit" value="Сохранить" />
 </form>

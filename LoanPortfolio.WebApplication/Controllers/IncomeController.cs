@@ -18,6 +18,8 @@ namespace LoanPortfolio.WebApplication.Controllers
         {
             _user = CurrentUser;
             _incomeService = incomeService;
+
+            ViewBag.User = CurrentUser;
         }
 
         private List<RegularIncome> GetRegularIncomes(DateTime time)
@@ -87,6 +89,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             regularIncome.DatePrepaidExpanse = DateTime.Now;
             regularIncome.DateSalary = DateTime.Now;
             ViewBag.Income = regularIncome;
+
             return View();
         }
 
@@ -112,24 +115,28 @@ namespace LoanPortfolio.WebApplication.Controllers
             ViewBag.Errors = errors;
             ViewBag.Income = regularIncome;
             ViewBag.Title = "Новый доход";
+
             return View();
         }
 
         public ActionResult AddPeriod()
         {
             ViewBag.Title = "Новый доход";
-            ViewBag.Income = new PeriodicIncome();
+            PeriodicIncome periodicIncome = new PeriodicIncome();
+            periodicIncome.DateIncome = DateTime.Now;
+            ViewBag.Income = periodicIncome;
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddPeriod(string source, string sum)
+        public ActionResult AddPeriod(string source, string sum, DateTime date)
         {
-            (List<string> errors, PeriodicIncome periodicIncome) = Incomes.CheckPeriodIncome(source, sum);
+            (List<string> errors, PeriodicIncome periodicIncome) = Incomes.CheckPeriodIncome(source, sum, date);
 
             if (errors.Count == 0)
             {
-                _incomeService.AddPeriodicIncome(_user, periodicIncome.IncomeSource, periodicIncome.Sum, DateTime.Now);
+                _incomeService.AddPeriodicIncome(_user, periodicIncome.IncomeSource, periodicIncome.Sum, periodicIncome.DateIncome);
 
                 ViewBag.Title = "Доходы";
 
@@ -143,6 +150,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             ViewBag.Errors = errors;
             ViewBag.Income = periodicIncome;
             ViewBag.Title = "Новый доход";
+
             return View();
         }
 
@@ -183,6 +191,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             ViewBag.Errors = errors;
             ViewBag.Income = income;
             ViewBag.Title = income.IncomeSource;
+
             return View();
         }
 
@@ -192,13 +201,14 @@ namespace LoanPortfolio.WebApplication.Controllers
             var income = _incomeService.GetById(id);
             ViewBag.Title = income.IncomeSource;
             ViewBag.Income = income;
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult ChangePeriod(int incomeid, string source, string sum)
+        public ActionResult ChangePeriod(int incomeid, string source, string sum, DateTime date)
         {
-            (List<string> errors, PeriodicIncome periodicIncome) = Incomes.CheckPeriodIncome(source, sum);
+            (List<string> errors, PeriodicIncome periodicIncome) = Incomes.CheckPeriodIncome(source, sum, date);
 
             if (errors.Count == 0)
             {
@@ -217,6 +227,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             ViewBag.Errors = errors;
             ViewBag.Title = income.IncomeSource;
             ViewBag.Income = income;
+
             return View();
         }
 

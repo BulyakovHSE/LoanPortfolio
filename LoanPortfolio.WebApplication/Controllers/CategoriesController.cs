@@ -17,6 +17,7 @@ namespace LoanPortfolio.WebApplication.Controllers
 
         public CategoriesController(IUserService userService, IRepository<Category> category, IAuthService authService) : base(authService)
         {
+            ViewBag.User = CurrentUser;
             _user = CurrentUser;
             _category = category;
         }

@@ -16,6 +16,7 @@ namespace LoanPortfolio.Db.Repositories
         public LoanContext() : base("LoanContext")
         {
             System.Data.Entity.Database.SetInitializer(new CreateDatabaseIfNotExists<LoanContext>());
+            this.Configuration.LazyLoadingEnabled = false;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

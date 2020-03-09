@@ -43,7 +43,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
             userService = new UserService(userRepository);
 
             if(_user == null)
-            _user = userService.Add("222@mail.ru", "12345", "Test", "Testovich");
+            _user = userService.Add("222@mail.ru", "123456789", "Test", "Testovich");
             //_user = userService.GetById(1);
 
             _loanSum = 10000;
@@ -67,6 +67,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
             Loan expected = new Loan
             {
                 UserId = _user.Id,
+                User = _user,
                 LoanSum = _loanSum,
                 AmountDie = _amountDie,
                 BankAddress = _bankAddress,
@@ -87,6 +88,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
 
             Loan actual = loanService.AddLoan(_user, _loanSum, _clearanceDate, _amountDie, _repaymentPeriod, _creditInstitutionName, _bankAddress);
             //Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.User, actual.User);
             Assert.AreEqual(expected.LoanSum, actual.LoanSum);
             Assert.AreEqual(expected.AmountDie, actual.AmountDie);
             Assert.AreEqual(expected.BankAddress, actual.BankAddress);

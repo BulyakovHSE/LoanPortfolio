@@ -47,7 +47,7 @@ namespace LoanPortfolio.WebApplication.Security
         {
             var user = _userService.GetAll().SingleOrDefault(x => x.Email == username);
 
-            if (user != null)
+            if (user != null && user.Password == password)
             {
                 CreateCookie(username, user.Id, isPersistent);
             }

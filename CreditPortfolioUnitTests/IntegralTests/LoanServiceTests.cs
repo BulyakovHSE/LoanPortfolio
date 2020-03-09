@@ -47,7 +47,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
             //_user = userService.GetById(1);
 
             _loanSum = 10000;
-            _clearanceDate = new DateTime(2020, 06, 05);
+            _clearanceDate = new DateTime(2020, 01, 05);
             _amountDie = 600;
             _repaymentPeriod = 13;
             _creditInstitutionName = "Курпсук";
@@ -106,18 +106,18 @@ namespace CreditPortfolioUnitTests.IntegralTests
             //Loan loan = loanService.GetById(1);
 
             var date = loan.ClearanceDate;
-            LoanPayment loanPayment = new LoanPayment();
+            LoanPayment loanPayment = null;
 
             for (int i = 0; i < _repaymentPeriod; i++)
             {
                 var sum = loan.AmountDie / loan.RepaymentPeriod;
                 if (DateTime.Now.Month == date.Month && DateTime.Now.Year == date.Year)
-                    loanPayment = new LoanPayment {BankAddress =_bankAddress, CreditInstitutionName = _creditInstitutionName, UserId = loan.UserId, DatePayment = date, Sum = sum };
-                date = loan.ClearanceDate.AddMonths(1);
+                    loanPayment = new LoanPayment { User = _user, BankAddress =_bankAddress, CreditInstitutionName = _creditInstitutionName, UserId = loan.UserId, DatePayment = date, Sum = sum };
+                date = date.AddMonths(1);
             }
 
             EntityFrameworkRepository<Expense> repository = new EntityFrameworkRepository<Expense>(_dbLoanContext);
-            LoanPayment expected = (LoanPayment)repository.All().SingleOrDefault(x => x.Id == 1);
+            LoanPayment expected = (LoanPayment)repository.All().SingleOrDefault(x => x.Id == 0);
 
             Assert.AreEqual(loanPayment,expected);
         }

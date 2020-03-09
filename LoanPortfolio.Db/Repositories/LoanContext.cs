@@ -26,6 +26,7 @@ namespace LoanPortfolio.Db.Repositories
             modelBuilder.Entity<User>().HasMany(u => u.Loans).WithRequired(l => l.User).HasForeignKey(l => l.UserId).WillCascadeOnDelete(false);
             modelBuilder.Entity<Loan>().HasMany(x => x.Payments).WithRequired(p => p.Loan).HasForeignKey(p => p.LoanId);
             modelBuilder.Entity<User>().HasMany(u=>u.Categories).WithRequired(c=>c.User).HasForeignKey(c=>c.UserId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<PersonalExpense>().HasRequired(p => p.ExpenseCategory);
 
             base.OnModelCreating(modelBuilder);
         }

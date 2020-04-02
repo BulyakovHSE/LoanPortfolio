@@ -10,7 +10,7 @@
         Сумма займа:
         <input type="text" value="@ViewBag.Loan.LoanSum" name="loanSum" required />
     </p>
-    
+
     <p>
         Сумма к погашению:
         <input type="text" value="@ViewBag.Loan.AmountDie" name="amountDie" required />
@@ -20,7 +20,7 @@
         Срок погашения в месяцах:
         <input type="text" value="@ViewBag.Loan.RepaymentPeriod" name="repaymentPeriod" required />
     </p>
-    
+
     <p>
         Наименование кредитной организации:
         <input type="text" value="@ViewBag.Loan.CreditInstitutionName" name="creditInstitutionName" required />
@@ -31,5 +31,5 @@
         <input type="text" value="@ViewBag.Loan.BankAddress" name="bankAddress" required />
     </p>
 
-    <input type="submit" value="Добавить" />
+    <button type="submit" class="btn">Добавить</button>
 </form>

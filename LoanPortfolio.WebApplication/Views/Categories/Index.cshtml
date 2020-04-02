@@ -25,11 +25,11 @@
                             <div style="display: flex;">
                                 <form action="~/Categories/ChangeCategories/">
                                     <input type="hidden" value="@category.Id" name="id" />
-                                    <button type="submit" class="btn">Редактировать</button>
+                                    <button type="submit" class="btn"><img src="~/Edit.png" style="height: 25px" /></button>
                                 </form>
                                 <form action="~/Categories/Delete/">
                                     <input type="hidden" value="@category.Id" name="id" />
-                                    <button type="submit" class="btn" style="margin-right: 15px">Удалить</button>
+                                    <button type="submit" class="btn" style="margin-right: 15px"><img src="~/Delete.png" style="height: 25px" /></button>
                                 </form>
                             </div>
                         </td>

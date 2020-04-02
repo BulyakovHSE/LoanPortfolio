@@ -225,6 +225,7 @@
     <Content Include="Views\Categories\AddCategories.cshtml" />
     <Content Include="Views\Categories\ChangeCategories.cshtml" />
     <Content Include="Views\Home\PC.cshtml" />
+    <Content Include="Views\Home\RestorePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

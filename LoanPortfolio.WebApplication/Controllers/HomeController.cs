@@ -31,9 +31,34 @@ namespace LoanPortfolio.WebApplication.Controllers
         {
             ViewBag.Title = "Кредитный портфель";
             _authService.Logout();
-            ViewBag.User = CurrentUser;
+            ViewBag.User = null;
 
             return View("Index");
+        }
+
+        public ActionResult RestorePassword()
+        {
+            ViewBag.Title = "Восстановление пароля";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RestorePassword(string login)
+        {
+            (List<string> errors, User user) = Users.CheckRestorePassword(login, _userService.GetAll());
+            if (errors.Count == 0)
+            {
+                ViewBag.Title = "Кредитный портфель";
+
+                return View("Index");
+            }
+
+            ViewBag.Errors = errors;
+            ViewBag.Title = "Восстановление пароля";
+            ViewBag.User = user;
+
+            return View();
         }
 
         public ActionResult Auth()
@@ -51,7 +76,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             {
                 ViewBag.Title = "Кредитный портфель";
                 _authService.Login(user.Email, user.Password, true);
-                ViewBag.User = CurrentUser;
+                ViewBag.User = _userService.GetAll().SingleOrDefault(x => x.Email == user.Email);
                 return View("Index");
             }
 
@@ -79,7 +104,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 _userService.Add(user.Email, user.Password, user.FirstName, user.LastName);
                 _authService.Login(user.Email, user.Password, true);
                 ViewBag.Title = "Кредитный портфель";
-                ViewBag.User = CurrentUser;
+                ViewBag.User = user;
                 return View("Index");
             }
 
@@ -110,12 +135,12 @@ namespace LoanPortfolio.WebApplication.Controllers
                 if (oldUser.LastName != user.LastName) _userService.ChangeLastName(oldUser, user.LastName);
                 if (oldUser.Password != user.Password) _userService.ChangePassword(oldUser, user.Password);
                 _authService.Login(user.Email, user.Password, true);
-                ViewBag.User = CurrentUser;
+                ViewBag.User = user;
                 return View();
             }
 
             ViewBag.Errors = errors;
-            ViewBag.User = oldUser;
+            ViewBag.User = CurrentUser;
             return View();
         }
     }

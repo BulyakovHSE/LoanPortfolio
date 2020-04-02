@@ -65,7 +65,6 @@ namespace LoanPortfolio.WebApplication
             return (errors, user);
         }
 
-
         //Проверка при изменении данных
         public static (List<string> errors, User user) CheckUser(int userId, string firstName, string lastName, string login, string password, IEnumerable<User> users)
         {
@@ -89,6 +88,23 @@ namespace LoanPortfolio.WebApplication
             {
                 errors.Add("Пользователь с таким Email уже существует");
             }
+
+            return (errors, user);
+        }
+
+        //Проверка при восстановлении пароля
+        public static (List<string> errors, User user) CheckRestorePassword(string login, IEnumerable<User> users)
+        {
+            User user = new User();
+            List<string> errors = new List<string>();
+
+            (ok, user.Email) = Utils.CheckTextIsNotNull(login);
+            if (!ok) errors.Add("Введите логин");
+
+            if (errors.Count != 0) return (errors, user);
+
+            User user1 = users.SingleOrDefault(x => x.Email == user.Email);
+            if (user1 == null) errors.Add("Пользователь не найден");
 
             return (errors, user);
         }

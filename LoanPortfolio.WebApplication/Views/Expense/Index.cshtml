@@ -2,14 +2,16 @@
 
 <br />
 <form method="post" action="~/Expense/Index">
-    <p>
-        <input type="month" name="time" value="@Convert.ToDateTime(ViewBag.Time.ToString()).ToString("yyyy-MM")" />
-    </p>
+    <input type="month" name="time" style="margin-right:5px" value="@Convert.ToDateTime(ViewBag.Time.ToString()).ToString("yyyy-MM")" />
     <button type="submit" class="btn">Поменять</button>
 </form>
 
 <div style="margin-bottom: 30px; margin-top: 30px;">
-    <h2>Финансовые задолженности</h2>
+    <form action="~/Income/AddRegular">
+        <div style="font-size: 2em; margin-bottom:10px">
+            Финансовые задолженности
+        </div>
+    </form>
 
     <table class="table" style="margin-bottom: 0">
         <tr>
@@ -54,7 +56,12 @@
 </div>
 
 <div style="margin-bottom: 30px; margin-top: 30px;">
-    <h2>ЖКХ</h2>
+    <form action="~/Expense/AddHCS">
+        <div style="font-size: 2em; margin-bottom:10px">
+            ЖКХ
+            <button type="submit" class="btn" style="margin-left: 5px;"><img src="~/Plus.png" style="height: 20px" /></button>
+        </div>
+    </form>
 
     <table class="table" style="margin-bottom: 0">
         <tr>
@@ -88,11 +95,11 @@
                         <div style="display: flex;">
                             <form action="~/Expense/ChangeHCS/">
                                 <input type="hidden" value="@expense.Id" name="id" />
-                                <button type="submit" class="btn" style="margin-right: 15px">Редактировать</button>
+                                <button type="submit" class="btn" style="margin-right: 15px"><img src="~/Edit.png" style="height: 25px" /></button>
                             </form>
                             <form action="~/Expense/Delete/">
                                 <input type="hidden" value="@expense.Id" name="id" />
-                                <button type="submit" class="btn">Удалить</button>
+                                <button type="submit" class="btn"><img src="~/Delete.png" style="height: 25px" /></button>
                             </form>
                         </div>
                     </td>
@@ -100,16 +107,15 @@
             }
         }
     </table>
-
-    <center>
-        <form action="~/Expense/AddHCS">
-            <button type="submit" class="btn">Добавить</button>
-        </form>
-    </center>
 </div>
 
 <div style="margin-bottom: 30px; margin-top: 30px;">
-    <h2>Личные</h2>
+    <form action="~/Expense/AddPersonal">
+        <div style="font-size: 2em; margin-bottom:10px">
+            Личные
+            <button type="submit" class="btn" style="margin-left: 5px;"><img src="~/Plus.png" style="height: 20px" /></button>
+        </div>
+    </form>
 
     <table class="table" style="margin-bottom: 0">
         <tr>
@@ -128,7 +134,7 @@
             {
                 <tr>
                     <td>
-                        @{Write(expense.ExpenseCategory.Name);}
+                        @{Write(expense.ExpenseCategory);}
                     </td>
                     <td>
                         Сумма: @{Write(expense.Sum);}
@@ -137,11 +143,11 @@
                         <div style="display: flex;">
                             <form action="~/Expense/ChangePersonal/">
                                 <input type="hidden" value="@expense.Id" name="id" />
-                                <button type="submit" class="btn" style="margin-right: 15px">Редактировать</button>
+                                <button type="submit" class="btn" style="margin-right: 15px"><img src="~/Edit.png" style="height: 25px" /></button>
                             </form>
                             <form action="~/Expense/Delete/">
                                 <input type="hidden" value="@expense.Id" name="id" />
-                                <button type="submit" class="btn">Удалить</button>
+                                <button type="submit" class="btn"><img src="~/Delete.png" style="height: 25px" /></button>
                             </form>
                         </div>
                     </td>
@@ -149,10 +155,4 @@
             }
         }
     </table>
-
-    <center>
-        <form action="~/Expense/AddPersonal">
-            <button type="submit" class="btn">Добавить</button>
-        </form>
-    </center>
 </div>

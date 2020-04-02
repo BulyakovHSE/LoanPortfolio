@@ -13,25 +13,28 @@
         </tr>
 
         @{
-            foreach (Category category in ViewBag.Categories)
+            if (ViewBag.Categories != null)
             {
-                <tr>
-                    <td>
-                        @{Write(category.Name);}
-                    </td>
-                    <td>
-                        <div style="display: flex;">
-                            <form action="~/Categories/ChangeCategories/">
-                                <input type="hidden" value="@category.Id" name="id" />
-                                <button type="submit" class="btn">Редактировать</button>
-                            </form>
-                            <form action="~/Categories/Delete/">
-                                <input type="hidden" value="@category.Id" name="id" />
-                                <button type="submit" class="btn" style="margin-right: 15px">Удалить</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
+                foreach (Category category in ViewBag.Categories)
+                {
+                    <tr>
+                        <td>
+                            @{Write(category.Name);}
+                        </td>
+                        <td>
+                            <div style="display: flex;">
+                                <form action="~/Categories/ChangeCategories/">
+                                    <input type="hidden" value="@category.Id" name="id" />
+                                    <button type="submit" class="btn">Редактировать</button>
+                                </form>
+                                <form action="~/Categories/Delete/">
+                                    <input type="hidden" value="@category.Id" name="id" />
+                                    <button type="submit" class="btn" style="margin-right: 15px">Удалить</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
         }
     </table>

@@ -1,5 +1,4 @@
 ﻿@using LoanPortfolio.Db.Entities
-@using LoanPortfolio.Services
 
 <br />
 <form method="post" action="~/Income/Index">
@@ -11,7 +10,12 @@
 </form>
 
 <div style="margin-bottom: 30px; margin-top: 30px;">
-    <h2>Основные</h2>
+    <form action="~/Income/AddRegular">
+        <div style="font-size: 1.5em;">
+            Основные
+            <button type="submit" class="btn" style="float: right">Добавить</button>
+        </div>
+    </form>
 
     <table class="table" style="margin-bottom: 0">
         <tr>
@@ -59,12 +63,6 @@
             }
         }
     </table>
-
-    <center>
-        <form action="~/Income/AddRegular">
-            <button type="submit" class="btn">Добавить</button>
-        </form>
-    </center>
 </div>
 
 <div style="margin-bottom: 30px; margin-top: 30px;">

@@ -42,9 +42,12 @@ namespace LoanPortfolio.WebApplication.Controllers
         {
             (List<string> errors, Category category) = Categories.CheckCategory(name);
 
-            if (_user.Categories.Where(x => x.Name == category.Name).ToList().Count > 0)
+            if (_user.Categories != null)
             {
-                errors.Add("Такая категория уже существует");
+                if (_user.Categories.Where(x => x.Name == category.Name).ToList().Count > 0)
+                {
+                    errors.Add("Такая категория уже существует");
+                }
             }
 
             if (errors.Count == 0)

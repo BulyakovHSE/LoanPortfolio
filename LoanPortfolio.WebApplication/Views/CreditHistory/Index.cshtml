@@ -3,7 +3,7 @@
     <form action="~/CreditHistory/AddCredit">
         <div style="font-size: 2em; margin-bottom:10px">
             Финансовые задолженности
-            <button type="submit" class="btn" style="margin-left: 5px;"><img src="~/Plus.png" style="height: 20px"/></button>
+            <button type="submit" class="btn" style="margin-left: 5px;"><img src="~/Plus.png" style="height: 20px" /></button>
         </div>
     </form>
 
@@ -49,15 +49,23 @@
                         @{Write(loan.CreditInstitutionName);}
                     </td>
                     <td>
-                        @{Write(loan.BankAddress);}
+                        @{Write(loan.IsRepaid);}
                     </td>
                     <td>
                         <div style="display: flex;">
-                            <form action="~/CreditHistory/ChangeCredit/">
+                            <form action="~/CreditHistory/ChangeCredit">
                                 <input type="hidden" value="@loan.Id" name="id" />
                                 <button type="submit" class="btn" style="margin-right: 15px"><img src="~/Edit.png" style="height: 25px" /></button>
                             </form>
-                            <button type="submit" class="btn">Погасить</button>
+                            <form method="post" action="~/CreditHistory/Index">
+                                <input type="hidden" value="@loan.Id" name="id" />
+                                <button type="submit" class="btn" style="margin-right: 15px">Погасить</button>
+                            </form>
+
+                            <form action="~/CreditHistory/Pays">
+                                <input type="hidden" value="@loan.Id" name="id" />
+                                <button type="submit" class="btn">Платежи</button>
+                            </form>
                         </div>
                     </td>
                 </tr>

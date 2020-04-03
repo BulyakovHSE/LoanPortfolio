@@ -1,0 +1,43 @@
+﻿@using LoanPortfolio.Db.Entities
+<div style="margin-bottom: 30px; margin-top: 30px;">
+    <div style="font-size: 2em; margin-bottom:10px">
+        График платежей
+    </div>
+
+    <table class="table" style="margin-bottom: 0">
+        <tr>
+            <th>
+                Дата
+            </th>
+            <th>
+                Сумма
+            </th>
+            <th>
+                Статус оплаты
+            </th>
+            <th style="width: 15%"></th>
+        </tr>
+        @{
+            foreach (LoanPayment loan in ViewBag.Pays)
+            {
+                <tr>
+                    <td>
+                        @{Write(loan.DatePayment.ToString("dd.MM.yyyy"));}
+                    </td>
+                    <td>
+                        @{Write(loan.Sum);}
+                    </td>
+                    <td>
+                        @{Write(loan.Id);}
+                    </td>
+                    <td>
+                        <div style="display: flex;">
+                            <button type="submit" class="btn">Оплатить</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+</div>

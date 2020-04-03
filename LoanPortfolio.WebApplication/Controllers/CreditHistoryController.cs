@@ -12,10 +12,12 @@ namespace LoanPortfolio.WebApplication.Controllers
     public class CreditHistoryController : BaseController
     {
         private User _user;
+        private IExpenseService _expenseService;
         private ILoanService _loanService;
 
-        public CreditHistoryController(IUserService userService, ILoanService loanService, IAuthService authService) : base(authService)
+        public CreditHistoryController(IExpenseService expenseService, IUserService userService, ILoanService loanService, IAuthService authService) : base(authService)
         {
+            _expenseService = expenseService;
             ViewBag.User = CurrentUser;
             _user = CurrentUser;
             _loanService = loanService;
@@ -23,6 +25,17 @@ namespace LoanPortfolio.WebApplication.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Title = "Кредитная история";
+            ViewBag.Loan = _loanService.GetAll(_user);
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(int id)
+        {
+            Loan loan = _loanService.GetById(id);
+            loan.IsRepaid = true;
+            _loanService.UpdateLoan(loan);
             ViewBag.Title = "Кредитная история";
             ViewBag.Loan = _loanService.GetAll(_user);
             return View();
@@ -97,5 +110,19 @@ namespace LoanPortfolio.WebApplication.Controllers
             return View();
         }
         #endregion
+
+
+        [HttpGet]
+        public ActionResult Pays(int id)
+        {
+            var loanPayments = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(LoanPayment)).ToList();
+            List<LoanPayment> loans = new List<LoanPayment>();
+            foreach (LoanPayment payment in loanPayments)
+            {
+                if (payment.LoanId == id) loans.Add(payment);
+            }
+            ViewBag.Pays = loans;
+            return View();
+        }
     }
 }

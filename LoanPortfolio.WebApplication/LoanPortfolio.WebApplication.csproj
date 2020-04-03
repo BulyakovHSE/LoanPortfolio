@@ -233,6 +233,7 @@
     <Content Include="Views\Categories\ChangeCategories.cshtml" />
     <Content Include="Views\Home\PC.cshtml" />
     <Content Include="Views\Home\RestorePassword.cshtml" />
+    <Content Include="Views\CreditHistory\Pays.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

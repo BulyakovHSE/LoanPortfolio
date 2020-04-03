@@ -50,8 +50,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             var hcs = _expenseService.GetAll(_user).Where(x => x.GetType() == typeof(HCSExpense));
             List<HCSExpense> hcsExpenses = new List<HCSExpense>();
-            foreach (HCSExpense hcsExpense in hcs)
+            foreach (var expense in hcs)
             {
+                var hcsExpense = (HCSExpense) expense;
                 if (hcsExpense.DatePayment.Month == mm && hcsExpense.DatePayment.Year == yy)
                 {
                     hcsExpenses.Add(hcsExpense);
@@ -104,7 +105,7 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             if (errors.Count == 0)
             {
-                Category category = _user.Categories.Where(x => x.Id == id).First();
+                Category category = _category.All().Where(x => x.Id == id).First();
                 _expenseService.AddPersonalExpense(_user, personalExpense.DatePayment, personalExpense.Sum, category);
 
                 ViewBag.Title = "Расходы";

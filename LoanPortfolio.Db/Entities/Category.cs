@@ -1,4 +1,6 @@
-﻿namespace LoanPortfolio.Db.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LoanPortfolio.Db.Entities
 {
     /// <summary>
     /// Категория личного расхода
@@ -9,6 +11,7 @@
 
         public int UserId { get; set; }
 
+        [Required]
         public string Name { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace LoanPortfolio.WebApplication.Security
         public void Init(string email, IUserService userService)
         {
             if (!string.IsNullOrWhiteSpace(email))
-                User = userService.GetAll().FirstOrDefault(x => x.Email == email);
+                User = (User)userService.GetAll().FirstOrDefault(x => x.Email == email)?.Clone();
         }
     }
 }

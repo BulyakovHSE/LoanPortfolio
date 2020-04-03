@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+
 // ReSharper disable CommentTypo
 
 namespace LoanPortfolio.Db.Entities
@@ -9,7 +12,7 @@ namespace LoanPortfolio.Db.Entities
     /// <summary>
     /// Пользователь
     /// </summary>
-    public class User : Entity
+    public class User : Entity, ICloneable
     {
         /// <summary>
         /// Электронная почта пользователя, Логин
@@ -43,21 +46,30 @@ namespace LoanPortfolio.Db.Entities
         /// <summary>
         /// Список доходов пользователя
         /// </summary>
-        public IList<Income> Incomes { get; set; }
+        public virtual IList<Income> Incomes { get; set; }
 
         /// <summary>
         /// Список расходов пользователя
         /// </summary>
-        public IList<Expense> Expenses { get; set; }
+        public virtual IList<Expense> Expenses { get; set; }
 
         /// <summary>
         /// Список кредитов пользователя
         /// </summary>
-        public IList<Loan> Loans { get; set; }
+        public virtual IList<Loan> Loans { get; set; }
 
         /// <summary>
         /// Список категорий пользователя
         /// </summary>
-        public IList<Category> Categories { get; set; }
+        public virtual IList<Category> Categories { get; set; }
+
+        public object Clone()
+        {
+            return new User
+            {
+                Categories = Categories?.ToList(), Expenses = Expenses?.ToList(), Email = Email, FirstName = FirstName,
+                LastName = LastName, Incomes = Incomes?.ToList(), Loans = Loans?.ToList(), Password = Password, Id = Id
+            };
+        }
     }
 }

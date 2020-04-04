@@ -79,173 +79,173 @@ namespace CreditPortfolioUnitTests
         }
 
         #region проверяем свойства сущностей
-        [TestMethod]
-        public void CheckLoanUser()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanUser()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(user, actual.User);
-        }
+        //    Assert.AreEqual(user, actual.User);
+        //}
 
-        [TestMethod]
-        public void CheckLoanUserId()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanUserId()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(user.Id, actual.UserId);
-        }
+        //    Assert.AreEqual(user.Id, actual.UserId);
+        //}
 
-        [TestMethod]
-        public void CheckLoanClearanceDate()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanClearanceDate()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(clearanceDate,actual.ClearanceDate);
-        }
+        //    Assert.AreEqual(clearanceDate,actual.ClearanceDate);
+        //}
 
-        [TestMethod]
-        public void CheckLoanSum()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanSum()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(loanSum, actual.LoanSum);
-        }
+        //    Assert.AreEqual(loanSum, actual.LoanSum);
+        //}
 
-        [TestMethod]
-        public void CheckLoanAmountDie()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanAmountDie()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(amountDie, actual.AmountDie);
-        }
+        //    Assert.AreEqual(amountDie, actual.AmountDie);
+        //}
 
-        [TestMethod]
-        public void CheckLoanRepaymentPeriod()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanRepaymentPeriod()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(repaymentPeriod,actual.RepaymentPeriod);
-        }
+        //    Assert.AreEqual(repaymentPeriod,actual.RepaymentPeriod);
+        //}
 
-        [TestMethod]
-        public void CheckLoanInstitutionName()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanInstitutionName()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(creditInstitutionName, actual.CreditInstitutionName);
-        }
+        //    Assert.AreEqual(creditInstitutionName, actual.CreditInstitutionName);
+        //}
 
-        [TestMethod]
-        public void CheckLoanBankAddress()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanBankAddress()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Assert.AreEqual(bankAddress, actual.BankAddress);
-        }
+        //    Assert.AreEqual(bankAddress, actual.BankAddress);
+        //}
 
-        [TestMethod]
-        public void CheckLoanPaymentSchedule()
-        {
-            Loan actual = new Loan
-            {
-                UserId = user.Id,
-                LoanSum = loanSum,
-                AmountDie = amountDie,
-                BankAddress = bankAddress,
-                CreditInstitutionName = creditInstitutionName,
-                RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
-            };
+        //[TestMethod]
+        //public void CheckLoanPaymentSchedule()
+        //{
+        //    Loan actual = new Loan
+        //    {
+        //        UserId = user.Id,
+        //        LoanSum = loanSum,
+        //        AmountDie = amountDie,
+        //        BankAddress = bankAddress,
+        //        CreditInstitutionName = creditInstitutionName,
+        //        RepaymentPeriod = repaymentPeriod,
+        //        ClearanceDate = clearanceDate,
+        //        PaymentsSchedule = new Dictionary<DateTime, float>()
+        //    };
 
-            Dictionary<DateTime, float> expectedSchedule = new Dictionary<DateTime, float>();
+        //    Dictionary<DateTime, float> expectedSchedule = new Dictionary<DateTime, float>();
 
-                var date = actual.ClearanceDate.AddMonths(1);
-                var sum = actual.AmountDie / actual.RepaymentPeriod;
-                expectedSchedule.Add(date, sum);
+        //        var date = actual.ClearanceDate.AddMonths(1);
+        //        var sum = actual.AmountDie / actual.RepaymentPeriod;
+        //        expectedSchedule.Add(date, sum);
 
-            Assert.AreEqual(expectedSchedule, actual.PaymentsSchedule);
-        }
+        //    Assert.AreEqual(expectedSchedule, actual.PaymentsSchedule);
+        //}
         #endregion
 
         [TestMethod]

@@ -26,7 +26,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
         User _user;
         string _incomeSource;
         string _incomeSource2;
-        DateTime _datePrepaidExpense;
+        DateTime _datePrepaidExpanse;
         DateTime _dateSalary;
         DateTime _dateIncome;
         float _prepaidExpanse;
@@ -43,12 +43,12 @@ namespace CreditPortfolioUnitTests.IntegralTests
             incomeService = new IncomeService(incomeRepository);
             userService = new UserService(userRepository);
 
-            _user = userService.Add("222@mail.ru", "12345", "Test", "Testovich");
+            _user = userService.Add("222@mail.ru", "123456789", "Test", "Testovich");
             //_user = userService.GetById(1);
 
             _incomeSource = "Тетсы";
             _incomeSource2 = "ss";
-            _datePrepaidExpense = new DateTime(2020, 04, 03);
+            _datePrepaidExpanse = new DateTime(2020, 04, 03);
             _dateSalary = new DateTime(2020, 04, 26);
             _dateIncome = new DateTime(2020, 04, 12);
             _prepaidExpanse = 1000;
@@ -66,23 +66,15 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void AddRegularIncomeTest()
         {
-            RegularIncome expected = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-
-            RegularIncome actual = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpense, _prepaidExpanse, _dateSalary, _salary);
+            RegularIncome actual = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpanse, _prepaidExpanse, _dateSalary, _salary);
             //Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.IncomeSource, actual.IncomeSource);
-            Assert.AreEqual(expected.DatePrepaidExpanse, actual.DatePrepaidExpanse);
-            Assert.AreEqual(expected.DateSalary, actual.DateSalary);
-            Assert.AreEqual(expected.PrepaidExpanse, actual.PrepaidExpanse);
-            Assert.AreEqual(expected.Salary, actual.Salary);
+            Assert.AreEqual(_user, actual.User);
+            Assert.AreEqual(_user.Id,actual.UserId);
+            Assert.AreEqual(_incomeSource, actual.IncomeSource);
+            Assert.AreEqual(_datePrepaidExpanse, actual.DatePrepaidExpanse);
+            Assert.AreEqual(_dateSalary, actual.DateSalary);
+            Assert.AreEqual(_prepaidExpanse, actual.PrepaidExpanse);
+            Assert.AreEqual(_salary, actual.Salary);
         }
 
         [TestMethod]
@@ -98,6 +90,8 @@ namespace CreditPortfolioUnitTests.IntegralTests
 
             PeriodicIncome actual = incomeService.AddPeriodicIncome(_user, _incomeSource2, _sum, _dateIncome);
             //Assert.AreEqual(expected, actual);
+            Assert.AreEqual(_user, actual.User);
+            Assert.AreEqual(_user.Id, actual.UserId);
             Assert.AreEqual(expected.IncomeSource, actual.IncomeSource);
             Assert.AreEqual(expected.Sum, actual.Sum);
             Assert.AreEqual(expected.DateIncome, actual.DateIncome);
@@ -106,11 +100,8 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void GetAllTest()
         {
-            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpense, _prepaidExpanse, _dateSalary, _salary);
+            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpanse, _prepaidExpanse, _dateSalary, _salary);
             PeriodicIncome periodic = incomeService.AddPeriodicIncome(_user, _incomeSource2, _sum, _dateIncome);
-
-            //RegularIncome regular = (RegularIncome)incomeService.GetById(2);
-            //PeriodicIncome periodic = (PeriodicIncome)incomeService.GetById(1);
 
             List<Income> expected = new List<Income> { regular, periodic };
 
@@ -121,11 +112,8 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void RemoveRegularIncomeTest()
         {
-            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpense, _prepaidExpanse, _dateSalary, _salary);
+            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpanse, _prepaidExpanse, _dateSalary, _salary);
             PeriodicIncome periodic = incomeService.AddPeriodicIncome(_user, _incomeSource2, _sum, _dateIncome);
-
-            //RegularIncome regular = (RegularIncome)incomeService.GetById(2);
-            //PeriodicIncome periodic = (PeriodicIncome)incomeService.GetById(1);
 
             List<Income> expected = new List<Income> { periodic };
 
@@ -138,11 +126,8 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void RemovePeriodicIncomeTest()
         {
-            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpense, _prepaidExpanse, _dateSalary, _salary);
+            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpanse, _prepaidExpanse, _dateSalary, _salary);
             PeriodicIncome periodic = incomeService.AddPeriodicIncome(_user, _incomeSource2, _sum, _dateIncome);
-
-            //RegularIncome regular = (RegularIncome)incomeService.GetById(2);
-            //PeriodicIncome periodic = (PeriodicIncome)incomeService.GetById(1);
 
             incomeService.Remove(periodic);
 
@@ -153,13 +138,14 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void GetByIdRegularTest()
         {
-            RegularIncome actual = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpense, _prepaidExpanse, _dateSalary, _salary);
+            RegularIncome actual = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpanse, _prepaidExpanse, _dateSalary, _salary);
             //PeriodicIncome periodic = incomeService.AddPeriodicIncome(_user, _incomeSource2, _sum, _dateIncome);
 
-            //RegularIncome actual = (RegularIncome)incomeService.GetById(2);
             //Assert.AreEqual(regular, actual);
+            Assert.AreEqual(_user, actual.User);
+            Assert.AreEqual(_user.Id, actual.UserId);
             Assert.AreEqual(_incomeSource, actual.IncomeSource);
-            Assert.AreEqual(_datePrepaidExpense, actual.DatePrepaidExpanse);
+            Assert.AreEqual(_datePrepaidExpanse, actual.DatePrepaidExpanse);
             Assert.AreEqual(_dateSalary, actual.DateSalary);
             Assert.AreEqual(_prepaidExpanse, actual.PrepaidExpanse);
             Assert.AreEqual(_salary, actual.Salary);
@@ -171,8 +157,9 @@ namespace CreditPortfolioUnitTests.IntegralTests
             //RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource, _datePrepaidExpense, _prepaidExpanse, _dateSalary, _salary);
             PeriodicIncome actual = incomeService.AddPeriodicIncome(_user, _incomeSource2, _sum, _dateIncome);
 
-            //PeriodicIncome actual = (PeriodicIncome)incomeService.GetById(1);
             //Assert.AreEqual(periodic, actual);
+            Assert.AreEqual(_user, actual.User);
+            Assert.AreEqual(_user.Id, actual.UserId);
             Assert.AreEqual(_incomeSource2, actual.IncomeSource);
             Assert.AreEqual(_sum, actual.Sum);
             Assert.AreEqual(_dateIncome, actual.DateIncome);
@@ -181,7 +168,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void UpdateRegularIncomeTest()
         {
-            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource2, _datePrepaidExpense, _prepaidExpanse, _dateSalary, _salary);
+            RegularIncome regular = incomeService.AddRegularIncome(_user, _incomeSource2, _datePrepaidExpanse, _prepaidExpanse, _dateSalary, _salary);
             //RegularIncome regular = (RegularIncome)incomeService.GetById(2);
 
             regular.Salary = 6599;

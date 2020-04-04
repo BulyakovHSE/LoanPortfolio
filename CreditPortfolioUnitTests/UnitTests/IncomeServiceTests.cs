@@ -299,174 +299,174 @@ namespace CreditPortfolioUnitTests
         //    Assert.AreEqual(periodicIncome, actual);
         //}
 
-        [TestMethod]
-        public void CheckUserTest1()
-        {
-            RegularIncome actual = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-            Assert.AreEqual(_user,actual.User);
-        }
+        //[TestMethod]
+        //public void CheckUserTest1()
+        //{
+        //    RegularIncome actual = new RegularIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        DatePrepaidExpanse = _datePrepaidExpense,
+        //        DateSalary = _dateSalary,
+        //        PrepaidExpanse = _prepaidExpanse,
+        //        Salary = _salary
+        //    };
+        //    Assert.AreEqual(_user,actual.User);
+        //}
 
-        [TestMethod]
-        public void CheckUserId1()
-        {
-            RegularIncome actual = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-            Assert.AreEqual(_user.Id, actual.UserId);
-        }
+        //[TestMethod]
+        //public void CheckUserId1()
+        //{
+        //    RegularIncome actual = new RegularIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        DatePrepaidExpanse = _datePrepaidExpense,
+        //        DateSalary = _dateSalary,
+        //        PrepaidExpanse = _prepaidExpanse,
+        //        Salary = _salary
+        //    };
+        //    Assert.AreEqual(_user.Id, actual.UserId);
+        //}
 
-        [TestMethod]
-        public void CheckIncomeSource1()
-        {
-            RegularIncome actual = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-            Assert.AreEqual(_incomeSource, actual.IncomeSource);
-        }
+        //[TestMethod]
+        //public void CheckIncomeSource1()
+        //{
+        //    RegularIncome actual = new RegularIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        DatePrepaidExpanse = _datePrepaidExpense,
+        //        DateSalary = _dateSalary,
+        //        PrepaidExpanse = _prepaidExpanse,
+        //        Salary = _salary
+        //    };
+        //    Assert.AreEqual(_incomeSource, actual.IncomeSource);
+        //}
 
-        [TestMethod]
-        public void CheckDatePrepaid()
-        {
-            RegularIncome actual = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-            Assert.AreEqual(_datePrepaidExpense, actual.DatePrepaidExpanse);
-        }
+        //[TestMethod]
+        //public void CheckDatePrepaid()
+        //{
+        //    RegularIncome actual = new RegularIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        DatePrepaidExpanse = _datePrepaidExpense,
+        //        DateSalary = _dateSalary,
+        //        PrepaidExpanse = _prepaidExpanse,
+        //        Salary = _salary
+        //    };
+        //    Assert.AreEqual(_datePrepaidExpense, actual.DatePrepaidExpanse);
+        //}
 
-        [TestMethod]
-        public void CheckDateSallary()
-        {
-            RegularIncome actual = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-            Assert.AreEqual(_dateSalary, actual.DateSalary);
-        }
+        //[TestMethod]
+        //public void CheckDateSallary()
+        //{
+        //    RegularIncome actual = new RegularIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        DatePrepaidExpanse = _datePrepaidExpense,
+        //        DateSalary = _dateSalary,
+        //        PrepaidExpanse = _prepaidExpanse,
+        //        Salary = _salary
+        //    };
+        //    Assert.AreEqual(_dateSalary, actual.DateSalary);
+        //}
 
-        [TestMethod]
-        public void CheckPrepaid()
-        {
-            RegularIncome actual = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-            Assert.AreEqual(_prepaidExpanse, actual.PrepaidExpanse);
-        }
+        //[TestMethod]
+        //public void CheckPrepaid()
+        //{
+        //    RegularIncome actual = new RegularIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        DatePrepaidExpanse = _datePrepaidExpense,
+        //        DateSalary = _dateSalary,
+        //        PrepaidExpanse = _prepaidExpanse,
+        //        Salary = _salary
+        //    };
+        //    Assert.AreEqual(_prepaidExpanse, actual.PrepaidExpanse);
+        //}
 
-        [TestMethod]
-        public void CheckSalary()
-        {
-            RegularIncome actual = new RegularIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                DatePrepaidExpanse = _datePrepaidExpense,
-                DateSalary = _dateSalary,
-                PrepaidExpanse = _prepaidExpanse,
-                Salary = _salary
-            };
-            Assert.AreEqual(_salary, actual.Salary);
-        }
+        //[TestMethod]
+        //public void CheckSalary()
+        //{
+        //    RegularIncome actual = new RegularIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        DatePrepaidExpanse = _datePrepaidExpense,
+        //        DateSalary = _dateSalary,
+        //        PrepaidExpanse = _prepaidExpanse,
+        //        Salary = _salary
+        //    };
+        //    Assert.AreEqual(_salary, actual.Salary);
+        //}
 
-        [TestMethod]
-        public void CheckUserTest2()
-        {
-            PeriodicIncome actual = new PeriodicIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                Sum = _sum,
-                DateIncome = _dateIncome
-            };
-            Assert.AreEqual(_user, actual.User);
-        }
+        //[TestMethod]
+        //public void CheckUserTest2()
+        //{
+        //    PeriodicIncome actual = new PeriodicIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        Sum = _sum,
+        //        DateIncome = _dateIncome
+        //    };
+        //    Assert.AreEqual(_user, actual.User);
+        //}
 
-        [TestMethod]
-        public void CheckUserId2()
-        {
-            PeriodicIncome actual = new PeriodicIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                Sum = _sum,
-                DateIncome = _dateIncome
-            };
-            Assert.AreEqual(_user.Id, actual.UserId);
-        }
+        //[TestMethod]
+        //public void CheckUserId2()
+        //{
+        //    PeriodicIncome actual = new PeriodicIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        Sum = _sum,
+        //        DateIncome = _dateIncome
+        //    };
+        //    Assert.AreEqual(_user.Id, actual.UserId);
+        //}
 
-        [TestMethod]
-        public void CheckIncomeSource2()
-        {
-            PeriodicIncome actual = new PeriodicIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource2,
-                Sum = _sum,
-                DateIncome = _dateIncome
-            };
-            Assert.AreEqual(_incomeSource2, actual.IncomeSource);
-        }
+        //[TestMethod]
+        //public void CheckIncomeSource2()
+        //{
+        //    PeriodicIncome actual = new PeriodicIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource2,
+        //        Sum = _sum,
+        //        DateIncome = _dateIncome
+        //    };
+        //    Assert.AreEqual(_incomeSource2, actual.IncomeSource);
+        //}
 
-        [TestMethod]
-        public void CheckSum()
-        {
-            PeriodicIncome actual = new PeriodicIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                Sum = _sum,
-                DateIncome = _dateIncome
-            };
-            Assert.AreEqual(_sum, actual.Sum);
-        }
+        //[TestMethod]
+        //public void CheckSum()
+        //{
+        //    PeriodicIncome actual = new PeriodicIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        Sum = _sum,
+        //        DateIncome = _dateIncome
+        //    };
+        //    Assert.AreEqual(_sum, actual.Sum);
+        //}
 
-        [TestMethod]
-        public void CheckDateIncome()
-        {
-            PeriodicIncome actual = new PeriodicIncome
-            {
-                UserId = _user.Id,
-                IncomeSource = _incomeSource,
-                Sum = _sum,
-                DateIncome = _dateIncome
-            };
-            Assert.AreEqual(_dateIncome, actual.DateIncome);
-        }
+        //[TestMethod]
+        //public void CheckDateIncome()
+        //{
+        //    PeriodicIncome actual = new PeriodicIncome
+        //    {
+        //        UserId = _user.Id,
+        //        IncomeSource = _incomeSource,
+        //        Sum = _sum,
+        //        DateIncome = _dateIncome
+        //    };
+        //    Assert.AreEqual(_dateIncome, actual.DateIncome);
+        //}
     }
 }

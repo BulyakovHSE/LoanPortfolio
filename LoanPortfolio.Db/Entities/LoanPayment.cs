@@ -35,5 +35,10 @@ namespace LoanPortfolio.Db.Entities
         /// </summary>
         [Required]
         public string BankAddress { get; set; }
+
+        /// <summary>
+        /// Выполнен ли платеж по кредиту
+        /// </summary>
+        public bool IsPaid { get; set; }
     }
 }

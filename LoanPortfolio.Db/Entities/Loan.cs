@@ -63,6 +63,16 @@ namespace LoanPortfolio.Db.Entities
         public bool IsRepaid { get; set; }
 
         /// <summary>
+        /// Необходимо ли дополнительное настраиваемое уведомление о платеже по кредиту
+        /// </summary>
+        public bool AdditionalNotificationRequired { get; set; }
+
+        /// <summary>
+        /// Количество дней до платежа для отправки уведомления и время отправки уведомления
+        /// </summary>
+        public TimeSpan AdditionalNotificationTimeSpan { get; set; }
+
+        /// <summary>
         /// График платежей
         /// </summary>
         [Required]

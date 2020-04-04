@@ -71,46 +71,46 @@ namespace CreditPortfolioUnitTests
             expenseService = new ExpenseService(mockExpenseRepository.Object);
         }
 
-        [TestMethod]
-        public void GetLoanPayment()
-        {
-            var actual = (LoanPayment)expenseService.GetById(0);
-            Assert.AreEqual(payment, actual);
-        }
+        //[TestMethod]
+        //public void GetLoanPayment()
+        //{
+        //    var actual = (LoanPayment)expenseService.GetById(0);
+        //    Assert.AreEqual(payment, actual);
+        //}
 
-        [TestMethod]
-        public void CheckLoanPaymentLoan()
-        {
-            var actual = (LoanPayment)expenseService.GetById(0);
-            Assert.AreEqual(loan, actual.Loan);
-        }
+        //[TestMethod]
+        //public void CheckLoanPaymentLoan()
+        //{
+        //    var actual = (LoanPayment)expenseService.GetById(0);
+        //    Assert.AreEqual(loan, actual.Loan);
+        //}
 
-        [TestMethod]
-        public void CheckLoanPaymentLoanId()
-        {
-            var actual = (LoanPayment)expenseService.GetById(0);
-            Assert.AreEqual(loan.Id, payment.LoanId);
-        }
+        //[TestMethod]
+        //public void CheckLoanPaymentLoanId()
+        //{
+        //    var actual = (LoanPayment)expenseService.GetById(0);
+        //    Assert.AreEqual(loan.Id, payment.LoanId);
+        //}
 
-        [TestMethod]
-        public void CheckLoanPaymentInstitutionName()
-        {
-            var actual = (LoanPayment)expenseService.GetById(0);
-            Assert.AreEqual(_institutionName, actual.CreditInstitutionName);
-        }
+        //[TestMethod]
+        //public void CheckLoanPaymentInstitutionName()
+        //{
+        //    var actual = (LoanPayment)expenseService.GetById(0);
+        //    Assert.AreEqual(_institutionName, actual.CreditInstitutionName);
+        //}
 
-        [TestMethod]
-        public void CheckLoanPaymentSum()
-        {
-            var actual = (LoanPayment)expenseService.GetById(0);
-            Assert.AreEqual(_loanSum, actual.Sum);
-        }
+        //[TestMethod]
+        //public void CheckLoanPaymentSum()
+        //{
+        //    var actual = (LoanPayment)expenseService.GetById(0);
+        //    Assert.AreEqual(_loanSum, actual.Sum);
+        //}
 
-        [TestMethod]
-        public void CheckLoanPaymentBankAddress()
-        {
-            var actual = (LoanPayment)expenseService.GetById(0);
-            Assert.AreEqual(_loanSum, actual.Sum);
-        }
+        //[TestMethod]
+        //public void CheckLoanPaymentBankAddress()
+        //{
+        //    var actual = (LoanPayment)expenseService.GetById(0);
+        //    Assert.AreEqual(_loanSum, actual.Sum);
+        //}
     }
 }

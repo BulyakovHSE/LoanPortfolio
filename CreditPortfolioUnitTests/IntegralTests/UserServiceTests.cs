@@ -33,10 +33,11 @@ namespace CreditPortfolioUnitTests.IntegralTests
         public void TestInitialize()
         {
             _email = "222@mail.ru";
-            _password = "12345";
+            _password = "12345678";
             _firstName = "Test";
             _lastName = "Testovich";
-            
+            _categories = new List<Category>();
+
             _dbContext = new LoanContext();
             _dbContext.Database.CreateIfNotExists();
             EntityFrameworkRepository<User> userRepository = new EntityFrameworkRepository<User>(_dbContext);
@@ -44,9 +45,9 @@ namespace CreditPortfolioUnitTests.IntegralTests
         }
 
         [TestCleanup]
-        public void TestCleanUp()
+        public void TestCleanup()
         {
-            //_dbContext.Database.Delete();
+            _dbContext.Database.Delete();
         }
 
         [TestMethod]
@@ -64,42 +65,59 @@ namespace CreditPortfolioUnitTests.IntegralTests
                 //Expenses = new List<Expense>(),
                 //Loans = new List<Loan>()
             };
-            _categories = new List<Category>();
-            _categories.Add(new Category { Name = "Еда", User =expected });
-            _categories.Add(new Category { Name = "Здоровье", User = expected });
-            _categories.Add(new Category { Name = "Развлечения", User = expected });
+            
             expected.Categories = _categories;
 
             User actual = userService.Add(_email, _password, _firstName, _lastName);
+            _categories.Add(new Category { Id = 1, Name = "Еда", User =actual, UserId = 1 });
+            _categories.Add(new Category { Id = 2, Name = "Здоровье", User = actual, UserId = 1 });
+            _categories.Add(new Category { Id = 3, Name = "Развлечения", User = actual, UserId = 1 });
+
             //Assert.AreEqual(expected, actual);
             Assert.AreEqual(_email,actual.Email);
             Assert.AreEqual(_password, actual.Password);
             Assert.AreEqual(_firstName, actual.FirstName);
             Assert.AreEqual(_lastName, actual.LastName);
+            Assert.AreEqual(_categories[0].Name ,actual.Categories[0].Name);
+            Assert.AreEqual(_categories[1].Name, actual.Categories[1].Name);
+            Assert.AreEqual(_categories[2].Name, actual.Categories[2].Name);
+            Assert.AreEqual(actual, actual.Categories[1].User);
+            Assert.AreEqual(actual, actual.Categories[2].User);
+            Assert.AreEqual(actual, actual.Categories[2].User);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
-            //User expected = userService.Add(_email, _password, _firstName, _lastName);
+            User expected = userService.Add(_email, _password, _firstName, _lastName);
+
+            _categories.Add(new Category { Name = "Еда", User = expected });
+            _categories.Add(new Category { Name = "Здоровье", User = expected });
+            _categories.Add(new Category { Name = "Развлечения", User = expected });
 
             User actual = userService.GetById(1);
             Assert.AreEqual(_email, actual.Email);
             Assert.AreEqual(_password, actual.Password);
             Assert.AreEqual(_firstName, actual.FirstName);
             Assert.AreEqual(_lastName, actual.LastName);
+            Assert.AreEqual(_categories[0].Name, actual.Categories[0].Name);
+            Assert.AreEqual(_categories[1].Name, actual.Categories[1].Name);
+            Assert.AreEqual(_categories[2].Name, actual.Categories[2].Name);
+            Assert.AreEqual(actual, actual.Categories[1].User);
+            Assert.AreEqual(actual, actual.Categories[2].User);
+            Assert.AreEqual(actual, actual.Categories[2].User);
         }
 
         [TestMethod]
         public void ChangeLastNameTest()
         {
-            //User expected = userService.Add(_email, _password, _firstName, _lastName);
+            User expected = userService.Add(_email, _password, _firstName, _lastName);
 
             User actual = userService.GetById(1);
 
             string newLastName = "Soda";
             userService.ChangeLastName(actual, newLastName);
-            User expected = actual;
+            //User expected = actual;
             expected.LastName = newLastName;
 
             actual = userService.GetById(1);
@@ -109,7 +127,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void ChangeFirstNameTest()
         {
-            User actual = userService.GetById(1);
+            User actual = userService.Add(_email, _password, _firstName, _lastName); ;
             string newFirstName = "Avifs";
 
             userService.ChangeFirstName(actual, newFirstName);
@@ -123,8 +141,8 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void ChangePasswordTest()
         {
-            User actual = userService.GetById(1);
-            string newPassword = "sdf4ED2";
+            User actual = userService.Add(_email, _password, _firstName, _lastName);
+            string newPassword = "sdf4ED294";
             User expected = actual;
             userService.ChangePassword(actual, newPassword);
 
@@ -137,7 +155,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void ChangeEmailTest()
         {
-            User actual = userService.GetById(1);
+            User actual = userService.Add(_email, _password, _firstName, _lastName);
 
             string newEmail = "123@mail.com";
             userService.ChangeEmail(actual, newEmail);
@@ -151,10 +169,10 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void GetAllTest()
         {
-            //User user1 = userService.Add(_email, _password, _firstName, _lastName);
-            User user1 = userService.GetById(1);
-            User user2 = userService.Add("111@mail.ru", "123456", "Test2", "Testovichi");
-            User user3 = userService.Add("333@mail.ru", "1234567", "Test3", "Testovichii");
+            User user1 = userService.Add(_email, _password, _firstName, _lastName);
+            //User user1 = userService.GetById(1);
+            User user2 = userService.Add("111@mail.ru", "123456789", "Test2", "Testovichi");
+            User user3 = userService.Add("333@mail.ru", "12345678900", "Test3", "Testovichii");
 
             List<User> expectedUserList = new List<User>() { user1, user2, user3 };
 
@@ -165,11 +183,12 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void RemoveTest()
         {
-            User user1 = userService.GetById(1);
-            User user2 = userService.GetById(2);
-            User user3 = userService.GetById(3);
-
-            List<User> expectedUserList = new List<User>() { user2, user3 };
+            User user1 = userService.Add(_email, _password, _firstName, _lastName);
+            User user2 = userService.Add("111@mail.ru", "123456789", "Test2", "Testovichi");
+            User user3 = userService.Add("333@mail.ru", "12345678900", "Test3", "Testovichii");
+            //User user1 = userService.GetById(1);
+            //User user2 = userService.GetById(2);
+            //User user3 = userService.GetById(3);
 
             userService.Remove(user1);
             IEnumerable<User> userData = userService.GetAll();

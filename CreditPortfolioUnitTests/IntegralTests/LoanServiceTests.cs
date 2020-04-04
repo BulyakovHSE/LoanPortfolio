@@ -117,7 +117,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
             }
 
             EntityFrameworkRepository<Expense> repository = new EntityFrameworkRepository<Expense>(_dbLoanContext);
-            LoanPayment expected = (LoanPayment)repository.All().SingleOrDefault(x => x.Id == 0);
+            LoanPayment expected = (LoanPayment)repository.All().SingleOrDefault(x => x.Id == 1);
 
             Assert.AreEqual(loanPayment,expected);
         }
@@ -125,21 +125,11 @@ namespace CreditPortfolioUnitTests.IntegralTests
         [TestMethod]
         public void GetByIdTest()
         {
-            //Loan loan = new Loan
-            //{
-            //    UserId = _user.Id,
-            //    LoanSum = _loanSum,
-            //    AmountDie = _amountDie,
-            //    BankAddress = _bankAddress,
-            //    CreditInstitutionName = _creditInstitutionName,
-            //    RepaymentPeriod = _repaymentPeriod,
-            //    ClearanceDate = _clearanceDate,
-            //    PaymentsSchedule = new Dictionary<DateTime, float>()
-            //};
-
             Loan loan = loanService.AddLoan(_user, _loanSum, _clearanceDate, _amountDie, _repaymentPeriod, _creditInstitutionName, _bankAddress);
 
             Loan actual = loanService.GetById(1);
+            Assert.AreEqual(_user, actual.User);
+            Assert.AreEqual(_user.Id, actual.UserId);
             Assert.AreEqual(_loanSum, actual.LoanSum);
             Assert.AreEqual(_amountDie, actual.AmountDie);
             Assert.AreEqual(_bankAddress, actual.BankAddress);

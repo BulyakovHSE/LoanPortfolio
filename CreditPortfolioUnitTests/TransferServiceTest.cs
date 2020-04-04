@@ -48,23 +48,31 @@ namespace CreditPortfolioUnitTests
             _incomeRepository = new EntityFrameworkRepository<Income>(loanContext);
             _expenseRepository = new EntityFrameworkRepository<Expense>(loanContext);
             _userRepository = new EntityFrameworkRepository<User>(loanContext);
+            _loanRepository = new EntityFrameworkRepository<Loan>(loanContext);
 
             userService = new UserService(_userRepository);
             incomeService = new IncomeService(_incomeRepository);
             expenseService = new ExpenseService(_expenseRepository);
             loanService = new LoanService(_loanRepository,_expenseRepository);
+            
+        }
 
-            _user = userService.Add("222@mail.ru","12345","Test","Yestovich");
-            _regularIncome = incomeService.AddRegularIncome(_user, "Отас",new DateTime(2020,03,02),600,new DateTime(2020,03,24),6000);
-            _periodicIncome = incomeService.AddPeriodicIncome(_user, "Подработка", 235, new DateTime(2020,03,20));
-            _HCSExpense = expenseService.AddHCSExpense(_user, new DateTime(2020, 03, 01),6000,"Ltd");
-            _personalExpense = expenseService.AddPersonalExpense(_user, new DateTime(2020, 03, 06), 800, new Category { Name = "Развлечения", User = _user });
-            _loan = loanService.AddLoan(_user,20000, new DateTime(2020,03,13),20000,1,"Ад 666", "666 хыв");
+        [TestCleanup]
+        public void TestCleanUp()
+        {
+            loanContext.Database.Delete();
         }
 
         [TestMethod]
         public void TransferTest()
         {
+            _user = userService.Add("222@mail.ru", "123456789", "Test", "Yestovich");
+            _regularIncome = incomeService.AddRegularIncome(_user, "Отас", new DateTime(2020, 03, 02), 600, new DateTime(2020, 03, 24), 6000);
+            _periodicIncome = incomeService.AddPeriodicIncome(_user, "Подработка", 235, new DateTime(2020, 03, 20));
+            _HCSExpense = expenseService.AddHCSExpense(_user, new DateTime(2020, 03, 01), 6000, "Ltd");
+            _personalExpense = expenseService.AddPersonalExpense(_user, new DateTime(2020, 03, 06), 800, new Category { Name = "Развлечения", User = _user });
+            _loan = loanService.AddLoan(_user, 20000, new DateTime(2020, 03, 13), 20000, 1, "Ад 666", "666 хыв");
+
             _regularIncome.DatePrepaidExpanse.AddMonths(1);
             _regularIncome.DateSalary.AddMonths(1);
             _periodicIncome.DateIncome.AddMonths(1);
@@ -78,7 +86,7 @@ namespace CreditPortfolioUnitTests
             RegularIncome actualRegularIncome = (RegularIncome) incomeService.GetById(1);
             HCSExpense actualHCSExpense = (HCSExpense) expenseService.GetById(1);
             PersonalExpense actualPersonalExpense = (PersonalExpense)expenseService.GetById(2);
-            LoanPayment actualLoanPaymentExpense = (LoanPayment)expenseService.GetById(3); ;
+            LoanPayment actualLoanPaymentExpense = (LoanPayment)expenseService.GetById(3);
 
             Assert.AreEqual(_regularIncome.DatePrepaidExpanse, actualRegularIncome.DatePrepaidExpanse);
             Assert.AreEqual(_regularIncome.DateSalary, actualRegularIncome.DateSalary);
@@ -86,6 +94,37 @@ namespace CreditPortfolioUnitTests
             Assert.AreEqual(_personalExpense.DatePayment, actualPersonalExpense.DatePayment);
             Assert.AreEqual(_HCSExpense.DatePayment, actualHCSExpense.DatePayment);
             //Assert.AreEqual(_HCSExpense.DatePayment, actualLoanPaymentExpense.DatePayment);
+        }
+
+        [TestMethod]
+        public void TransferfullTest()
+        {
+            _user = userService.Add("222@mail.ru", "123456789", "Test", "Yestovich");
+            _regularIncome = incomeService.AddRegularIncome(_user, "Отас", new DateTime(2020, 02, 02), 600, new DateTime(2020, 02, 24), 6000);
+            _periodicIncome = incomeService.AddPeriodicIncome(_user, "Подработка", 235, new DateTime(2020, 02, 20));
+            _HCSExpense = expenseService.AddHCSExpense(_user, new DateTime(2020, 02, 01), 6000, "Ltd");
+            _personalExpense = expenseService.AddPersonalExpense(_user, new DateTime(2020, 02, 06), 800, new Category { Name = "Развлечения", User = _user });
+            _loan = loanService.AddLoan(_user, 20000, new DateTime(2020, 02, 13), 20000, 1, "Ад 666", "666 хыв");
+
+            TransferService transferService = new TransferService();
+
+            //RegularIncome actualRegularIncome = (RegularIncome)incomeService.GetById(1);
+            //PeriodicIncome actualPeriodicIncome = (PeriodicIncome)incomeService.GetById(2);
+            //HCSExpense actualHCSExpense = (HCSExpense)expenseService.GetById(1);
+            //PersonalExpense actualPersonalExpense = (PersonalExpense)expenseService.GetById(2);
+            //LoanPayment actualLoanPaymentExpense = (LoanPayment)expenseService.GetById(3);
+
+            RegularIncome actualRegularIncome = (RegularIncome)incomeService.GetById(3);
+            PeriodicIncome actualPeriodicIncome = (PeriodicIncome)incomeService.GetById(4);
+            HCSExpense actualHCSExpense = (HCSExpense)expenseService.GetById(4);
+            PersonalExpense actualPersonalExpense = (PersonalExpense)expenseService.GetById(5);
+            LoanPayment actualLoanPaymentExpense = (LoanPayment)expenseService.GetById(6);
+
+            Assert.AreEqual(_regularIncome.DatePrepaidExpanse.AddMonths(2), actualRegularIncome.DatePrepaidExpanse);
+            Assert.AreEqual(_regularIncome.DateSalary.AddMonths(2), actualRegularIncome.DateSalary);
+            Assert.AreEqual(_periodicIncome.DateIncome.AddMonths(2), actualPeriodicIncome.DateIncome);
+            Assert.AreEqual(_personalExpense.DatePayment.AddMonths(2), actualPersonalExpense.DatePayment);
+            Assert.AreEqual(_HCSExpense.DatePayment.AddMonths(2), actualHCSExpense.DatePayment);
         }
 
         //copy paste of TransferUserFinances function from TransferService

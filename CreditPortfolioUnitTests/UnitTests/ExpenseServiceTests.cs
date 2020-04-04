@@ -289,139 +289,139 @@ namespace CreditPortfolioUnitTests
         //    CollectionAssert.DoesNotContain(expenseList.ToList(), hcsExpense);
         //}
     
-        [TestMethod]
-        public void CheckUser1()
-        {
-            PersonalExpense expected = new PersonalExpense
-            {
-                Id = 0,
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                ExpenseCategory = _category
-            };
-            Assert.AreEqual(_user, expected.User);
-        }
+        //[TestMethod]
+        //public void CheckUser1()
+        //{
+        //    PersonalExpense expected = new PersonalExpense
+        //    {
+        //        Id = 0,
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        ExpenseCategory = _category
+        //    };
+        //    Assert.AreEqual(_user, expected.User);
+        //}
 
-        [TestMethod]
-        public void CheckUserId1()
-        {
-            PersonalExpense expected = new PersonalExpense
-            {
-                Id = 0,
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                ExpenseCategory = _category
-            };
-            Assert.AreEqual(_user.Id, expected.UserId);
-        }
+        //[TestMethod]
+        //public void CheckUserId1()
+        //{
+        //    PersonalExpense expected = new PersonalExpense
+        //    {
+        //        Id = 0,
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        ExpenseCategory = _category
+        //    };
+        //    Assert.AreEqual(_user.Id, expected.UserId);
+        //}
 
-        [TestMethod]
-        public void CheckDatePayment1()
-        {
-            PersonalExpense expected = new PersonalExpense
-            {
-                Id = 0,
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                ExpenseCategory = _category
-            };
-            Assert.AreEqual(_datePayment, expected.DatePayment);
-        }
+        //[TestMethod]
+        //public void CheckDatePayment1()
+        //{
+        //    PersonalExpense expected = new PersonalExpense
+        //    {
+        //        Id = 0,
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        ExpenseCategory = _category
+        //    };
+        //    Assert.AreEqual(_datePayment, expected.DatePayment);
+        //}
 
-        [TestMethod]
-        public void CheckSum1()
-        {
-            PersonalExpense expected = new PersonalExpense
-            {
-                Id = 0,
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                ExpenseCategory = _category
-            };
-            Assert.AreEqual(_sum, expected.Sum);
-        }
+        //[TestMethod]
+        //public void CheckSum1()
+        //{
+        //    PersonalExpense expected = new PersonalExpense
+        //    {
+        //        Id = 0,
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        ExpenseCategory = _category
+        //    };
+        //    Assert.AreEqual(_sum, expected.Sum);
+        //}
 
-        [TestMethod]
-        public void CheckExpanseCategory()
-        {
-            PersonalExpense expected = new PersonalExpense
-            {
-                Id = 0,
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                ExpenseCategory = _category
-            };
-            Assert.AreEqual(_category, expected.ExpenseCategory);
-        }
+        //[TestMethod]
+        //public void CheckExpanseCategory()
+        //{
+        //    PersonalExpense expected = new PersonalExpense
+        //    {
+        //        Id = 0,
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        ExpenseCategory = _category
+        //    };
+        //    Assert.AreEqual(_category, expected.ExpenseCategory);
+        //}
 
-        [TestMethod]
-        public void CheckUser2()
-        {
-            HCSExpense expected = new HCSExpense
-            {
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                Comment = _comment
-            };
-            Assert.AreEqual(_user, expected.User);
-        }
+        //[TestMethod]
+        //public void CheckUser2()
+        //{
+        //    HCSExpense expected = new HCSExpense
+        //    {
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        Comment = _comment
+        //    };
+        //    Assert.AreEqual(_user, expected.User);
+        //}
 
-        [TestMethod]
-        public void CheckUserId2()
-        {
-            HCSExpense expected = new HCSExpense
-            {
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                Comment = _comment
-            };
-            Assert.AreEqual(_user.Id, expected.UserId);
-        }
+        //[TestMethod]
+        //public void CheckUserId2()
+        //{
+        //    HCSExpense expected = new HCSExpense
+        //    {
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        Comment = _comment
+        //    };
+        //    Assert.AreEqual(_user.Id, expected.UserId);
+        //}
 
-        [TestMethod]
-        public void CheckDatePayment2()
-        {
-            HCSExpense expected = new HCSExpense
-            {
-                UserId = _user.Id,
-                DatePayment = _datePayment2,
-                Sum = _sum,
-                Comment = _comment
-            };
-            Assert.AreEqual(_datePayment2, expected.DatePayment);
-        }
+        //[TestMethod]
+        //public void CheckDatePayment2()
+        //{
+        //    HCSExpense expected = new HCSExpense
+        //    {
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment2,
+        //        Sum = _sum,
+        //        Comment = _comment
+        //    };
+        //    Assert.AreEqual(_datePayment2, expected.DatePayment);
+        //}
 
-        [TestMethod]
-        public void CheckSum2()
-        {
-            HCSExpense expected = new HCSExpense
-            {
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum2,
-                Comment = _comment
-            };
-            Assert.AreEqual(_sum2, expected.Sum);
-        }
+        //[TestMethod]
+        //public void CheckSum2()
+        //{
+        //    HCSExpense expected = new HCSExpense
+        //    {
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum2,
+        //        Comment = _comment
+        //    };
+        //    Assert.AreEqual(_sum2, expected.Sum);
+        //}
 
-        [TestMethod]
-        public void CheckComment()
-        {
-            HCSExpense expected = new HCSExpense
-            {
-                UserId = _user.Id,
-                DatePayment = _datePayment,
-                Sum = _sum,
-                Comment = _comment
-            };
-            Assert.AreEqual(_comment, expected.Comment);
-        }
+        //[TestMethod]
+        //public void CheckComment()
+        //{
+        //    HCSExpense expected = new HCSExpense
+        //    {
+        //        UserId = _user.Id,
+        //        DatePayment = _datePayment,
+        //        Sum = _sum,
+        //        Comment = _comment
+        //    };
+        //    Assert.AreEqual(_comment, expected.Comment);
+        //}
     }
 }

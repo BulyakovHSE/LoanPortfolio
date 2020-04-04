@@ -41,7 +41,7 @@ namespace CreditPortfolioUnitTests.IntegralTests
             expenseService = new ExpenseService(expenseRepository);
             userService = new UserService(userRepository);
 
-            _user = userService.Add("222@mail.ru", "12345", "Test", "Testovich");
+            _user = userService.Add("222@mail.ru", "123456789", "Test", "Testovich");
             //_user = userService.GetById(1);
 
             _datePayment = new DateTime(2020, 04, 03);
@@ -72,39 +72,51 @@ namespace CreditPortfolioUnitTests.IntegralTests
 
             PersonalExpense actual = expenseService.AddPersonalExpense(_user, _datePayment, _sum, _category);
             //Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.DatePayment, actual.DatePayment);
-            Assert.AreEqual(expected.Sum, actual.Sum);
-            Assert.AreEqual(expected.ExpenseCategory, actual.ExpenseCategory);
+            Assert.AreEqual(_user.Id,actual.UserId);
+            Assert.AreEqual(_user,actual.User);
+            Assert.AreEqual(_datePayment, actual.DatePayment);
+            Assert.AreEqual(_sum, actual.Sum);
+            Assert.AreEqual(_category, actual.ExpenseCategory);
         }
 
         [TestMethod]
         public void AddHCExpenseTest()
         {
-            HCSExpense expected = new HCSExpense
-            {
-                UserId = _user.Id,
-                DatePayment = _datePayment2,
-                Sum = _sum2,
-                Comment = _comment
-            };
-
             HCSExpense actual = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
             //Assert.AreEqual(expected, actual);
-            Assert.AreEqual(expected.DatePayment, actual.DatePayment);
-            Assert.AreEqual(expected.Sum, actual.Sum);
-            Assert.AreEqual(expected.Comment, actual.Comment);
+            Assert.AreEqual(_user.Id, actual.UserId);
+            Assert.AreEqual(_user,actual.User);
+            Assert.AreEqual(_datePayment2, actual.DatePayment);
+            Assert.AreEqual(_sum2, actual.Sum);
+            Assert.AreEqual(_comment, actual.Comment);
         }
 
         [TestMethod]
         public void GetByIdTest()
         {
             PersonalExpense personalExpense = expenseService.AddPersonalExpense(_user, _datePayment, _sum, _category);
-            HCSExpense hcsExpense = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
+            //HCSExpense hcsExpense = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
 
             PersonalExpense actual = (PersonalExpense)expenseService.GetById(1);
+            Assert.AreEqual(_user.Id, actual.UserId);
+            Assert.AreEqual(_user, actual.User);
             Assert.AreEqual(_datePayment, actual.DatePayment);
             Assert.AreEqual(_sum, actual.Sum);
             Assert.AreEqual(_category, actual.ExpenseCategory);
+        }
+
+        [TestMethod]
+        public void GetByIdTest2()
+        {
+            //PersonalExpense personalExpense = expenseService.AddPersonalExpense(_user, _datePayment, _sum, _category);
+            HCSExpense hcsExpense = expenseService.AddHCSExpense(_user, _datePayment2, _sum2, _comment);
+
+            HCSExpense actual = (HCSExpense)expenseService.GetById(1);
+            Assert.AreEqual(_user.Id, actual.UserId);
+            Assert.AreEqual(_user, actual.User);
+            Assert.AreEqual(_datePayment2, actual.DatePayment);
+            Assert.AreEqual(_sum2, actual.Sum);
+            Assert.AreEqual(_comment, actual.Comment);
         }
 
         [TestMethod]

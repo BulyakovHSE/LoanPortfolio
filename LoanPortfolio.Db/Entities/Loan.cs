@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace LoanPortfolio.Db.Entities
 {
@@ -76,7 +78,26 @@ namespace LoanPortfolio.Db.Entities
         /// График платежей
         /// </summary>
         [Required]
-        public Dictionary<DateTime, float> PaymentsSchedule { get; set; }
+        [NotMapped]
+        public Dictionary<DateTime, float> PaymentsSchedule
+        {
+            get =>
+                _dictionary ?? (_dictionary =
+                    JsonConvert.DeserializeObject<Dictionary<DateTime, float>>(PaymentsScheduleString));
+            set
+            {
+                if (!value.Equals(_dictionary))
+                {
+                    PaymentsScheduleString = JsonConvert.SerializeObject(value);
+                    _dictionary = value;
+                }
+            }
+        }
+
+        public string PaymentsScheduleString { get; set; }
+
+        [NotMapped]
+        private Dictionary<DateTime, float> _dictionary;
 
         /// <summary>
         /// Список платежей по кредиту

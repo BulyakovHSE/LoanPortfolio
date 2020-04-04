@@ -165,6 +165,7 @@
     <Compile Include="Security\IUserProvider.cs" />
     <Compile Include="Security\UserIdentity.cs" />
     <Compile Include="Security\UserProvider.cs" />
+    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\TransferService.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\Users.cs" />

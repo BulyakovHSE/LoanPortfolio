@@ -29,19 +29,21 @@ namespace LoanPortfolio.Services
                 BankAddress = bankAddress,
                 CreditInstitutionName = creditInstitutionName,
                 RepaymentPeriod = repaymentPeriod,
-                ClearanceDate = clearanceDate,
-                PaymentsSchedule = new Dictionary<DateTime, float>()
+                ClearanceDate = clearanceDate
             };
+            var payments = new Dictionary<DateTime, float>();
             LoanPayment payment = null;
             var date = loan.ClearanceDate.AddMonths(1);
             for (int i = 0; i < loan.RepaymentPeriod; i++)
             {
                 var sum = loan.AmountDie / loan.RepaymentPeriod;
-                loan.PaymentsSchedule.Add(date, sum);
+                payments.Add(date, sum);
                 if (DateTime.Now.Month == date.Month && DateTime.Now.Year == date.Year)
                     payment = new LoanPayment{BankAddress = loan.BankAddress, CreditInstitutionName = loan.CreditInstitutionName, UserId = loan.UserId, DatePayment = date, Sum = sum};
                 date = date.AddMonths(1);
             }
+
+            loan.PaymentsSchedule = payments;
             loan = _loanRepository.Add(loan);
             if (payment != null)
             {

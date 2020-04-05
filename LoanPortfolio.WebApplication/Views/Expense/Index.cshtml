@@ -31,14 +31,14 @@
             </th>
         </tr>
         @{
-            foreach (Loan loan in ViewBag.Loan)
+            foreach (LoanPayment loan in ViewBag.LoanPayment)
             {
                 <tr>
                     <td>
-                        @{Write(loan.ClearanceDate.ToString("dd.MM.yyyy"));}
+                        @{Write(loan.DatePayment.ToString("dd.MM.yyyy"));}
                     </td>
                     <td>
-                        @{Write(loan.AmountDie / loan.RepaymentPeriod);}
+                        @{Write(loan.Sum);}
                     </td>
                     <td>
                         @{Write(loan.CreditInstitutionName);}

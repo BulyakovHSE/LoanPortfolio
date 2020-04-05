@@ -11,7 +11,7 @@ namespace LoanPortfolio.WebApplication
         static private bool ok;
 
         //Добавление и изменение кредитов
-        public static (List<string> errors, Loan loan) CheckLoan(DateTime date, string loanSum, string amountDie, string repaymentPeriod)
+        public static (List<string> errors, Loan loan) CheckLoan(DateTime date, string loanSum, string amountDie, string repaymentPeriod, string notification)
         {
             Loan loan = new Loan();
             List<string> errors = new List<string>();
@@ -44,7 +44,7 @@ namespace LoanPortfolio.WebApplication
                 else
                 {
                     if (loan.AmountDie <= loan.LoanSum) errors.Add("Cумма погашения должна быть больше суммы кредита");
-                }              
+                }
             }
 
             int repaymentPeriodValue;
@@ -66,6 +66,32 @@ namespace LoanPortfolio.WebApplication
 
             (ok, loan.ClearanceDate) = Utils.CheckDate(date);
             if (!ok) errors.Add("Слишком маленькая дата");
+
+
+            string resultNotification = notification.Trim();
+            if (string.IsNullOrWhiteSpace(resultNotification))
+            {
+                loan.AdditionalNotificationRequired = false;
+            }
+            else
+            {
+                double result;
+                if (Double.TryParse(resultNotification, out result))
+                {
+                    if (result == 0 || result == 1)
+                    {
+                        loan.AdditionalNotificationRequired = false;
+                    }
+                    else
+                    {
+                        loan.AdditionalNotificationTimeSpan = TimeSpan.FromDays(result);
+                    }
+                }
+                else
+                {
+                    errors.Add("Кол-во дней для напоминания должно быть целым");
+                }
+            }
 
             return (errors, loan);
         }

@@ -31,5 +31,15 @@
         <input type="text" value="@ViewBag.Loan.BankAddress" name="bankAddress" required />
     </p>
 
+    <p>
+        Напоминание (за сколько дней):
+        <input type="text" value="@ViewBag.Loan.AdditionalNotificationTimeSpan.Days" name="notification" />
+    </p>
+
     <button type="submit" class="btn">Добавить</button>
 </form>
+
+<br />
+<p>
+    Напоминание: за 1 день до даты платежа будет произведено обязательное уведомление
+</p>

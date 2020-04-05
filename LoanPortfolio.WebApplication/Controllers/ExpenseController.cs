@@ -271,5 +271,19 @@ namespace LoanPortfolio.WebApplication.Controllers
             ViewBag.Time = DateTime.Now;
             return View("Index");
         }
+
+        [HttpGet]
+        public ActionResult PaysPayment(int id)
+        {
+            LoanPayment loanPayment = (LoanPayment)_expenseService.GetAll(_user).FirstOrDefault(x => x.GetType() == typeof(LoanPayment) && x.Id == id);
+
+            ViewBag.Title = "Расходы";
+
+            ViewBag.HCS = GetHCSExpense(DateTime.Now);
+            ViewBag.Personal = GetPersonalExpense(DateTime.Now);
+            ViewBag.LoanPayment = GetLoanPaymentExpense(DateTime.Now);
+            ViewBag.Time = DateTime.Now;
+            return View("Index");
+        }
     }
 }

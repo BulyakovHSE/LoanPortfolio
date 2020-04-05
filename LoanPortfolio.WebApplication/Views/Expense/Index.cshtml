@@ -47,7 +47,17 @@
                         @{Write(loan.BankAddress);}
                     </td>
                     <td>
-                        <button type="submit" class="btn">Оплачено</button>
+                        <div style="display: flex;">
+                            @{
+                                if (!loan.IsPaid)
+                                {
+                                    <form action="~/Expense/PaysPayment">
+                                        <input type="hidden" value="@loan.Id" name="id" />
+                                        <button type="submit" class="btn" style="margin-right: 15px">Оплатить</button>
+                                    </form>
+                                }
+                            }
+                        </div>
                     </td>
                 </tr>
             }

@@ -10,7 +10,7 @@
     <table class="table" style="margin-bottom: 0">
         <tr>
             <th>
-                Дата платежа
+                Дата займа
             </th>
             <th>
                 Сумма займа
@@ -49,7 +49,7 @@
                         @{Write(loan.CreditInstitutionName);}
                     </td>
                     <td>
-                        @{Write(loan.IsRepaid);}
+                        @{Write(loan.BankAddress);}
                     </td>
                     <td>
                         <div style="display: flex;">
@@ -57,10 +57,15 @@
                                 <input type="hidden" value="@loan.Id" name="id" />
                                 <button type="submit" class="btn" style="margin-right: 15px"><img src="~/Edit.png" style="height: 25px" /></button>
                             </form>
-                            <form method="post" action="~/CreditHistory/Index">
-                                <input type="hidden" value="@loan.Id" name="id" />
-                                <button type="submit" class="btn" style="margin-right: 15px">Погасить</button>
-                            </form>
+
+                            @{ if (!loan.IsRepaid)
+                                {
+                                    <form method="post" action="~/CreditHistory/Index">
+                                        <input type="hidden" value="@loan.Id" name="id" />
+                                        <button type="submit" class="btn" style="margin-right: 15px">Погасить</button>
+                                    </form>
+                                }
+                            }
 
                             <form action="~/CreditHistory/Pays">
                                 <input type="hidden" value="@loan.Id" name="id" />

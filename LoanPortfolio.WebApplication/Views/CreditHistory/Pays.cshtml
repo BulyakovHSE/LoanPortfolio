@@ -28,11 +28,24 @@
                         @{Write(loan.Sum);}
                     </td>
                     <td>
-                        @{Write(loan.Id);}
+                        @{
+                            if (loan.IsPaid)
+                            {
+                                <img src="~/check.png" style="width: 20px" />
+                            }
+                        }
                     </td>
                     <td>
                         <div style="display: flex;">
-                            <button type="submit" class="btn">Оплатить</button>
+                            @{
+                                if (!loan.IsPaid)
+                                {
+                                    <form action="~/CreditHistory/PaysPayment">
+                                        <input type="hidden" value="@loan.Id" name="id" />
+                                        <button type="submit" class="btn" style="margin-right: 15px">Оплатить</button>
+                                    </form>
+                                }
+                            }
                         </div>
                     </td>
                 </tr>

@@ -13,9 +13,9 @@ namespace LoanPortfolio.WebApplication.Models
 
         public override string Text =>
             $"<h2>Напоминание об оплате услуг ЖКХ " +
-            $"{(string.IsNullOrWhiteSpace(_hcs.Comment) ? _hcs.DatePayment.ToShortDateString() : $"{_hcs.Comment} {_hcs.DatePayment}")}</h2>" +
+            $"{(string.IsNullOrWhiteSpace(_hcs.Comment) ? _hcs.DatePayment.ToShortDateString() : $"{_hcs.Comment} {_hcs.DatePayment.ToShortDateString()}")}</h2>" +
             $"<p>Уважаемый(-ая) {User.FirstName} {User.LastName}!</p>" +
-            $"<p>Напоминаем вам о том, что {_hcs.DatePayment} необходимо оплатить услуги ЖКХ на сумму {_hcs.Sum} ₽</p>" +
+            $"<p>Напоминаем вам о том, что {_hcs.DatePayment.ToShortDateString()} необходимо оплатить услуги ЖКХ на сумму {_hcs.Sum} ₽</p>" +
             $"{(string.IsNullOrWhiteSpace(_hcs.Comment) ? "" : $"<p>Ваш комментарий к платежу: {_hcs.Comment}</p>")}";
 
         public HcsNotification(HCSExpense expense, User user) : base(expense, user)

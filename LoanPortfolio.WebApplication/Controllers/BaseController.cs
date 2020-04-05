@@ -27,5 +27,11 @@ namespace LoanPortfolio.WebApplication.Controllers
                 CurrentUser = _userService.GetById(user.Id);
             }
         }
+
+        public void UpdateNotificationsList()
+        {
+            var mvc = HttpContext.ApplicationInstance as MvcApplication;
+            mvc?.UpdateNotifications(CurrentUser.Id);
+        }
     }
 }

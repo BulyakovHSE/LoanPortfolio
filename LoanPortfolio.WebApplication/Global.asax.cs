@@ -22,6 +22,8 @@ namespace LoanPortfolio.WebApplication
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private NotificationService _notificationService;
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -46,6 +48,7 @@ namespace LoanPortfolio.WebApplication
             container.Verify();
 
             var transferService = new TransferService();
+            _notificationService = new NotificationService();
 
             var userService = container.GetInstance<IUserService>();
             if (!userService.GetAll().Any())
@@ -61,6 +64,11 @@ namespace LoanPortfolio.WebApplication
             }
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+        }
+
+        public void UpdateNotifications(int userId)
+        {
+            _notificationService.UpdateNotificationsList(userId);
         }
     }
 }

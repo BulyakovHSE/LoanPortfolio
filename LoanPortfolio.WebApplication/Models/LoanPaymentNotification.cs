@@ -21,7 +21,7 @@ namespace LoanPortfolio.WebApplication.Models
 
         public LoanPaymentNotification(LoanPayment expense, User user, bool isLastPayment, DateTime executeDateTime = default(DateTime)) : base(expense, user)
         {
-            ExecuteDateTime = executeDateTime == default(DateTime) ? expense.DatePayment.AddDays(-1).SetTime(23, 25) : executeDateTime;
+            ExecuteDateTime = executeDateTime == default(DateTime) ? expense.DatePayment.AddDays(-1).SetTime(10, 00) : executeDateTime;
             _loan = expense;
             _isLastPayment = isLastPayment;
         }

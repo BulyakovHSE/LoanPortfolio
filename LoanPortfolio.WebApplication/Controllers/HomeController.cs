@@ -14,7 +14,7 @@ namespace LoanPortfolio.WebApplication.Controllers
     {
         public IUserService _userService;
 
-        public HomeController(IUserService userService, IAuthService authService) : base(authService)
+        public HomeController(IUserService userService, IAuthService authService) : base(authService, userService)
         {
             _userService = userService;
         }

@@ -15,7 +15,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         private IExpenseService _expenseService;
         private IIncomeService _incomeService;
 
-        public ResultController(IUserService userService, IExpenseService expenseService, IIncomeService incomeService, IAuthService authService) : base(authService)
+        public ResultController(IUserService userService, IExpenseService expenseService, IIncomeService incomeService, IAuthService authService) : base(authService, userService)
         {
             ViewBag.User = CurrentUser;
             _user = CurrentUser;

@@ -17,7 +17,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         private IRepository<Category> _category;
         private ILoanService _loanService;
 
-        public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category, ILoanService loanService, IAuthService authService) : base(authService)
+        public ExpenseController(IUserService userService, IExpenseService expenseService, IRepository<Category> category, ILoanService loanService, IAuthService authService) : base(authService, userService)
         {
             ViewBag.User = CurrentUser;
             _user = CurrentUser;

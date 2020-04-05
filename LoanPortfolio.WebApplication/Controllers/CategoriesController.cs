@@ -15,12 +15,12 @@ namespace LoanPortfolio.WebApplication.Controllers
         private User _user;
         private IRepository<Category> _category;
 
-        public CategoriesController(IUserService userService, IRepository<Category> category, IAuthService authService) : base(authService)
+        public CategoriesController(IUserService userService, IRepository<Category> category, IAuthService authService) : base(authService, userService)
         {
             ViewBag.User = CurrentUser;
             _user = CurrentUser;
             _category = category;
-        }
+        } 
 
 
         public ActionResult Index()
@@ -52,8 +52,9 @@ namespace LoanPortfolio.WebApplication.Controllers
 
             if (errors.Count == 0)
             {
+                category.UserId = _user.Id;
                 _category.Add(category);
-
+                               
                 ViewBag.Title = "Категории";
                 ViewBag.Categories = _user.Categories;
                 return View("Index");
@@ -74,10 +75,10 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChangeCategories(int id, string name)
+        public ActionResult ChangeCategories(int expenseId, string name)
         {
             (List<string> errors, Category newCategory) = Categories.CheckCategory(name);
-            Category category = _user.Categories.Where(x => x.Id == id).First();
+            Category category = _user.Categories.Where(x => x.Id == expenseId).First();
 
             if (_user.Categories.Where(x => x.Name == newCategory.Name).ToList().Count > 0)
             {

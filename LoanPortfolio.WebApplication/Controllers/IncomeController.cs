@@ -14,7 +14,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         private User _user;
         private IIncomeService _incomeService;
 
-        public IncomeController(IUserService userService, IIncomeService incomeService, IAuthService authService) : base(authService)
+        public IncomeController(IUserService userService, IIncomeService incomeService, IAuthService authService) : base(authService, userService)
         {
             _user = CurrentUser;
             _incomeService = incomeService;

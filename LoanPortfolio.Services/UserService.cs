@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using LoanPortfolio.Db.Entities;
 using LoanPortfolio.Db.Interfaces;
 using LoanPortfolio.Services.Interfaces;
@@ -69,6 +72,18 @@ namespace LoanPortfolio.Services
 
             user.Password = pass;
             _userRepository.Update(user);
+
+            MailAddress from = new MailAddress("loanportfoliohse@gmail.com", "Кредитный портфель");
+            MailAddress to = new MailAddress(user.Email);
+            MailMessage m = new MailMessage(from, to);
+            m.Subject = "Восстановления пароля - Кредитный портфель";
+            m.Body = $"<p>Ваш новый пароль для кредитного портфеля: {pass}</p>";
+            m.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["EmailLogin"],
+                ConfigurationManager.AppSettings["EmailPassword"]);
+            smtp.EnableSsl = true;
+            smtp.Send(m);
 
             return pass;
         }

@@ -22,7 +22,7 @@ namespace LoanPortfolio.WebApplication
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        private NotificationService _notificationService;
+        private static NotificationService _notificationService;
 
         protected void Application_Start()
         {

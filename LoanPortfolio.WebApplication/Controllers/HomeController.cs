@@ -49,8 +49,9 @@ namespace LoanPortfolio.WebApplication.Controllers
             (List<string> errors, User user) = Users.CheckRestorePassword(login, _userService.GetAll());
             if (errors.Count == 0)
             {
-                ViewBag.Title = "Кредитный портфель";
+                _userService.SetTemporaryPassword(user);
 
+                ViewBag.Title = "Кредитный портфель";
                 return View("Index");
             }
 

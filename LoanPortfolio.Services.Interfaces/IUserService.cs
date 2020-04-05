@@ -21,5 +21,7 @@ namespace LoanPortfolio.Services.Interfaces
         void ChangeFirstName(User user, string firstName);
 
         void ChangeLastName(User user, string lastName);
+
+        string SetTemporaryPassword(User user);
     }
 }

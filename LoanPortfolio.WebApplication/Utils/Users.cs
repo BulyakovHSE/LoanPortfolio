@@ -104,9 +104,17 @@ namespace LoanPortfolio.WebApplication
             if (errors.Count != 0) return (errors, user);
 
             User user1 = users.SingleOrDefault(x => x.Email == user.Email);
-            if (user1 == null) errors.Add("Пользователь не найден");
+            if (user1 == null)
+            {
+                errors.Add("Пользователь не найден");
+                return (errors, user);
+            }
+            else
+            {
+                return (errors, user1);
+            }
 
-            return (errors, user);
+            
         }
     }
 }

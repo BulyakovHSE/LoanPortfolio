@@ -143,7 +143,7 @@ namespace LoanPortfolio.WebApplication.Controllers
         }
 
         public ActionResult AddHCS()
-        {
+        { 
             HCSExpense hcsExpense = new HCSExpense();
             hcsExpense.DatePayment = DateTime.Now;
             ViewBag.Expense = hcsExpense;
@@ -160,6 +160,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             if (errors.Count == 0)
             {
                 _expenseService.AddHCSExpense(_user, hcsExpense.DatePayment, hcsExpense.Sum, comment);
+                UpdateNotificationsList();
 
                 ViewBag.Title = "Расходы";
 
@@ -200,6 +201,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 hcsExpense.Comment = comment;
 
                 _expenseService.UpdateExpense(hcsExpense);
+                UpdateNotificationsList();
 
                 ViewBag.Title = "Расходы";
 

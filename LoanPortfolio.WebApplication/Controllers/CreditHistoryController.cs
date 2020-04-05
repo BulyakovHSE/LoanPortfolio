@@ -60,6 +60,7 @@ namespace LoanPortfolio.WebApplication.Controllers
             if (errors.Count == 0)
             {
                 _loanService.AddLoan(_user, loan.LoanSum, loan.ClearanceDate, loan.AmountDie, loan.RepaymentPeriod, creditInstitutionName, bankAddress);
+                UpdateNotificationsList();
 
                 ViewBag.Title = "Кредитная история";
                 ViewBag.Loan = _loanService.GetAll(_user);
@@ -96,6 +97,7 @@ namespace LoanPortfolio.WebApplication.Controllers
                 loan.CreditInstitutionName = creditInstitutionName;
                 loan.BankAddress = bankAddress;
                 _loanService.UpdateLoan(loan);
+                UpdateNotificationsList();
 
                 ViewBag.Title = "Кредитная история";
                 ViewBag.Loan = _loanService.GetAll(_user);

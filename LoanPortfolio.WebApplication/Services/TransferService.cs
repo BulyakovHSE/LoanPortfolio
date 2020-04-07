@@ -52,9 +52,10 @@ namespace LoanPortfolio.WebApplication.Services
         {
             var incomes = _incomeRepository.All().Where(x => x.UserId == user.Id).ToList();
             var expenses = _expenseRepository.All().Where(x => x.UserId == user.Id).ToList();
+            var lastMonth = DateTime.Now.AddMonths(-1);
             foreach (var income in incomes)
             {
-                if (income is RegularIncome regular && regular.DateSalary.Year == DateTime.Now.Year && regular.DateSalary.Month == DateTime.Now.Month)
+                if (income is RegularIncome regular && regular.DateSalary.Year == lastMonth.Year && regular.DateSalary.Month == lastMonth.Month)
                 {
                     var regularNew = new RegularIncome
                     {
@@ -68,7 +69,7 @@ namespace LoanPortfolio.WebApplication.Services
                     };
                     _incomeRepository.Add(regularNew);
                 }
-                else if (income is PeriodicIncome periodic && periodic.DateIncome.Year == DateTime.Now.Year && periodic.DateIncome.Month == DateTime.Now.Month)
+                else if (income is PeriodicIncome periodic && periodic.DateIncome.Year == lastMonth.Year && periodic.DateIncome.Month == lastMonth.Month)
                 {
                     var periodicNew = new PeriodicIncome
                     { DateIncome = periodic.DateIncome.AddMonths(1), IncomeSource = periodic.IncomeSource, Sum = 0f, User = user, UserId = user.Id };
@@ -78,12 +79,12 @@ namespace LoanPortfolio.WebApplication.Services
 
             foreach (var expense in expenses)
             {
-                if (expense is HCSExpense hcs && hcs.DatePayment.Year == DateTime.Now.Year && hcs.DatePayment.Month == DateTime.Now.Month)
+                if (expense is HCSExpense hcs && hcs.DatePayment.Year == lastMonth.Year && hcs.DatePayment.Month == lastMonth.Month)
                 {
                     var hcsNew = new HCSExpense { Comment = hcs.Comment, DatePayment = hcs.DatePayment.AddMonths(1), Sum = 0f, User = user, UserId = user.Id };
                     _expenseRepository.Add(hcsNew);
                 }
-                else if (expense is LoanPayment loan && loan.Loan != null && loan.DatePayment.Year == DateTime.Now.Year && loan.DatePayment.Month == DateTime.Now.Month)
+                else if (expense is LoanPayment loan && loan.Loan != null && loan.DatePayment.Year == lastMonth.Year && loan.DatePayment.Month == lastMonth.Month)
                 {
                     var payment = loan.Loan.PaymentsSchedule.FirstOrDefault(x =>
                         x.Key.Year == DateTime.Now.Year && x.Key.Month == DateTime.Now.Month);
